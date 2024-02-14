@@ -140,6 +140,16 @@ setData();
           </div>
         </div>
 
+<?php
+ $sql = "SELECT Document_title, Date_created FROM Documents";
+        $result = $stmt->query($sql);
+
+?>
+       
+
+
+
+
         <div id="editar" class="editar" style="display: none">
           <div class="backline">
             <h3>Editar Documento</h3>
@@ -152,14 +162,20 @@ setData();
             <table>
               <thead>
                 <tr>
-                  <th>Nombre</th>
+                  <th>Nombre </th>
                   <th>Fecha</th>
                   <th>Editar</th>
                 </tr>
               </thead>
               <tbody>
-                <?php
-                print '<tr><td colspan="3" style="text-align:center">Documentos no disponibles</td></tr>'
+              <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr><td>" . $row["Document_title"] . "</td><td>" . $row["Date_created"] . "</td><td><a href='#'>Editar</a></td></tr>";
+                    }
+                } else {
+                    echo '<tr><td colspan="3" style="text-align:center">Documentos no disponibles</td></tr>';
+                }
                 ?>
               </tbody>
             </table>
