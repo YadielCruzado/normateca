@@ -140,15 +140,6 @@ setData();
           </div>
         </div>
 
-<?php
- $sql = "SELECT Document_title, Date_created FROM Documents";
-        $result = $stmt->query($sql);
-
-?>
-       
-
-
-
 
         <div id="editar" class="editar" style="display: none">
           <div class="backline">

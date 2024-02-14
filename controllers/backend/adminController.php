@@ -7,6 +7,22 @@ function setData()
     $model->start_connection();
     $categorias = [];
     $cuerpos = [];
+    $documentos = [];
+
+    $result = $model->getdocinfo();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $values = array(
+                "Document_title" => $row['Document_title'],
+                "Date_created" => $row['Date_created']
+            );
+
+            array_push($documentos, $values);
+        }
+    } else {
+        $documentos = null;
+    }
+
 
     $result = $model->getCategorias();
     if ($result->num_rows > 0) {
@@ -35,6 +51,9 @@ function setData()
         }
     }
 
+    
     $_SESSION['corps'] = $cuerpos;
     $_SESSION['cats'] = $categorias;
+    $_SESSION['documentos'] = $documentos;
+
 }

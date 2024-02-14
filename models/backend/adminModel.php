@@ -19,7 +19,6 @@ class AdminModel extends DB
     {
         $query = "SELECT Document_title, Date_created FROM Documents";
         return $this ->run_query($query);
-
     }
 
 }
