@@ -160,14 +160,14 @@ setData();
               </thead>
               <tbody>
               <?php
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row["Document_title"] . "</td><td>" . $row["Date_created"] . "</td><td><a href='#'>Editar</a></td></tr>";
-                    }
-                } else {
-                    echo '<tr><td colspan="3" style="text-align:center">Documentos no disponibles</td></tr>';
+              if (count($_SESSION['documentos']) > 0) {
+                foreach ($_SESSION['documentos'] as $documentos) {
+                  echo '<tr><td>' . $documentos['Document_title'] . '</td><td>' . $documentos['Date_created'] . '</td></tr>';
                 }
-                ?>
+              } else {
+                print '<tr><td colspan="2" style="text-align:center">Documentos no disponibles</td></tr>';
+              }
+              ?>
               </tbody>
             </table>
 
