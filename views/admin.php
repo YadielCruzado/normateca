@@ -20,6 +20,7 @@ setData();
       <h1>Administrador Normateca</h1>
       <h3><i> Universidad de Puerto Rico en Arecibo </i></h3>
     </div>
+   
   </header>
 
   <main>
@@ -32,7 +33,8 @@ setData();
 
       <div class="tabs">
         <div id="subir" class="subir">
-          <form method="POST" action="admin.php" enctype="multipart/form-data">
+          <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
+          <input type="hidden" value="upload" name="type">
             <div class="file">
               <label for="pdf"> Subir Documento: </label><input type="file" id="pdf" name="pdf" value="" required />
             </div>
@@ -328,11 +330,6 @@ setData();
         </div>
       </div>
     </section>
-
-    <aside>
-      <h3>Nombre de Usuario</h3>
-      <h3>Documentos Subidos</h3>
-    </aside>
   </main>
 
   <footer>
@@ -348,35 +345,6 @@ if (isset($_POST['submit'])){
 $categoria = isset($_POST['cate']) ? $_POST['cate'] : '';
 $abbv = isset($_POST['abbv']) ? $_POST['abbv'] : '';
 
-
-
-
 }
-/*if (isset($_POST['submit'])) {
 
-  $fecha = isset($_POST['fecha']) ? $_POST['fecha'] : '';
-  $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : '';
-  $num_cert = isset($_POST['Numero_certificacion']) ? $_POST['Numero_certificacion'] : '';
-  $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
-  $categoryAbbreviation = isset($_POST['categorias']) ? $_POST['categorias'] : '';
-  $lenguaje = isset($_POST['lenguaje']) ? $_POST['lenguaje'] : '';
-  $añofiscal = isset($_POST['añofiscal']) ? $_POST['añofiscal'] : '';
-  $Subcategory_abbr = isset($_POST['subcategorias']) ? $_POST['subcategorias'] : '';
-  $firma = isset($_POST['firma']) ? $_POST['firma'] : '';
-  $filename = isset($_POST['filename']) ? $_POST['filename'] : '';
-
-  $Admin_id = 1;
-  $pdf = $_FILES['pdf']['name'];
-  $pdf_type = $_FILES['pdf']['type'];
-  $pdf_size = $_FILES['pdf']['size'];
-  $pdf_temp_loc = $_FILES['pdf']['tmp_name'];
-  $pdf_store = "uploads/" . $pdf;
-
-  move_uploaded_file($pdf_temp_loc, $pdf_store);
-
-  $sql = "INSERT INTO documentos (Document_title, Category_abbr, Subcategory_abbr, Numero_certificacion, Año_Fiscal, Document_lenguaje, Admin_id, Document_path, Upload_Date, Document_state, firma) 
-        VALUES ('$pdf', '$categoryAbbreviation', '$fecha', '$descripcion', '$num_cert', '$estado', '$Admin_id', '$lenguaje', '$añofiscal', '$Subcategory_abbr', '$firma')";
-
-  $query = mysqli_query($dbc, $sql);
-}*/
 ?>
