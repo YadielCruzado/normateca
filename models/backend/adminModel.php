@@ -1,5 +1,5 @@
 <?php
-include_once("../db/db_info.php");
+include($_SERVER['DOCUMENT_ROOT'] . '/normateca/db/db_info.php');
 class AdminModel extends DB
 {
     public function getCategorias(){
