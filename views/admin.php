@@ -144,24 +144,23 @@ setData();
 
         
         <div id="editar" class="editar" style="display: none">
-          <div class="backline">
-            <h3>Editar Documento</h3>
-
-            <div class="search-bar">
-              <input type="text" placeholder="Buscar por nombre" />
-              <button type="submit">Buscar</button>
-            </div>
-            <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <form id="formEditarDocumento">
+    <div class="backline">
+        <h3>Editar Documento</h3>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar por nombre" />
+            <button type="submit">Buscar</button>
+        </div>
+        <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Documento</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="admin.php" id="formEditarDocumento">
                             <input type="hidden" id="documentoId" name="documentoId">
                             <div class="form-group">
                                 <label for="nombreDocumento">Nombre del Documento</label>
@@ -172,39 +171,43 @@ setData();
                                 <input type="text" class="form-control" id="fechaDocumento" name="fechaDocumento">
                             </div>
                             <!-- Puedes añadir más campos de edición según sea necesario -->
-                        </form>      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Nombre </th>
-                  <th>Fecha</th>
-                  <th>Editar</th>
-                </tr>
-              </thead>
-              <tbody>
-              <?php
-        // Suponiendo que $_SESSION['documentos'] contiene los datos de tus documentos
-        if (count($_SESSION['documentos']) > 0) {
-            foreach ($_SESSION['documentos'] as $indice => $documentos) {
-                echo '<tr><td>' . $documentos['Document_title'] . '</td><td>' . $documentos['Date_created'] . '</td>';
-                // Agregar un botón de editar que llame a una función JavaScript para mostrar el modal
-                echo '<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Editar        </button></td></tr>';
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre </th>
+                <th>Fecha</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Suponiendo que $_SESSION['documentos'] contiene los datos de tus documentos
+            if (count($_SESSION['documentos']) > 0) {
+                foreach ($_SESSION['documentos'] as $indice => $documento) {
+                    echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
+                    // Agregar un botón de editar que llame a una función JavaScript para mostrar el modal
+                    
+echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal(\'' . $documento['Document_title'] . '\', \'' . $documento['Date_created'] . '\')">Editar</button></td>';
+
+                }
+            } else {
+                // Si no hay documentos disponibles, mostrar un mensaje
+                echo '<tr><td colspan="3" style="text-align:center">Documentos no disponibles</td></tr>';
             }
-        } else {
-            // Si no hay documentos disponibles, mostrar un mensaje
-            echo '<tr><td colspan="3" style="text-align:center">Documentos no disponibles</td></tr>';
-        }
-        ?>
-              </tbody>
-            </table>
+            ?>
+        </tbody>
+    </table>
+</div>
 
             <!--<div class="razon">
               <form>
@@ -212,7 +215,7 @@ setData();
                 <input typw="text" name="razon" placeholder="enmendado por/a, derrogado por/a ..." />
               </form>
             </div>-->
-          </div>
+          
           <?php
           if ($_SERVER['REQUEST_METHOD'] == "POST") {
             include 'db_info.php';
@@ -380,6 +383,14 @@ setData();
   <footer>
     <h4>Visita nuestro sitio web:<a href="#"> upra.edu</a></h4>
   </footer>
+
+  <script>
+    function openEditarModal(title, fecha) {
+        document.getElementById('nombreDocumento').value = title;
+        document.getElementById('fechaDocumento').value = fecha;
+        $('#exampleModal').modal('show');
+    }
+  </script>
 
   <script src="../assets/js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
