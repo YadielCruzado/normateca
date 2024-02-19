@@ -43,23 +43,23 @@ setData();
                 <label for="filename"> Nombre: </label>
                 <input type="text" name="filename" id="filename" placeholder="nombre del documento" />
 
-                <label for="fecha"> Fecha: </label><input type="date" id="fecha" />
+                <label for="fecha"> Fecha: </label><input type="date" name="filedate" id="fecha" />
 
                 <label for="decripcion"> Descripcion: </label>
-                <textarea type="text" id="descripcion" rows="5" maxlength="150" placeholder="decripcion del documento. Breve oracion del tema."></textarea>
+                <textarea type="text" name="desc" id="descripcion" rows="5" maxlength="150" placeholder="decripcion del documento. Breve oracion del tema."></textarea>
 
                 <label for="Numero_certificacion"> Numero_certificacion: </label>
-                <input type="text" id="Numero_certificacion" placeholder="Numero_certificacion" />
+                <input type="text" id="Numero_certificacion" name="number" placeholder="Numero_certificacion" />
 
                 <label for="estado"> Estado del Documento: </label>
-                <select id="estado" name="estado">
+                <select id="estado" name="state">
                   <option value="">Select</option>
                   <option value="activo">Activo</option>
                   <option value="inactivo">Inactivo</option>
                 </select>
 
                 <label for="categorias">Categoria del Documento:</label>
-                <select id="categorias" name="categorias">
+                <select id="categorias" name="category">
                   <option disabled selected>Categorias</option>
                   <?php
                   if (count($_SESSION['cats']) > 0) {
@@ -83,7 +83,7 @@ setData();
                 </select>
 
                 <label for="filename"> Año Fiscal : </label>
-                <select id="añofiscal" name="añofiscal">
+                <select id="añofiscal" name="fiscalYear">
                   <option value="">Select</option>
                   <option value="2022-2023">2022-2023</option>
                   <option value="2023-2024">2023-2024</option>
@@ -91,7 +91,7 @@ setData();
                   <option value="2025-2026">2025-2026</option>
                 </select>
                 <label for="subcategorias">Cuerpo: </label>
-                <select id="subcategorias" name="subcategorias">
+                <select id="subcategorias" name="corp">
                   <option selected disabled>Select</option>
                   <?php
                   if (count($_SESSION['corps']) > 0) {
@@ -104,7 +104,7 @@ setData();
 
 
 
-                <label for="firma"> Firmado por: </label><input type="text" id="firma" />
+                <label for="firma"> Firmado por: </label><input type="text" id="firma" name="signature" />
               </div>
             </div>
 
