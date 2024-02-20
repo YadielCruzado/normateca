@@ -42,7 +42,7 @@ function setData()
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($_POST['type'])) {
         if ($_POST['type'] == "upload" and isset($_POST['filename'])) {
-            $target_dir = '../../files/';
+            $target_dir = '../files/';
             $target_file = $target_dir . basename($_FILES['pdf']['name']);
             $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
