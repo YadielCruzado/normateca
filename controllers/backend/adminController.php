@@ -64,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $model = new AdminModel("localhost", "normateca", "root", "");
                 $model->start_connection();
                 $model->InsertFile($values);
+                move_uploaded_file($file_name, "$target_dir/$file_name");
                 echo "<script> location.href='../../views/admin.php?error=yes'; </script>";
                 exit; 
             }
