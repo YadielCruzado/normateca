@@ -170,12 +170,13 @@ setData();
                                 <label for="fechaDocumento">Fecha del Documento</label>
                                 <input type="text" class="form-control" id="fechaDocumento" name="fechaDocumento">
                             </div>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
                             <!-- Puedes añadir más campos de edición según sea necesario -->
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -191,14 +192,12 @@ setData();
         </thead>
         <tbody>
             <?php
-            // Suponiendo que $_SESSION['documentos'] contiene los datos de tus documentos
             if (count($_SESSION['documentos']) > 0) {
                 foreach ($_SESSION['documentos'] as $indice => $documento) {
                     echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
-                    // Agregar un botón de editar que llame a una función JavaScript para mostrar el modal
                     
-echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal(\'' . $documento['Document_title'] . '\', \'' . $documento['Date_created'] . '\')">Editar</button></td>';
-
+                    echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal(\'' . $documento['Document_title'] . '\', \'' . $documento['Date_created'] . '\', \'' . $documento['Document_id'] . '\')">Editar</button></td>';
+                  
                 }
             } else {
                 // Si no hay documentos disponibles, mostrar un mensaje
@@ -385,9 +384,16 @@ echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal
   </footer>
 
   <script>
+    $(document).ready(function(){
+    $('#exampleModal').modal({
+        show: false // Ensure modal is hidden by default
+    });
+});
     function openEditarModal(title, fecha) {
         document.getElementById('nombreDocumento').value = title;
         document.getElementById('fechaDocumento').value = fecha;
+        document.getElementById('documentoId').value = documentoId; // Set the documentoId value
+
         $('#exampleModal').modal('show');
     }
   </script>
