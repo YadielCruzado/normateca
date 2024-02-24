@@ -42,11 +42,12 @@ function setData()
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($_POST['type'])) {
         if ($_POST['type'] == "upload" and isset($_POST['filename'])) {
-            $target_dir = '../files/';
-            $target_file = $target_dir . basename($_FILES['pdf']['name']);
-            $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $target_file = '../../files/' . basename($_FILES['pdf']['name']);
+            $upload_file = '../files/' . basename($_FILES['pdf']['name']);
 
-            if ($file_type == "pdf") {
+            $file_type = mime_content_type($_FILES['pdf']['tmp_name']);
+
+            if ($file_type == "application/pdf") {
                 $values = array(
                     "file_name" => $_POST['filename'],
                     "file_date" => $_POST['filedate'],
@@ -58,19 +59,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     "file_year" => $_POST['fiscalYear'],
                     "file_corp" => $_POST['corp'],
                     "file_signature" => $_POST['signature'],
-                    "file_path" => $target_file
+                    "file_path" => $upload_file
                 );
 
                 $model = new AdminModel("localhost", "normateca", "root", "");
                 $model->start_connection();
                 $model->InsertFile($values);
-                move_uploaded_file($file_name, "$target_dir/$file_name");
-                echo "<script> location.href='../../views/admin.php?error=yes'; </script>";
-                exit; 
+                $model->connection->close();
+
+                if (move_uploaded_file($_FILES['pdf']['tmp_name'], $target_file)) {
+                    setData();
+                    header("Location: ../../views/admin.php?succes");
+                } else {
+                    header("Location: ../../views/admin.php?error=path");
+                }
+
+                // echo "<script> location.href='../../views/admin.php?error=yes'; </script>";
+                // exit; 
             }
         }
-        // echo "<script> location.href='../../views/admin.php'; </script>";
-        // exit; 
+
     } else {
         // Maneja la lógica cuando el método es POST pero 'type' no está presente (si es necesario)
         // Puedes agregar aquí el código necesario para manejar esta situación antes de la redirección
