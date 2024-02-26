@@ -22,6 +22,9 @@ class AdminModel extends DB
     }
 
     public function updateDocument($documentId, $newName, $newDate) {
+        echo $documentId;
+        echo $newName;
+        echo $newDate;
         $query = "UPDATE documentos SET Document_title = '$newName', Date_created = '$newDate' WHERE Document_id = '$documentId'";
         return $this ->run_query($query);
 
@@ -30,7 +33,7 @@ class AdminModel extends DB
     // public function updateDocument($documentId, $newName, $newDate) {
     //     $query = "UPDATE documentos SET Document_title = ?, Date_created = ? WHERE Document_id = $documentId";
     //     $stmt = $this->connection->prepare($query);
-    //     $stmt->bind_param('ss', $newName, $newDate);
+    //     $stmt->bind_param('ss', $newName, $newDate, $documentId);
     
 
         

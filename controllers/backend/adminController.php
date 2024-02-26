@@ -57,14 +57,15 @@ function setData()
             $documentoId = $_POST["documentoId"];
             $nombreDocumento = $_POST["nombreDocumento"];
             $fechaDocumento = $_POST["fechaDocumento"];
+            echo $nombreDocumento;
+            echo $fechaDocumento;
+            echo $documentoId;
             $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento);
 
             if ($success) {
-                // Update session variable with the modified document details
-                // Optionally, you may also fetch fresh data from the database and update the session variable
-                // $_SESSION['documentos'][$documentoId]['Document_title'] = $nombreDocumento;
-                // $_SESSION['documentos'][$documentoId]['Date_created'] = $fechaDocumento;
-                header("Location: admin.php");
+                echo "se uoopdate la dataaa";
+            // header("Location: admin.php");
+
         }else{
             echo "errorrr";
         }

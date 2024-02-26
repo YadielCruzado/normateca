@@ -161,7 +161,7 @@ setData();
                     </div>
                     <div class="modal-body">
                         <form method="POST" action="admin.php" id="formEditarDocumento">
-                            <input type="hidden" id="documentoId" name="documentoId">
+                            <input type="hidden" id="documentoId" name="documentoId " value="documentoId">
                             <div class="form-group">
                                 <label for="nombreDocumento">Nombre del Documento</label>
                                 <input type="text" class="form-control" id="nombreDocumento" name="nombreDocumento">
@@ -217,7 +217,7 @@ setData();
           
           <?php
           if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            include 'db_info.php';
+            include '.../db_info.php';
             print '
           <form method="POST" action="admin.php">
           <div class="box">
@@ -389,10 +389,10 @@ setData();
         show: false // Ensure modal is hidden by default
     });
 });
-    function openEditarModal(title, fecha) {
+    function openEditarModal(title, fecha,id) {
         document.getElementById('nombreDocumento').value = title;
         document.getElementById('fechaDocumento').value = fecha;
-        document.getElementById('documentoId').value = documentoId; // Set the documentoId value
+        document.getElementById('documentoId').value = id; // Set the documentoId value
 
         $('#exampleModal').modal('show');
     }
