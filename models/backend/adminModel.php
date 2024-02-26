@@ -22,15 +22,18 @@ class AdminModel extends DB
     }
 
     public function updateDocument($documentId, $newName, $newDate) {
-        $query = "UPDATE documentos SET Document_title = $newName, Date_created = $newDate WHERE Document_id = $documentId";
+        $query = "UPDATE documentos SET Document_title = '$newName', Date_created = '$newDate' WHERE Document_id = '$documentId'";
         return $this ->run_query($query);
 
     }
+
     // public function updateDocument($documentId, $newName, $newDate) {
-    //     $query = "UPDATE documentos SET Document_title = ?, Date_created = ? WHERE Document_id = ?";
+    //     $query = "UPDATE documentos SET Document_title = ?, Date_created = ? WHERE Document_id = $documentId";
     //     $stmt = $this->connection->prepare($query);
-    //     $stmt->bind_param("sii", $newName, $newDate, $documentId);
+    //     $stmt->bind_param('ss', $newName, $newDate);
     
+
+        
     //     if ($stmt->execute()) {
     //         return true; // Update successful
     //     } else {
