@@ -8,6 +8,23 @@ function setData()
     $categorias = [];
     $cuerpos = [];
     $docuentos1 = [];
+    $documentos = [];
+
+    $result = $model->getdocinfo();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $values = array(
+                "Document_title" => $row['Document_title'],
+                "Date_created" => $row['Date_created'],
+                "Document_id" => $row['Document_id']
+            );
+
+            array_push($documentos, $values);
+        }
+    } else {
+        $documentos = null;
+    }
+
 
     $result = $model->getCategorias();
     if ($result->num_rows > 0) {
@@ -98,4 +115,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         // Puedes agregar aquí el código necesario para manejar esta situación antes de la redirección
     }
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        
+    if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"])) {
+        echo"controller ";
+
+        $documentoId = $_POST["documentoId"];
+        $nombreDocumento = $_POST["nombreDocumento"];
+        $fechaDocumento = $_POST["fechaDocumento"];
+        echo $nombreDocumento;
+        echo $fechaDocumento;
+        echo $documentoId;
+        $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento);
+
+        if ($success) {
+            echo "se uoopdate la dataaa";
+         header("Location:admin.php");
+
+        }else{
+            echo "errorrr";
+        }
+    }
+}
+
+
+
 ?>
