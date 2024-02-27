@@ -21,4 +21,12 @@ class AdminModel extends DB
         VALUES ('" . $values['file_name'] . "', '" . $values['file_corp'] . "', '" . $values['file_cat'] . "', '" . $values['file_number'] . "', '" . $values['file_year'] . "', '" . $values['file_lang'] . "', '" . $values['file_path'] . "', '" . $values['file_date'] . "', '" . $values['file_state'] . "', 0)";
         return $this->run_query($query);
     }
+
+    public function getDocuments(){
+
+        $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, categories.Category_name
+        FROM documentos
+        JOIN categories ON categories.Category_abbr = documentos.Category_abbr";
+        return $this->run_query($query);
+    }
 }

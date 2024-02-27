@@ -121,15 +121,21 @@ setData();
             <table>
               <thead>
                 <tr>
-                  <th>Nombre</th>
-                  <th>Fecha</th>
+                  <th>Certification number</th>
+                  <th>Category</th>
                   <th>Enlazar</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                print '<tr><td colspan="3" style="text-align:center">Documentos no disponibles</td></tr>';
-                ?>
+                    if (count($_SESSION['docs']) > 0) {
+                        foreach ($_SESSION['docs'] as $doc) {
+                            echo '<tr><th>' . $doc['number'] .'-'. $doc['fiscal'] .'</th><th>'.$doc['category'] .'</th></tr>';
+                        }
+                    } else {
+                        print '<tr><td colspan="2" style="text-align:center">Documentos no disponibles</td></tr>';
+                    }
+                  ?>
               </tbody>
             </table>
 
@@ -173,87 +179,7 @@ setData();
               </form>
             </div>-->
           </div>
-          <?php
-          if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            include 'db_info.php';
-            print '
-          <form method="POST" action="admin.php">
-          <div class="box">
-            <div class="innerBox">
-              <label for="filename"> Nombre: </label>
-              <input type="text" name="filename" id="filename" placeholder="nombre del documento" />
-
-              <label for="fecha"> Fecha: </label><input type="date" id="fecha" />
-
-              <label for="decripcion"> Descripcion: </label>
-              <textarea type="text" id="descripcion" rows="5" maxlength="150" placeholder="decripcion del documento. Breve oracion del tema."></textarea>
-
-              <label for="Numero_certificacion"> Numero_certificacion: </label>
-              <input type="text" id="Numero_certificacion" placeholder="Numero_certificacion" />
-
-              <label for="estado"> Estado del Documento: </label>
-              <select id="estado" name="estado">
-                <option value="">Select</option>
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
-              </select>
-
-              <label for="categorias">Categoria del Documento:</label>
-              
-              <select id="categorias" name="categorias">
-                <option disabled selected>Categorias</option>';
-
-            if (count($_SESSION['cats']) > 0) {
-              foreach ($_SESSION['cats'] as $cat) {
-                echo '<option value="' . $cat['cat_abbr'] . '">' . $cat['cat_name'] . '</option>';
-              }
-            }
-
-            print '</select>
-
-
-            </div>
-
-            <div class="innerBox">
-              <label for="filename"> Lenguaje de Documento: </label>
-              <select id="lenguaje" name="lenguaje">
-                <option value="">Select</option>
-                <option value="esp">Español</option>
-                <option value="eng">Ingles</option>
-
-              </select>
-
-              <label for="filename"> Año Fiscal : </label>
-              <select id="añofiscal" name="añofiscal">
-                <option value="">Select</option>
-                <option value="2022-2023">2022-2023</option>
-                <option value="2023-2024">2023-2024</option>
-                <option value="2024-2025">2024-2025</option>
-                <option value="2025-2026">2025-2026</option>
-              </select>
-              <label for="subcategorias">Subcategoria del Documento:</label>
-              <select id="subcategorias" name="subcategorias">
-                <option selected disabled>Sub-Categorias</option>';
-
-
-            if (count($_SESSION['corps']) > 0) {
-              foreach ($_SESSION['corps'] as $corp) {
-                echo '<option value="' . $corp['corp_abbr'] . '">' . $corp['corp_name'] . '</option>';
-              }
-            }
-            print '</select>
-              
-
-
-
-              <label for="firma"> Firmado por: </label><input type="text" id="firma" />
-            </div>
-          </div>
-
-          <input type="submit" name="submit" value="Guardar" />
-        </form>';
-          }
-          ?>
+          
         </div>
 
         <div id="crear" class="crear" style="display: none">
