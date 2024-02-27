@@ -7,7 +7,7 @@ function setData()
     $model->start_connection();
     $categorias = [];
     $cuerpos = [];
-    $docuentos = [];
+    $docuentos1 = [];
 
     $result = $model->getCategorias();
     if ($result->num_rows > 0) {
@@ -36,7 +36,7 @@ function setData()
         }
     }
 
-    $result = $model->getDocuments();
+    $result = $model->getDocuments1();
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $values = array(
@@ -44,13 +44,13 @@ function setData()
                 "fiscal" => $row['Fiscal_year'],
                 "category" => $row['Category_name']
             );
-            array_push($docuentos,$values);
+            array_push($docuentos1,$values);
         }
     }
 
     $_SESSION['corps'] = $cuerpos;
     $_SESSION['cats'] = $categorias;
-    $_SESSION['docs'] = $docuentos;
+    $_SESSION['docs'] = $docuentos1;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {

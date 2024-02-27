@@ -22,7 +22,7 @@ class AdminModel extends DB
         return $this->run_query($query);
     }
 
-    public function getDocuments(){
+    public function getDocuments1(){
 
         $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, categories.Category_name
         FROM documentos
