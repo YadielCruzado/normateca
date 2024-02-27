@@ -1,5 +1,5 @@
 <?php
-include_once("../db/db_info.php");
+include($_SERVER['DOCUMENT_ROOT'] . '/normateca/db/db_info.php');
 class AdminModel extends DB
 {
     public function getCategorias()
@@ -25,6 +25,7 @@ class AdminModel extends DB
         echo $documentId;
         echo $newName;
         echo $newDate;
+        echo"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
         $query = "UPDATE documentos SET Document_title = '$newName', Date_created = '$newDate' WHERE Document_id = '$documentId'";
         return $this ->run_query($query);
 

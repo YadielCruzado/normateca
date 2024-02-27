@@ -51,9 +51,12 @@ function setData()
             array_push($cuerpos, $values);
         }
     }
-
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST["documentoId"]) && isset($_POST["nombreDocumento"]) && isset($_POST["fechaDocumento"])) {
+        
+        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"])) {
+            echo"controller ";
+
             $documentoId = $_POST["documentoId"];
             $nombreDocumento = $_POST["nombreDocumento"];
             $fechaDocumento = $_POST["fechaDocumento"];
@@ -64,7 +67,7 @@ function setData()
 
             if ($success) {
                 echo "se uoopdate la dataaa";
-            // header("Location: admin.php");
+             header("Location:admin.php");
 
         }else{
             echo "errorrr";
