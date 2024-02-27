@@ -68,6 +68,7 @@ function setData()
     $_SESSION['corps'] = $cuerpos;
     $_SESSION['cats'] = $categorias;
     $_SESSION['docs'] = $docuentos1;
+    $_SESSION['documentos'] = $documentos;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
