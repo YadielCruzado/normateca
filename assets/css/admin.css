@@ -32,7 +32,7 @@ header {
     #1d1d1d 100%
   );
   display: flex;
-  max-height: 75px;
+  max-height: 150px;
   color: rgb(232, 232, 232);
   padding: 20px;
   padding-left: 50px;

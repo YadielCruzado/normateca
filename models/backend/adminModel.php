@@ -22,9 +22,9 @@ class AdminModel extends DB{
         return $this->run_query($query);
     }
 
-    public function getDocuments1(){
+    public function enlazarDocumentos(){
 
-        $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, categories.Category_name
+        $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, documentos.Document_title, categories.Category_name
         FROM documentos
         JOIN categories ON categories.Category_abbr = documentos.Category_abbr";
         return $this->run_query($query);

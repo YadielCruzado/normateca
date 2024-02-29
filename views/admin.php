@@ -36,7 +36,7 @@ setData();
       <div class="tabs">
         <div id="subir" class="subir">
           <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
-          <input type="hidden" value="upload" name="type">
+          <input type="hidden" value="1" name="type">
             <div class="file">
               <label for="pdf"> Subir Documento: </label><input type="file" id="pdf" name="pdf" value="" required />
             </div>
@@ -124,15 +124,17 @@ setData();
               <thead>
                 <tr>
                   <th>Certification number</th>
-                  <th>Category</th>
+                  <th>Titulo</th>
+                  <th>Categoria</th>
                   <th>Enlazar</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                    if (count($_SESSION['docs']) > 0) {
-                        foreach ($_SESSION['docs'] as $doc) {
-                            echo '<tr><th>' . $doc['number'] .'-'. $doc['fiscal'] .'</th><th>'.$doc['category'] .'</th></tr>';
+                    if (count($_SESSION['Enlazar']) > 0) {
+                        foreach ($_SESSION['Enlazar'] as $Enlazar) {
+                            echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th>'.'</th><th>'.$Enlazar['category'] .'</th>';
+                            echo '<td><button type="button" class="btn btn-primary" ">Enlazar</button></td></tr>';
                         }
                     } else {
                         print '<tr><td colspan="2" style="text-align:center">Documentos no disponibles</td></tr>';
@@ -140,13 +142,6 @@ setData();
                   ?>
               </tbody>
             </table>
-
-            <!--<div class="razon">
-              <form>
-                <label>¿Por que es enlazado?:</label>
-                <input typw="text" name="razon" placeholder="enmendado por/a, derrogado por/a ..." />
-              </form>
-            </div>-->
           </div>
         </div>
 
@@ -169,7 +164,7 @@ setData();
                     </div>
                     <div class="modal-body">
                         <form method="POST" action="admin.php" id="formEditarDocumento">
-
+                        <input type="hidden" value="2" name="type">
                             
                             <div class="form-group">
                             <input type="hidden" id="documentoId" name="documentoId" value="documentoId">
@@ -266,11 +261,11 @@ setData();
             </tbody>
           </table>
 
-          <h3>Sub-Categorias disponibles</h3>
+          <h3>Cuerpos disponibles</h3>
           <table>
             <thead>
               <tr>
-                <th>Sub-Categoria</th>
+                <th>Cuerpos</th>
                 <th>Abreviacion</th>
               </tr>
             </thead>
@@ -332,8 +327,8 @@ setData();
 </html>
 <?php
 if (isset($_POST['submit'])){
-$categoria = isset($_POST['cate']) ? $_POST['cate'] : '';
-$abbv = isset($_POST['abbv']) ? $_POST['abbv'] : '';
+  $categoria = isset($_POST['cate']) ? $_POST['cate'] : '';
+  $abbv = isset($_POST['abbv']) ? $_POST['abbv'] : '';
 
 }
 

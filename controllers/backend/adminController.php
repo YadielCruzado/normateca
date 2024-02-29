@@ -7,7 +7,7 @@ function setData()
     $model->start_connection();
     $categorias = [];
     $cuerpos = [];
-    $docuentos1 = [];
+    $enlazarDocumentos = [];
     $documentos = [];
 
     $result = $model->getdocinfo();
@@ -53,26 +53,27 @@ function setData()
         }
     }
 
-    $result = $model->getDocuments1();
+    $result = $model->enlazarDocumentos();
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $values = array(
                 "number" => $row['Certification_number'],
                 "fiscal" => $row['Fiscal_year'],
+                "title" => $row['Document_title'],
                 "category" => $row['Category_name']
             );
-            array_push($docuentos1,$values);
+            array_push($enlazarDocumentos,$values);
         }
     }
 
     $_SESSION['corps'] = $cuerpos;
     $_SESSION['cats'] = $categorias;
-    $_SESSION['docs'] = $docuentos1;
+    $_SESSION['Enlazar'] = $enlazarDocumentos;
     $_SESSION['documentos'] = $documentos;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (isset($_POST['type'])) {
+    if ($_POST['type'] == "1") {
         if ($_POST['type'] == "upload" and isset($_POST['filename'])) {
             $target_file = '../../files/' . basename($_FILES['pdf']['name']);
             $upload_file = '../files/' . basename($_FILES['pdf']['name']);
@@ -111,35 +112,29 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
 
-    } else {
-        // Maneja la lógica cuando el método es POST pero 'type' no está presente (si es necesario)
-        // Puedes agregar aquí el código necesario para manejar esta situación antes de la redirección
-    }
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
-    if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"])) {
-        echo"controller ";
-
-        $documentoId = $_POST["documentoId"];
-        $nombreDocumento = $_POST["nombreDocumento"];
-        $fechaDocumento = $_POST["fechaDocumento"];
-        echo $nombreDocumento;
-        echo $fechaDocumento;
-        echo $documentoId;
-        $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento);
-
-        if ($success) {
-            echo "se uoopdate la dataaa";
-         header("Location:admin.php");
-
-        }else{
-            echo "errorrr";
+    } else if ($_POST['type'] == "2") {
+        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"])) {
+            echo"controller ";
+    
+            $documentoId = $_POST["documentoId"];
+            $nombreDocumento = $_POST["nombreDocumento"];
+            $fechaDocumento = $_POST["fechaDocumento"];
+            echo $nombreDocumento;
+            echo $fechaDocumento;
+            echo $documentoId;
+            $model = new AdminModel("localhost", "normateca", "root", "");
+            $model->start_connection();
+            $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento);
+            $model->connection->close();
+    
+            if ($success) {
+                echo "se uoopdate la dataaa";
+                header("Location:admin.php");
+    
+            }else{
+                echo "errorrr";
+            }
         }
     }
 }
-
-
-
 ?>
