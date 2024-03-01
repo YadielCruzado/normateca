@@ -251,7 +251,7 @@ setData();
                 }
               ?>
               <tr>
-                <td colspan="4" style="text-align: center;"><button id="addCategory">AñadirCategory</button></td>
+                <td colspan="4" style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddCategoria">Añadir Category</button></td>
               </tr>
             </tbody>
           </table>
@@ -280,7 +280,7 @@ setData();
               }
               ?>
               <tr>
-                <td colspan="3" style="text-align: center;"><button id="subcatBtn">Añadir Cuerpo</button></td>
+                <td colspan="4" style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddCuerpo">Añadir Cuerpo</button></td>
               </tr>
             </tbody>
           </table>
@@ -317,10 +317,69 @@ setData();
 
 </html>
 <?php
-if (isset($_POST['submit'])){
-  $categoria = isset($_POST['cate']) ? $_POST['cate'] : '';
-  $abbv = isset($_POST['abbv']) ? $_POST['abbv'] : '';
+  if (isset($_POST['submit'])){
+    $categoria = isset($_POST['cate']) ? $_POST['cate'] : '';
+    $abbv = isset($_POST['abbv']) ? $_POST['abbv'] : '';
 
-}
-
+  }
 ?>
+
+<!-- Modal -->
+<div class="modal" id="AddCategoria">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Cabecera del modal -->
+      <div class="modal-header" >
+          <h4 class="modal-title">Añadir Category</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Contenido del modal -->
+      <div class="modal-body editar form">
+          <form action="">
+          <label for="cate">Nombre de la categoria</label>
+          <input type="text" class="form-control" id="cate" name="categoria">
+
+          <label for="Abre">Abreviacion</label>
+          <input type="text" class="form-control" id="Abre" min="2" max="3" name="Abreviacion">
+
+          <label for="cuerpo">Cuerpo</label>
+            <select class="form-control" id="cuerpo" name="cuerpo">
+                <?php
+                if (count($_SESSION['corps']) > 0) {
+                  foreach ($_SESSION['corps'] as $corp) {
+                    echo "<option value='" . $corp['corp_abbr'] . "'>" . $corp['corp_name'] . "</option>";
+                  }
+                }
+                ?>
+            </select>
+          <br>
+          <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="AddCuerpo">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Cabecera del modal -->
+      <div class="modal-header" >
+          <h4 class="modal-title">Añadir Cuerpo</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Contenido del modal -->
+      <div class="modal-body editar form">
+          <form action="">
+          <label for="cate">Nombre de la Cuerpo</label>
+          <input type="text" class="form-control" id="cate" name="categoria">
+
+          <label for="Abre">Abreviacion</label>
+          <input type="text" class="form-control" id="Abre" min="2" max="3" name="Abreviacion">
+          <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
