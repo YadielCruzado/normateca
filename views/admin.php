@@ -232,38 +232,26 @@ setData();
                 <th>Categoria</th>
                 <th>Abreviacion</th>
                 <th>Cuerpo</th>
+                <th>Acccion</th>
               </tr>
             </thead>
             <tbody id="categorias">
               <?php
                 if (count($_SESSION['cats']) > 0) {
                   foreach ($_SESSION['cats'] as $cat) {
-                    echo '<tr><td>' . $cat['cat_name'] . '</td><td>' . $cat['cat_abbr'] . '</td><td>' . $cat['cat_corp'] . '</td></tr>';
+                    echo '<tr>';
+                    echo '<td>' . $cat['cat_name'] . '</td>';
+                    echo '<td>' . $cat['cat_abbr'] . '</td>';
+                    echo '<td>' . $cat['cat_corp'] . '</td>';
+                    echo '<td style="text-align: center;"><button>Editar</button></td>';
+                    echo '</tr>';
                   }
                 } else {
                   print '<tr><td colspan="2" style="text-align:center">Categorias no disponibles</td></tr>';
                 }
               ?>
-              <!-- <tr id="catForm" style="display:none">
-                <form action="#" method="get">
-                  <td><input type="text" name="name"></td>
-                  <td><input type="text" maxlength="2" name="abbv"></td>
-                  <td><input type="text" maxlength="2" name="cuerpo"></td>
-                  <tr>
-                    <td><input type="submit" value="Guardar"></td>
-                  </tr>
-                </form>
-              </tr> -->
-              <form action="#" method="get"  >
-                  <tr id="catForm" style="display:none">
-                    <td><input type="text" name="name"></td>
-                    <td><input type="text" maxlength="2" name="abbv"></td>
-                    <td><input type="text" maxlength="2" name="cuerpo"></td>
-                    <tr><td colspan="3"><input type="submit" value="Guardar"></td></tr>
-                  </tr>
-              </form>
               <tr>
-                <td colspan="3" style="text-align: center;"><button id="addCategory">Add Category</button></td>
+                <td colspan="4" style="text-align: center;"><button id="addCategory">AñadirCategory</button></td>
               </tr>
             </tbody>
           </table>
@@ -274,28 +262,23 @@ setData();
               <tr>
                 <th>Cuerpos</th>
                 <th>Abreviacion</th>
+                <th>Accion</th>
               </tr>
             </thead>
             <tbody>
               <?php
               if (count($_SESSION['corps']) > 0) {
                 foreach ($_SESSION['corps'] as $corp) {
-                  echo '<tr><td>' . $corp['corp_name'] . '</td><td>' . $corp['corp_abbr'] . '</td></tr>';
+                  echo '<tr>';
+                  echo '<td>' . $corp['corp_name'] . '</td>';
+                  echo '<td>' . $corp['corp_abbr'] . '</td>';
+                  echo '<td style="text-align: center;"><button class="btn btn-primary">Editar</button></td>';
+                  echo '</tr>';
                 }
               } else {
                 print '<tr><td colspan="2" style="text-align:center">Categorias no disponibles</td></tr>';
               }
               ?>
-
-              <tr id="subcatForm" style="display:none">
-                <form action="#" method="get">
-                  <td><input type="text" name="cate"></td>
-                  <td><input type="text" maxlength="2" name="abbv"></td>
-                  <!-- <td><input type="text" maxlength="2" name="cat"></td> -->
-                  
-                </form>
-              </tr>
-
               <tr>
                 <td colspan="3" style="text-align: center;"><button id="subcatBtn">Añadir Cuerpo</button></td>
               </tr>

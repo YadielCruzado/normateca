@@ -67,14 +67,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const form = document.getElementById("catForm");
+const form1 = document.getElementById("catForm1");
 const addCategoryButton = document.getElementById("addCategory");
 
 addCategoryButton.addEventListener("click", () => {
 	if (form.style.display === "none" || form.style.display === "") {
 		form.style.display = "table-row";
+		form1.style.display = "table-row";
 		addCategoryButton.innerHTML = "Hide Form";
 	} else {
 		form.style.display = "none";
+		form1.style.display = "none";
 		addCategoryButton.innerHTML = "Add Category";
 	}
 });
