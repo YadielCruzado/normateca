@@ -110,14 +110,14 @@ setData();
               </div>
             </div>
 
-            <input type="submit" name="submit" value="Guardar" />
+            <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
           </form>
           <div class="backline">
             <h3>Añadir enlace a otro Documento</h3>
 
             <div class="search-bar">
               <input type="text" placeholder="Buscar por nombre" />
-              <button type="submit">Buscar</button>
+              <button class ="color" type="submit">Buscar</button>
             </div>
 
             <table>
@@ -236,27 +236,34 @@ setData();
             </thead>
             <tbody id="categorias">
               <?php
-              if (count($_SESSION['cats']) > 0) {
-                foreach ($_SESSION['cats'] as $cat) {
-                  echo '<tr><td>' . $cat['cat_name'] . '</td><td>' . $cat['cat_abbr'] . '</td><td>' . $cat['cat_corp'] . '</td></tr>';
+                if (count($_SESSION['cats']) > 0) {
+                  foreach ($_SESSION['cats'] as $cat) {
+                    echo '<tr><td>' . $cat['cat_name'] . '</td><td>' . $cat['cat_abbr'] . '</td><td>' . $cat['cat_corp'] . '</td></tr>';
+                  }
+                } else {
+                  print '<tr><td colspan="2" style="text-align:center">Categorias no disponibles</td></tr>';
                 }
-              } else {
-                print '<tr><td colspan="2" style="text-align:center">Categorias no disponibles</td></tr>';
-              }
               ?>
-
-
-              <tr id="catForm" style="display:none">
+              <!-- <tr id="catForm" style="display:none">
                 <form action="#" method="get">
                   <td><input type="text" name="name"></td>
                   <td><input type="text" maxlength="2" name="abbv"></td>
                   <td><input type="text" maxlength="2" name="cuerpo"></td>
-                  
+                  <tr>
+                    <td><input type="submit" value="Guardar"></td>
+                  </tr>
                 </form>
-              </tr>
-
+              </tr> -->
+              <form action="#" method="get"  >
+                  <tr id="catForm" style="display:none">
+                    <td><input type="text" name="name"></td>
+                    <td><input type="text" maxlength="2" name="abbv"></td>
+                    <td><input type="text" maxlength="2" name="cuerpo"></td>
+                    <tr><td colspan="3"><input type="submit" value="Guardar"></td></tr>
+                  </tr>
+              </form>
               <tr>
-                <td colspan="3" style="text-align: center;"><button id="categoriaBtn">Añadir categoria</button></td>
+                <td colspan="3" style="text-align: center;"><button id="addCategory">Add Category</button></td>
               </tr>
             </tbody>
           </table>
@@ -290,7 +297,7 @@ setData();
               </tr>
 
               <tr>
-                <td colspan="3" style="text-align: center;"><button id="subcatBtn">Añadir Sub-Categoria</button></td>
+                <td colspan="3" style="text-align: center;"><button id="subcatBtn">Añadir Cuerpo</button></td>
               </tr>
             </tbody>
           </table>
@@ -318,10 +325,11 @@ setData();
     }
   </script>
 
-  <script src="../assets/js/main.js"></script>
+  
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="../assets/js/main.js"></script>
 </body>
 
 </html>

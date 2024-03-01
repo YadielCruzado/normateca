@@ -4,7 +4,10 @@ class AdminModel extends DB{
 
     public function getCategorias(){
 
-        $query = "SELECT * FROM categories";
+        $query = "SELECT categories.Category_abbr, categories.Category_name, cuerpos.Cuerpo_name
+        FROM categories
+        JOIN cuerpos ON categories.Cuerpo = cuerpos.Cuerpo_abbr
+        ORDER BY cuerpos.Cuerpo_name ASC";
         return $this->run_query($query);
     }
 
@@ -38,31 +41,8 @@ class AdminModel extends DB{
     }
 
     public function updateDocument($documentId, $newName, $newDate) {
-        echo $documentId;
-        echo $newName;
-        echo $newDate;
-        echo"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+        
         $query = "UPDATE documentos SET Document_title = '$newName', Date_created = '$newDate' WHERE Document_id = '$documentId'";
         return $this ->run_query($query);
-
     }
-
-    // public function updateDocument($documentId, $newName, $newDate) {
-    //     $query = "UPDATE documentos SET Document_title = ?, Date_created = ? WHERE Document_id = $documentId";
-    //     $stmt = $this->connection->prepare($query);
-    //     $stmt->bind_param('ss', $newName, $newDate, $documentId);
-    
-
-        
-    //     if ($stmt->execute()) {
-    //         return true; // Update successful
-    //     } else {
-    //         // Log or handle the error
-    //         echo "Error: " . $this->connection->error;
-    //         return false; // Update failed
-    //     }
-    // }
-    
-    
-
 }

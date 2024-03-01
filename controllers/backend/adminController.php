@@ -10,29 +10,13 @@ function setData()
     $enlazarDocumentos = [];
     $documentos = [];
 
-    $result = $model->getdocinfo();
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $values = array(
-                "Document_title" => $row['Document_title'],
-                "Date_created" => $row['Date_created'],
-                "Document_id" => $row['Document_id']
-            );
-
-            array_push($documentos, $values);
-        }
-    } else {
-        $documentos = null;
-    }
-
-
     $result = $model->getCategorias();
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $values = array(
                 "cat_abbr" => $row['Category_abbr'],
                 "cat_name" => $row['Category_name'],
-                "cat_corp" => $row['Category_abbr']
+                "cat_corp" => $row['Cuerpo_name']
             );
 
             array_push($categorias, $values);
@@ -51,6 +35,8 @@ function setData()
 
             array_push($cuerpos, $values);
         }
+    }else {
+        $cuerpos = null;
     }
 
     $result = $model->enlazarDocumentos();
@@ -64,6 +50,23 @@ function setData()
             );
             array_push($enlazarDocumentos,$values);
         }
+    }else {
+        $enlazarDocumentos = null;
+    }
+    
+    $result = $model->getdocinfo();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $values = array(
+                "Document_title" => $row['Document_title'],
+                "Date_created" => $row['Date_created'],
+                "Document_id" => $row['Document_id']
+            );
+
+            array_push($documentos, $values);
+        }
+    } else {
+        $documentos = null;
     }
 
     $_SESSION['corps'] = $cuerpos;
