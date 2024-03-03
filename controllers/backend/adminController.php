@@ -117,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     } else if ($_POST['type'] == "2") {
         if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"])) {
-            echo"controller ";
     
             $documentoId = $_POST["documentoId"];
             $nombreDocumento = $_POST["nombreDocumento"];
@@ -137,6 +136,42 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }else{
                 echo "errorrr";
             }
+        }
+
+    } else if ($_POST['type'] == "3") {
+        $categoria = $_POST["categoria"];
+        $Abreviacion = $_POST["Abreviacion"];
+        $cuerpo = $_POST["cuerpo"];
+
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $success = $model->NewCategory($categoria,$Abreviacion,$cuerpo);
+        $model->connection->close();
+
+        if ($success) {
+            echo "se uoopdate la dataaa";
+            header("Location: ../../views/admin.php?succes");
+
+        }else{
+            echo "errorrr";
+        }
+
+    } else if ($_POST['type'] == "4") {
+
+        $cuerpo = $_POST["cuerpo"];
+        $Abreviacion = $_POST["Abreviacion"];
+
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $success = $model->NewCuerpo($cuerpo,$Abreviacion);
+        $model->connection->close();
+
+        if ($success) {
+            echo "se uoopdate la dataaa";
+            header("Location: ../../views/admin.php?succes");
+
+        }else{
+            echo "errorrr";
         }
     }
 }
