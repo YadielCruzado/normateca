@@ -4,7 +4,7 @@ class AdminModel extends DB{
 
     public function getCategorias(){
 
-        $query = "SELECT categories.Category_abbr, categories.Category_name, cuerpos.Cuerpo_name
+        $query = "SELECT categories.Category_abbr, categories.Category_name, cuerpos.Cuerpo_name, categories.category_abbr
         FROM categories
         JOIN cuerpos ON categories.Cuerpo = cuerpos.Cuerpo_abbr
         ORDER BY cuerpos.Cuerpo_name ASC";
@@ -59,6 +59,12 @@ class AdminModel extends DB{
         VALUES ('".$Abreviacion . "','". $cuerpo ."')";
         return $this->run_query($query);
 
+    }
+
+    public function updateCuerpo($cuerpo, $Abreviacion) {
+        $query = "UPDATE cuerpos SET Cuerpo_abbr = '$Abreviacion', Cuerpo_name = '$cuerpo' 
+                  WHERE Cuerpo_abbr = '$Abreviacion'";
+        return $this->run_query($query);
     }
 
 }

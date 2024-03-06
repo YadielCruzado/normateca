@@ -16,7 +16,8 @@ function setData()
             $values = array(
                 "cat_abbr" => $row['Category_abbr'],
                 "cat_name" => $row['Category_name'],
-                "cat_corp" => $row['Cuerpo_name']
+                "cat_corp" => $row['Cuerpo_name'],
+                "cat_corp_abbr" => $row['category_abbr']
             );
 
             array_push($categorias, $values);
@@ -75,7 +76,7 @@ function setData()
     $_SESSION['documentos'] = $documentos;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
     if ($_POST['type'] == "1") {
         if ($_POST['type'] == "upload" and isset($_POST['filename'])) {
             $target_file = '../../files/' . basename($_FILES['pdf']['name']);
@@ -115,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
 
-    } else if ($_POST['type'] == "2") {
+    } else if ($_POST['type'] == "2") { //editar documentos
         if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"])) {
     
             $documentoId = $_POST["documentoId"];
@@ -138,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
 
-    } else if ($_POST['type'] == "3") {
+    } else if ($_POST['type'] == "3") { //crear categorias
         $categoria = $_POST["categoria"];
         $Abreviacion = $_POST["Abreviacion"];
         $cuerpo = $_POST["cuerpo"];
@@ -156,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             echo "errorrr";
         }
 
-    } else if ($_POST['type'] == "4") {
+    } else if ($_POST['type'] == "4") { //crear cuerpos
 
         $cuerpo = $_POST["cuerpo"];
         $Abreviacion = $_POST["Abreviacion"];
@@ -173,6 +174,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }else{
             echo "errorrr";
         }
+    }else if ($_POST['type'] == "5") { //editar cuerpos
+
+        $cuerpo = $_POST["cuerpo"];
+        $Abreviacion = $_POST["Abreviacion"];
+
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $success = $model->updateCuerpo($cuerpo,$Abreviacion);
+        $model->connection->close();
+
+        if ($success) {
+            echo "se uoopdate la dataaa";
+            header("Location: ../../views/admin.php?succes");
+
+        }else{
+            echo "errorrr";
+        }
+
+    }else if ($_POST['type'] == "6") { //editar categorias
     }
 }
 ?>

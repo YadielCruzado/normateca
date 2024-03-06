@@ -246,7 +246,8 @@ setData();
                     echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EditCategoria"
                     data-nombre="' . $cat['cat_name'] . '"
                     data-abreviacion="' . $cat['cat_abbr'] . '"
-                    data-cuerpo="' . $cat['cat_corp'] . '">Editar</button></td>';
+                    data-cuerpo="' . $cat['cat_corp_abbr'] . '" 
+                    onclick="editcategori(this)">Editar</button></td>';
                     echo '</tr>';
                   }
                 } else {
@@ -275,8 +276,11 @@ setData();
                   echo '<tr>';
                   echo '<td>' . $corp['corp_name'] . '</td>';
                   echo '<td>' . $corp['corp_abbr'] . '</td>';
-                  echo '<td style="text-align: center;"><button class="btn btn-primary">Editar</button></td>';
-                  echo '</tr>';
+                  echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editcuerpo"
+                    data-nombreCuerpo="' . $corp['corp_name'] . '"
+                    data-abreviacionCuerpo="' . $corp['corp_abbr'] . '"
+                    onclick="Editcuerpo(this)">Editar</button></td>';
+                    echo '</tr>';
                 }
               } else {
                 print '<tr><td colspan="2" style="text-align:center">Categorias no disponibles</td></tr>';
@@ -296,7 +300,21 @@ setData();
     <h4>Visita nuestro sitio web:<a href="#"> upra.edu</a></h4>
   </footer>
 
-  
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>
+
+<?php
+  if (isset($_POST['submit'])){
+    $categoria = isset($_POST['cate']) ? $_POST['cate'] : '';
+    $abbv = isset($_POST['abbv']) ? $_POST['abbv'] : '';
+  }
+?>
+
 <!-- AddCategoria -->
 <div class="modal" id="AddCategoria">
   <div class="modal-dialog">
@@ -316,10 +334,11 @@ setData();
           <label for="Abre">Abreviacion</label>
           <input type="text" class="form-control" id="Abre" min="2" max="3" name="Abreviacion">
 
-          <label for="cuerpo">Cuerpo</label>
-            <select class="form-control" id="cuerpo" name="cuerpo">
+          <label for="cuerpoCategoria">Cuerpo</label>
+            <select class="form-control" id="cuerpoCategoria" name="cuerpo">
                 <?php
                 if (count($_SESSION['corps']) > 0) {
+                  echo '<option value=""> </option>';
                   foreach ($_SESSION['corps'] as $corp) {
                     echo "<option value='" . $corp['corp_abbr'] . "'>" . $corp['corp_name'] . "</option>";
                   }
@@ -347,16 +366,17 @@ setData();
       <div class="modal-body editar form">
         <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
           <input type="hidden" value="5" name="type">
-          <label for="editCatNombre">Nombre de la Categoria</label>
-          <input type="text" class="form-control" id="editCatNombre" name="cuerpo">
+          <label for="nombreCategoria">Nombre de la Categoria</label>
+          <input type="text" class="form-control" id="nombreCategoria" name="cuerpo">
 
-          <label for="editCatAbreviacion">Abreviacion</label>
-          <input type="text" class="form-control" id="editCatAbreviacion" min="2" max="3" name="Abreviacion">
+          <label for="abreviacionCategoria">Abreviacion</label>
+          <input type="text" class="form-control" id="abreviacionCategoria" min="2" max="3" name="Abreviacion">
 
           <label for="editCatCorporacion">Cuerpo</label>
-            <select class="form-control" id="editCatCorporacion" name="cuerpo">
+            <select class="form-control" id="cuerpoCategoria" name="cuerpo">
                 <?php
                 if (count($_SESSION['corps']) > 0) {
+                  echo '<option value=""> </option>';
                   foreach ($_SESSION['corps'] as $corp) {
                     echo "<option value='" . $corp['corp_abbr'] . "'>" . $corp['corp_name'] . "</option>";
                   }
@@ -397,7 +417,7 @@ setData();
 </div>
 
 <!-- AddCuerpo -->
-<div class="modal" id="AddCuerpo">
+<div class="modal" id="Editcuerpo">
   <div class="modal-dialog">
     <div class="modal-content">
       <!-- Cabecera del modal -->
@@ -408,52 +428,15 @@ setData();
       <!-- Contenido del modal -->
       <div class="modal-body editar form">
         <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
-          <input type="hidden" value="4" name="type">
-          <label for="cuerpo">Nombre de la Cuerpo</label>
-          <input type="text" class="form-control" id="cuerpo" name="cuerpo">
+          <input type="hidden" value="5" name="type">
+          <label for="EnombreCuerpo">Nombre de la Cuerpo</label>
+          <input type="text" class="form-control" id="EnombreCuerpo" name="cuerpo">
 
-          <label for="Abre">Abreviacion</label>
-          <input type="text" class="form-control" id="Abre" min="2" max="3" name="Abreviacion">
+          <label for="Eabreviacioncuerpo">Abreviacion</label>
+          <input type="text" class="form-control" id="Eabreviacioncuerpo" min="2" max="3" name="Abreviacion">
           <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
         </form>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
-
-
-  <script>
-    $(document).ready(function(){
-    $('#exampleModal').modal({
-        show: false // Ensure modal is hidden by default
-    });
-    });
-    function openEditarModal(title, fecha,id) {
-        document.getElementById('nombreDocumento').value = title;
-        document.getElementById('fechaDocumento').value = fecha;
-        document.getElementById('documentoId').value = id; // Set the documentoId value
-      
-        $('#exampleModal').modal('show');
-    }
-  </script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <script src="../assets/js/main.js"></script>
-  <script src="../assets/js/a.js"></script>
-  
-</body>
-
-</html>
-<?php
-  if (isset($_POST['submit'])){
-    $categoria = isset($_POST['cate']) ? $_POST['cate'] : '';
-    $abbv = isset($_POST['abbv']) ? $_POST['abbv'] : '';
-
-  }
-?>
