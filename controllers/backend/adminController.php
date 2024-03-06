@@ -17,7 +17,7 @@ function setData()
                 "cat_abbr" => $row['Category_abbr'],
                 "cat_name" => $row['Category_name'],
                 "cat_corp" => $row['Cuerpo_name'],
-                "cat_corp_abbr" => $row['category_abbr']
+                "cat_corp_abbr" => $row['Cuerpo_abbr']
             );
 
             array_push($categorias, $values);
@@ -178,14 +178,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
 
         $cuerpo = $_POST["cuerpo"];
         $Abreviacion = $_POST["Abreviacion"];
+        $oldabbr = $_POST["oldabbr"];
+        
 
         $model = new AdminModel("localhost", "normateca", "root", "");
         $model->start_connection();
-        $success = $model->updateCuerpo($cuerpo,$Abreviacion);
+        $success = $model->updateCuerpo($cuerpo,$Abreviacion,$oldabbr);
         $model->connection->close();
 
         if ($success) {
-            echo "se uoopdate la dataaa";
             header("Location: ../../views/admin.php?succes");
 
         }else{
@@ -193,6 +194,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         }
 
     }else if ($_POST['type'] == "6") { //editar categorias
+        $categoria = $_POST["categoria"];
+        $Abreviacion = $_POST["Abreviacion"];
+        $cuerpo = $_POST["cuerpoDropdown"];
+        $oldabbr = $_POST["oldabbr"];
+
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $success = $model->updateCategory($categoria,$Abreviacion,$cuerpo,$oldabbr);
+        $model->connection->close();
+
+        if ($success) {
+            header("Location: ../../views/admin.php?succes");
+            echo "$oldabbr";
+
+        }else{
+            echo "errorrr";
+        }
     }
 }
 ?>

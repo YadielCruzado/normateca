@@ -365,24 +365,27 @@ setData();
       <!-- Contenido del modal -->
       <div class="modal-body editar form">
         <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
-          <input type="hidden" value="5" name="type">
+          <input type="hidden" value="6" name="type">
+          <input type="hidden" value="" name="oldabbr" id="oldabbr">
           <label for="nombreCategoria">Nombre de la Categoria</label>
-          <input type="text" class="form-control" id="nombreCategoria" name="cuerpo">
+          <input type="text" class="form-control" id="nombreCategoria" name="categoria">
 
           <label for="abreviacionCategoria">Abreviacion</label>
           <input type="text" class="form-control" id="abreviacionCategoria" min="2" max="3" name="Abreviacion">
 
           <label for="editCatCorporacion">Cuerpo</label>
-            <select class="form-control" id="cuerpoCategoria" name="cuerpo">
-                <?php
-                if (count($_SESSION['corps']) > 0) {
-                  echo '<option value=""> </option>';
-                  foreach ($_SESSION['corps'] as $corp) {
-                    echo "<option value='" . $corp['corp_abbr'] . "'>" . $corp['corp_name'] . "</option>";
-                  }
-                }
-                ?>
-            </select>
+          <select id="cuerpoDropdown" name="cuerpoDropdown" class="form-control">
+            <?php
+            if (count($_SESSION['corps']) > 0) {
+              echo '<option value=""> </option>';
+              foreach ($_SESSION['corps'] as $corp) {
+                $value = $corp['corp_abbr'];
+                $text = $corp['corp_name'];
+                echo "<option value='$value'>$text</option>";
+              }
+            }
+            ?>
+          </select>
 
           <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
         </form>
@@ -429,6 +432,7 @@ setData();
       <div class="modal-body editar form">
         <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
           <input type="hidden" value="5" name="type">
+          <input type="hidden" value="" name="oldabbr" id="oldabbr">
           <label for="EnombreCuerpo">Nombre de la Cuerpo</label>
           <input type="text" class="form-control" id="EnombreCuerpo" name="cuerpo">
 

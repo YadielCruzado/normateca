@@ -20,18 +20,17 @@ function editcategori(button) {
 
 	document.getElementById("nombreCategoria").value = nombre;
 	document.getElementById("abreviacionCategoria").value = abreviacion;
+	document.getElementById("oldabbr").value = abreviacion;
 
-	// Obtener el valor del cuerpo
-	var cuerpoValue = cuerpo;
+	var cuerpoDropdown = document.getElementById("cuerpoDropdown");
 
-	// Obtener el elemento select
-	var selectElement = document.getElementById("selectCuerpoCategoria");
+	// Loop through options and set the selected attribute
+	for (var i = 0; i < cuerpoDropdown.options.length; i++) {
+		var optionValue = cuerpoDropdown.options[i].value;
 
-	// Buscar la opción con el valor correspondiente y seleccionarla
-	for (var i = 0; i < selectElement.options.length; i++) {
-		if (selectElement.options[i].value === cuerpoValue) {
-			selectElement.selectedIndex = i;
-			break;
+		// Check if cuerpo is equal to corp_abbr
+		if (cuerpo === optionValue) {
+			cuerpoDropdown.options[i].selected = true;
 		}
 	}
 }
@@ -39,10 +38,10 @@ function editcategori(button) {
 //modal editcuerpo
 
 function Editcuerpo(button) {
-	console.log("hola");
 	var nombre = button.getAttribute("data-nombreCuerpo");
 	var abreviacion = button.getAttribute("data-abreviacionCuerpo");
 
 	document.getElementById("EnombreCuerpo").value = nombre;
 	document.getElementById("Eabreviacioncuerpo").value = abreviacion;
+	document.getElementById("oldabbr").value = abreviacion;
 }
