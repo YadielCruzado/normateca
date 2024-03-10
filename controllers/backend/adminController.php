@@ -180,6 +180,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         $Abreviacion = $_POST["Abreviacion"];
         $oldabbr = $_POST["oldabbr"];
         
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $model -> updateACuerpo($Abreviacion, $oldabbr);
+        $model->connection->close();
+        
 
         $model = new AdminModel("localhost", "normateca", "root", "");
         $model->start_connection();
@@ -188,7 +193,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
 
         if ($success) {
             header("Location: ../../views/admin.php?succes");
-
         }else{
             echo "errorrr";
         }

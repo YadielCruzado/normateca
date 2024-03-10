@@ -43,5 +43,5 @@ function Editcuerpo(button) {
 
 	document.getElementById("EnombreCuerpo").value = nombre;
 	document.getElementById("Eabreviacioncuerpo").value = abreviacion;
-	document.getElementById("oldabbr").value = abreviacion;
+	document.getElementById("oldabbr2").value = abreviacion;
 }

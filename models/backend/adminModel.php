@@ -66,11 +66,15 @@ class AdminModel extends DB{
                   WHERE Cuerpo_abbr = '$oldabbr'";
         return $this->run_query($query);
     }
-
-    public function updateCategory($categoria,$Abreviacion,$cuerpo,$oldabbr) {
-        $query = "UPDATE categories SET Category_abbr = '$Abreviacion', Category_name = '$categoria', Cuerpo = '$oldabbr'
-                  WHERE Category_abbr = '$oldabbr'";
+    public function updateACuerpo($Abreviacion, $oldabbr){
+        $query = "UPDATE `categories` SET `Cuerpo` = '$Abreviacion' 
+        WHERE `Cuerpo` = '$oldabbr'";
         return $this->run_query($query);
     }
 
+    public function updateCategory($categoria,$Abreviacion,$cuerpo,$oldabbr) {
+        $query = "UPDATE categories SET Category_abbr = '$Abreviacion', Category_name = '$categoria', Cuerpo = '$cuerpo'
+                  WHERE Category_abbr = '$oldabbr'";
+        return $this->run_query($query);
+    }
 }

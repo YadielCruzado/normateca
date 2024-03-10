@@ -425,14 +425,14 @@ setData();
     <div class="modal-content">
       <!-- Cabecera del modal -->
       <div class="modal-header" >
-          <h4 class="modal-title">Añadir Cuerpo</h4>
+          <h4 class="modal-title">Editar Cuerpo</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <!-- Contenido del modal -->
       <div class="modal-body editar form">
         <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
           <input type="hidden" value="5" name="type">
-          <input type="hidden" value="" name="oldabbr" id="oldabbr">
+          <input type="hidden" value="" name="oldabbr" id="oldabbr2">
           <label for="EnombreCuerpo">Nombre de la Cuerpo</label>
           <input type="text" class="form-control" id="EnombreCuerpo" name="cuerpo">
 
