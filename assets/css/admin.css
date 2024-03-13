@@ -214,6 +214,8 @@ tbody tr:nth-child(odd) {
   grid-template-rows: repeat(3, auto);
   text-align: center;
   width: 100%;
+  background-color: white;
+  padding-bottom: 15px;
 }
 
 .crear table th,

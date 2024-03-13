@@ -134,7 +134,9 @@ setData();
                     if (count($_SESSION['Enlazar']) > 0) {
                         foreach ($_SESSION['Enlazar'] as $Enlazar) {
                             echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th>'.'</th><th>'.$Enlazar['category'] .'</th>';
-                            echo '<td><button type="button" class="btn btn-primary" ">Enlazar</button></td></tr>';
+                            echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enlazar"
+                                  onclick="enlazar(this)">enlazar</button></td>';
+                                  echo '</tr>';
                         }
                     } else {
                         print '<tr><td colspan="2" style="text-align:center">Documentos no disponibles</td></tr>';
@@ -223,7 +225,7 @@ setData();
           
         </div>
 
-        <div id="crear" class="crear" style="display: none">
+        <div id="crear" class="crear back" style="display: none">
 
           <h3>Categorias disponibles</h3>
           <table>
@@ -421,6 +423,32 @@ setData();
 
 <!-- AddCuerpo -->
 <div class="modal" id="Editcuerpo">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Cabecera del modal -->
+      <div class="modal-header" >
+          <h4 class="modal-title">Editar Cuerpo</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Contenido del modal -->
+      <div class="modal-body editar form">
+        <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
+          <input type="hidden" value="5" name="type">
+          <input type="hidden" value="" name="oldabbr" id="oldabbr2">
+          <label for="EnombreCuerpo">Nombre de la Cuerpo</label>
+          <input type="text" class="form-control" id="EnombreCuerpo" name="cuerpo">
+
+          <label for="Eabreviacioncuerpo">Abreviacion</label>
+          <input type="text" class="form-control" id="Eabreviacioncuerpo" min="2" max="3" name="Abreviacion">
+          <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Enlazar -->
+<div class="modal" id="Enlazar">
   <div class="modal-dialog">
     <div class="modal-content">
       <!-- Cabecera del modal -->
