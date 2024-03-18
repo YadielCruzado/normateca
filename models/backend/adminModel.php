@@ -36,15 +36,15 @@ class AdminModel extends DB{
 
     public function  getdocinfo(){
         
-        $query = "SELECT Document_title, Date_created,Document_id FROM documentos ";
+        $query = "SELECT Document_title, Date_created,Document_id,Document_path,Fiscal_year,Document_state,Document_lenguaje,Certification_number FROM documentos ";
         return $this ->run_query($query);
     }
 
-    public function updateDocument($documentId, $newName, $newDate) {
+    public function updateDocument($documentId, $newName, $newDate,$title,$Documentlang,$estado,$numcerti) {
         
-        $query = "UPDATE documentos SET Document_title = '$newName', Date_created = '$newDate' WHERE Document_id = '$documentId'";
+        $query = "UPDATE documentos SET Document_title = '$newName', Date_created = '$newDate',  WHERE Document_id = '$documentId'";
         return $this ->run_query($query);
-    }
+    }//$documentoId, $nombreDocumento, $fechaDocumento, $title, $Documentlang, $estado, $numcerti
 
     public function NewCategory($categoria,$Abreviacion,$cuerpo) {
         $query = "INSERT INTO categories 

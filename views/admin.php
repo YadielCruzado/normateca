@@ -177,6 +177,54 @@ setData();
                                 <label for="fechaDocumento">Fecha del Documento</label>
                                 <input type="text" class="form-control" id="fechaDocumento" name="fechaDocumento">
                             </div>
+
+                            <div class="form-group">
+                                <label for="cuerpo">Cuerpo: </label>
+                                <select id="cuerpo" name="corp" class="form-control">
+                                    <option selected disabled>Select</option>
+                                    <?php
+                                    if (count($_SESSION['corps']) > 0) {
+                                        foreach ($_SESSION['corps'] as $corp) {
+                                            echo '<option value="' . $corp['corp_name'] . '">' . $corp['corp_name'] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+      
+                            <div class="form-group">
+                                <label for="fiscalyear">Año Fiscal</label>
+                                <input type="text" class="form-control" id="fiscalyear" name="fiscalyear">
+                            </div>
+
+                           
+
+                            <label for="Documentlang"> Lenguaje de Documento: </label>
+                                <select id="Documentlang" name="Documentlang" class="form-control">
+                                  <option value="">Select</option>
+                                  <option value="esp">Español</option>
+                                  <option value="eng">Ingles</option>
+
+                                </select>
+                          
+                            
+                            <label for="estado"> Estado del Documento: </label>
+                              <select id="estado" name="estado" class="form-control">
+                                <option value="">Select</option>
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                              </select>
+
+
+                            <div class="form-group">
+                                <label for="numcerti">Numero de certificacion </label>
+                                <input type="text" class="form-control" id="numcerti" name="numcerti">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Document_path"> Subir Documento: </label><input type="file" id="Document_path" name="Document_path" value="" required />
+                            </div>
+
                             <button type="submit" class="btn btn-primary">Save changes</button>
                             <!-- Puedes añadir más campos de edición según sea necesario -->
                         </form>
@@ -203,7 +251,7 @@ setData();
                 foreach ($_SESSION['documentos'] as $indice => $documento) {
                     echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
                     
-                    echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal(\'' . $documento['Document_title'] . '\', \'' . $documento['Date_created'] . '\', \'' . $documento['Document_id'] . '\')">Editar</button></td>';
+                    echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal(`' . $documento['Document_title'] . '`, `' . $documento['Date_created'] . '`, `' . $documento['Document_id'] . '`, `' . $documento['fiscalyear'] . '`, `' . $documento['Documentlang'] . '`, `' . $documento['estado'] . '`, `' . $documento['numcerti'] . '`, `' . $documento['Document_path'] . '`)">Editar</button></td>';
                   
                 }
             } else {
