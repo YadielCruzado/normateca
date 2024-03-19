@@ -66,8 +66,8 @@ function setData()
                 "estado" => $row['Document_state'],
                 "numcerti" => $row['Certification_number'],
                 "fiscalyear" => $row['Fiscal_year'],
-                "Document_path" => $row['Document_path']
-
+                "Document_path" => $row['Document_path'],
+                "Cuerpo_abbr" => $row['Cuerpo_abbr']
             );
 
             array_push($documentos, $values);
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         }
 
     } else if ($_POST['type'] == "2") { //editar documentos
-        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["title"]) OR isset($_POST["fiscalyear"]) OR isset($_POST["Documentlang"]) OR isset($_POST["estado"]) OR isset($_POST["numcerti"])) {
+        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["title"]) OR isset($_POST["fiscalyear"]) OR isset($_POST["Documentlang"]) OR isset($_POST["estado"]) OR isset($_POST["numcerti"])OR isset($_POST["cuerpo"])OR isset($_POST["Document_path"])) {
     
             $documentoId = $_POST["documentoId"];
             $nombreDocumento = $_POST["nombreDocumento"];
@@ -132,12 +132,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             $Documentlang = $_POST["Documentlang"];
             $estado = $_POST["estado"];
             $numcerti = $_POST["numcerti"];
+            $Document_path = $_POST["Document_path"];
+            $fiscalyear = $_POST["fiscalyear"];
+            $cuerpo = $_POST["cuerpo"];
             echo $nombreDocumento;
             echo $fechaDocumento;
             echo $documentoId;
             $model = new AdminModel("localhost", "normateca", "root", "");
             $model->start_connection();
-            $success = $model->updateDocument($documentoId, $nombreDocumento, $title, $Documentlang, $estado, $numcerti);
+           // $success = $model->updateDocument($documentoId, $nombreDocumento, $title, $Documentlang, $estado, $numcerti,$Document_path,$fiscalyear,$cuerpo);
             $model->connection->close();
     
             if ($success) {

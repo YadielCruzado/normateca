@@ -251,7 +251,7 @@ setData();
                 foreach ($_SESSION['documentos'] as $indice => $documento) {
                     echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
                     
-                    echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal(`' . $documento['Document_title'] . '`, `' . $documento['Date_created'] . '`, `' . $documento['Document_id'] . '`, `' . $documento['fiscalyear'] . '`, `' . $documento['Documentlang'] . '`, `' . $documento['estado'] . '`, `' . $documento['numcerti'] . '`, `' . $documento['Document_path'] . '`)">Editar</button></td>';
+                    echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal(`' . $documento['Document_title'] . '`, `' . $documento['Date_created'] . '`,  `' . $documento['fiscalyear'] . '`, `' . $documento['Documentlang'] . '`, `' . $documento['estado'] . '`, `' . $documento['numcerti'] . '`,`' . $documento['Document_id'] . '`, `' . $documento['Document_path'] . '`, `' . $documento['Cuerpo_abbr'] . '`)">Editar</button></td>';
                   
                 }
             } else {
