@@ -61,13 +61,7 @@ function setData()
             $values = array(
                 "Document_title" => $row['Document_title'],
                 "Date_created" => $row['Date_created'],
-                "Document_id" => $row['Document_id'],
-                "Documentlang" => $row['Document_lenguaje'],
-                "estado" => $row['Document_state'],
-                "numcerti" => $row['Certification_number'],
-                "fiscalyear" => $row['Fiscal_year'],
-                "Document_path" => $row['Document_path']
-
+                "Document_id" => $row['Document_id']
             );
 
             array_push($documentos, $values);
@@ -123,21 +117,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         }
 
     } else if ($_POST['type'] == "2") { //editar documentos
-        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["title"]) OR isset($_POST["fiscalyear"]) OR isset($_POST["Documentlang"]) OR isset($_POST["estado"]) OR isset($_POST["numcerti"])) {
+        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"])) {
     
             $documentoId = $_POST["documentoId"];
             $nombreDocumento = $_POST["nombreDocumento"];
             $fechaDocumento = $_POST["fechaDocumento"];
-            $title = $_POST["title"];
-            $Documentlang = $_POST["Documentlang"];
-            $estado = $_POST["estado"];
-            $numcerti = $_POST["numcerti"];
             echo $nombreDocumento;
             echo $fechaDocumento;
             echo $documentoId;
             $model = new AdminModel("localhost", "normateca", "root", "");
             $model->start_connection();
-            $success = $model->updateDocument($documentoId, $nombreDocumento, $title, $Documentlang, $estado, $numcerti);
+            $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento);
             $model->connection->close();
     
             if ($success) {
