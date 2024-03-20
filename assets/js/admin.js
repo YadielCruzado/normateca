@@ -11,9 +11,7 @@ function openEditarModal(
   fiscalyear,
   Documentlang,
   estado,
-  numcerti,
-  Document_path,
-  cuerpo
+  numcerti
 ) {
   document.getElementById("nombreDocumento").value = title;
   document.getElementById("fechaDocumento").value = fecha;
@@ -22,8 +20,6 @@ function openEditarModal(
   document.getElementById("estado").value = estado;
   document.getElementById("numcerti").value = numcerti;
   document.getElementById("documentoId").value = id; // Set the documentoId value
-  document.getElementById("Document_path").value = Document_path;
-  document.getElementById("cuerpo").value = cuerpo;
 
   $("#exampleModal").modal("show");
 }
@@ -57,7 +53,13 @@ function Editcuerpo(button) {
   var nombre = button.getAttribute("data-nombreCuerpo");
   var abreviacion = button.getAttribute("data-abreviacionCuerpo");
 
+<<<<<<< Updated upstream
+	document.getElementById("EnombreCuerpo").value = nombre;
+	document.getElementById("Eabreviacioncuerpo").value = abreviacion;
+	document.getElementById("oldabbr2").value = abreviacion;
+=======
   document.getElementById("EnombreCuerpo").value = nombre;
   document.getElementById("Eabreviacioncuerpo").value = abreviacion;
   document.getElementById("oldabbr").value = abreviacion;
+>>>>>>> Stashed changes
 }
