@@ -33,6 +33,16 @@ class AdminModel extends DB{
         return $this->run_query($query);
     }
 
+    public function enlazarDocumentos1($cuerpo){
+
+        $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, documentos.Document_title, categories.Category_name
+        FROM documentos
+        JOIN categories ON categories.Category_abbr = documentos.Category_abbr
+        WHERE documentos.Cuerpo_abbr = $cuerpo";
+        return $this->run_query($query);
+    }
+
+
 
     public function  getdocinfo(){
         
@@ -78,3 +88,4 @@ class AdminModel extends DB{
         return $this->run_query($query);
     }
 }
+?>

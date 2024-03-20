@@ -1,4 +1,14 @@
 <?php
+// admin.php
+
+// session_start();
+
+// if(!isset($_SESSION['loggin'])) {
+//   header("Location: login.php");
+//   exit;
+// }
+
+
 include_once("../controllers/backend/adminController.php");
 setData();
 
@@ -114,10 +124,9 @@ setData();
           </form>
           <div class="backline">
             <h3>Añadir enlace a otro Documento</h3>
-
             <div class="search-bar">
-              <input type="text" placeholder="Buscar por nombre" />
-              <button class ="color" type="submit">Buscar</button>
+                <input type="text" placeholder="Buscar por nombre" />
+                <button class ="color" type="submit">Buscar</button>
             </div>
 
             <table>
@@ -135,7 +144,7 @@ setData();
                         foreach ($_SESSION['Enlazar'] as $Enlazar) {
                             echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th>'.'</th><th>'.$Enlazar['category'] .'</th>';
                             echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enlazar"
-                                  onclick="enlazar(this)">enlazar</button></td>';
+                                  onclick="enlazar(this)">Enlazar</button></td>';
                                   echo '</tr>';
                         }
                     } else {
@@ -191,39 +200,31 @@ setData();
     </div>
     <table>
         <thead>
-            <tr>
-                <th>Nombre </th>
-                <th>Fecha</th>
-                <th>Editar</th>
-            </tr>
+          <tr>
+              <th>Nombre </th>
+              <th>Fecha</th>
+              <th>Editar</th>
+          </tr>
         </thead>
         <tbody>
-            <?php
-            if (count($_SESSION['documentos']) > 0) {
-                foreach ($_SESSION['documentos'] as $indice => $documento) {
-                    echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
-                    
-                    echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal(\'' . $documento['Document_title'] . '\', \'' . $documento['Date_created'] . '\', \'' . $documento['Document_id'] . '\')">Editar</button></td>';
+          <?php
+          if (count($_SESSION['documentos']) > 0) {
+              foreach ($_SESSION['documentos'] as $indice => $documento) {
+                  echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
                   
-                }
-            } else {
-                // Si no hay documentos disponibles, mostrar un mensaje
-                echo '<tr><td colspan="3" style="text-align:center">Documentos no disponibles</td></tr>';
-            }
-            ?>
+                  echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal(\'' . $documento['Document_title'] . '\', \'' . $documento['Date_created'] . '\', \'' . $documento['Document_id'] . '\')">Editar</button></td>';
+                
+              }
+          } else {
+              // Si no hay documentos disponibles, mostrar un mensaje
+              echo '<tr><td colspan="3" style="text-align:center">Documentos no disponibles</td></tr>';
+          }
+          ?>
         </tbody>
-    </table>
-</div>
-
-            <!--<div class="razon">
-              <form>
-                <label>¿Por que es enlazado?:</label>
-                <input typw="text" name="razon" placeholder="enmendado por/a, derrogado por/a ..." />
-              </form>
-            </div>-->
-          </div>
-          
-        </div>
+      </table>
+    </div>
+    </div>
+    </div>
 
         <div id="crear" class="crear back" style="display: none">
 
@@ -453,13 +454,13 @@ setData();
     <div class="modal-content">
       <!-- Cabecera del modal -->
       <div class="modal-header" >
-          <h4 class="modal-title">Editar Cuerpo</h4>
+          <h4 class="modal-title">enlazar documento</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <!-- Contenido del modal -->
       <div class="modal-body editar form">
         <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
-          <input type="hidden" value="5" name="type">
+          <input type="hidden" value="7" name="type">
           <input type="hidden" value="" name="oldabbr" id="oldabbr2">
           <label for="EnombreCuerpo">Nombre de la Cuerpo</label>
           <input type="text" class="form-control" id="EnombreCuerpo" name="cuerpo">

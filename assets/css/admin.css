@@ -255,6 +255,22 @@ footer {
   text-align: center;
 }
 
+.enlazar {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+}
+.records {
+  display: flex;
+  align-items: center;
+}
+.records form{
+  display: block;
+  border: none;
+  border-radius: 5px;
+  margin: 0 !important;
+}
+
 @media (max-width: 900px) {
   header {
     height: 65px;
