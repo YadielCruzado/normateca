@@ -182,10 +182,57 @@ setData();
                                 <label for="nombreDocumento">Nombre del Documento</label>
                                 <input type="text" class="form-control" id="nombreDocumento" name="nombreDocumento">
                             </div>
+                            
                             <div class="form-group">
                                 <label for="fechaDocumento">Fecha del Documento</label>
                                 <input type="text" class="form-control" id="fechaDocumento" name="fechaDocumento">
                             </div>
+
+                            <label for="cuerpo">Cuerpo: </label>
+                                <select id="cuerpo" name="cuerpo">
+                                  <option selected disabled>Select</option>
+                                  <?php
+                                  if (count($_SESSION['corps']) > 0) {
+                                    foreach ($_SESSION['corps'] as $corp) {
+                                      echo '<option value="' . $corp['corp_abbr'] . '">' . $corp['corp_name'] . '</option>';
+                                    }
+                                  }
+                                  ?>
+                                </select>
+      
+                            <div class="form-group">
+                                <label for="fiscal">Año Fiscal</label>
+                                <input type="text" class="form-control" id="fiscal" name="fiscal">
+                            </div>
+
+                           
+
+                            <label for="lenguaje"> Lenguaje de Documento: </label>
+                                <select id="lenguaje" name="lenguaje" class="form-control">
+                                  <option value="">Select</option>
+                                  <option value="esp">Español</option>
+                                  <option value="eng">Ingles</option>
+
+                                </select>
+                          
+                            
+                            <label for="estado"> Estado del Documento: </label>
+                              <select id="estado" name="estado" class="form-control">
+                                <option value="">Select</option>
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                              </select>
+
+
+                            <div class="form-group">
+                                <label for="certi">Numero de certificacion </label>
+                                <input type="text" class="form-control" id="certi" name="certi">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="path"> Subir Documento: </label><input type="file" id="path" name="path" value="" required />
+                            </div>
+
                             <button type="submit" class="btn btn-primary">Save changes</button>
                             <!-- Puedes añadir más campos de edición según sea necesario -->
                         </form>
@@ -207,18 +254,15 @@ setData();
           </tr>
         </thead>
         <tbody>
+          
           <?php
-          if (count($_SESSION['documentos']) > 0) {
-              foreach ($_SESSION['documentos'] as $indice => $documento) {
-                  echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
-                  
-                  echo '<td><button type="button" class="btn btn-primary" onclick="openEditarModal(\'' . $documento['Document_title'] . '\', \'' . $documento['Date_created'] . '\', \'' . $documento['Document_id'] . '\')">Editar</button></td>';
-                
-              }
-          } else {
-              // Si no hay documentos disponibles, mostrar un mensaje
-              echo '<tr><td colspan="3" style="text-align:center">Documentos no disponibles</td></tr>';
+          foreach ($_SESSION['documentos'] as $indice => $documento) {
+              echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
+              echo '<td><button type="button" class="btn btn-primary editar-btn" data-toggle="modal" data-target="#exampleModal" data-id="' . $documento['Document_id'] . '" data-title="' . $documento['Document_title'] . '" data-fecha="' . $documento['Date_created'] . '" data-fiscal="' . $documento['fiscal'] . '" data-cuerpo="' . $documento['cuerpo'] . '" data-certi="' . $documento['certi'] . '" data-path="' . $documento['path'] . '" data-estado="' . $documento['estado'] . '" data-lenguaje="' . $documento['lenguaje'] . '">Editar</button></td>';
           }
+          
+          
+         
           ?>
         </tbody>
       </table>
@@ -308,6 +352,9 @@ setData();
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="../assets/js/main.js"></script>
   <script src="../assets/js/admin.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
 

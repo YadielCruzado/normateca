@@ -62,7 +62,13 @@ function setData()
             $values = array(
                 "Document_title" => $row['Document_title'],
                 "Date_created" => $row['Date_created'],
-                "Document_id" => $row['Document_id']
+                "Document_id" => $row['Document_id'],
+                "fiscal"=> $row['Fiscal_year'],
+                "cuerpo"=> $row['Cuerpo_abbr'],
+                "certi"=> $row['Certification_number'],
+                "path"=> $row['Document_path'],
+                "estado"=> $row['Document_state'],
+                "lenguaje"=> $row['Document_lenguaje']
             );
 
             array_push($documentos, $values);
@@ -118,17 +124,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         }
 
     } else if ($_POST['type'] == "2") { //editar documentos
-        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"])) {
+        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"]) OR isset($_POST["fiscalYear"]) OR isset($_POST["cuerpo"]) OR isset($_POST["certi"]) OR isset($_POST["path"]) OR isset($_POST["estado"])) {
     
             $documentoId = $_POST["documentoId"];
             $nombreDocumento = $_POST["nombreDocumento"];
             $fechaDocumento = $_POST["fechaDocumento"];
+            $fiscalYear = $_POST["fiscalYear"];
+            $cuerpo = $_POST["cuerpo"];
+            $certi = $_POST["certi"];
+            $path = $_POST["path"];
+            $estado = $_POST["estado"];
             echo $nombreDocumento;
             echo $fechaDocumento;
             echo $documentoId;
             $model = new AdminModel("localhost", "normateca", "root", "");
             $model->start_connection();
-            $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento);
+            $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento, $fiscalYear, $cuerpo, $certi, $path, $estado);
             $model->connection->close();
     
             if ($success) {

@@ -46,7 +46,7 @@ class AdminModel extends DB{
 
     public function  getdocinfo(){
         
-        $query = "SELECT Document_title, Date_created,Document_id FROM documentos ";
+        $query = "SELECT Document_title, Date_created,Document_id,Fiscal_year,Cuerpo_abbr,Certification_number,Document_path,Document_state,Document_lenguaje FROM documentos ";
         return $this ->run_query($query);
     }
 
