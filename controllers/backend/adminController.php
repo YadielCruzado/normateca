@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         }
 
     } else if ($_POST['type'] == "2") { //editar documentos
-        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"]) OR isset($_POST["fiscalYear"]) OR isset($_POST["cuerpo"]) OR isset($_POST["certi"]) OR isset($_POST["path"]) OR isset($_POST["estado"])) {
+        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"]) OR isset($_POST["fiscalYear"]) OR isset($_POST["cuerpo"]) OR isset($_POST["certi"]) OR isset($_POST["path"]) OR isset($_POST["estado"]) OR isset($_POST["lenguaje"])) {
     
             $documentoId = $_POST["documentoId"];
             $nombreDocumento = $_POST["nombreDocumento"];
@@ -134,12 +134,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             $certi = $_POST["certi"];
             $path = $_POST["path"];
             $estado = $_POST["estado"];
+            $lenguaje = $_POST["lenguaje"];
             echo $nombreDocumento;
             echo $fechaDocumento;
             echo $documentoId;
+            echo $fiscalYear;
+            echo $cuerpo;
+            echo $certi;
+            echo $path;
+            echo $estado;
+            echo $lenguaje;
+            echo "hola";
             $model = new AdminModel("localhost", "normateca", "root", "");
             $model->start_connection();
-            $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento, $fiscalYear, $cuerpo, $certi, $path, $estado);
+            $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento, $fiscalYear, $cuerpo, $certi, $path, $estado,$lenguaje);
             $model->connection->close();
     
             if ($success) {

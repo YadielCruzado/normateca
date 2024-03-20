@@ -50,9 +50,9 @@ class AdminModel extends DB{
         return $this ->run_query($query);
     }
 
-    public function updateDocument($documentId, $newName, $newDate) {
+    public function updateDocument($documentId, $newName, $newDate,$fiscal,$cuerpo,$certi,$path,$estado,$lenguaje) {
         
-        $query = "UPDATE documentos SET Document_title = '$newName', Date_created = '$newDate' WHERE Document_id = '$documentId'";
+        $query = "UPDATE documentos SET Document_title = '$newName', Date_created = '$newDate',Fiscal_year = '$fiscal',Cuerpo_abbr = '$cuerpo' ,Certification_number = '$certi' ,Document_path = '$path' , Document_state = '$estado' , Document_lenguaje = '$lenguaje'  WHERE Document_id = '$documentId'";
         return $this ->run_query($query);
     }
 

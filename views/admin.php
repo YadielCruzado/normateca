@@ -205,7 +205,6 @@ setData();
                                 <input type="text" class="form-control" id="fiscal" name="fiscal">
                             </div>
 
-                           
 
                             <label for="lenguaje"> Lenguaje de Documento: </label>
                                 <select id="lenguaje" name="lenguaje" class="form-control">
@@ -219,8 +218,8 @@ setData();
                             <label for="estado"> Estado del Documento: </label>
                               <select id="estado" name="estado" class="form-control">
                                 <option value="">Select</option>
-                                <option value="activo">Activo</option>
-                                <option value="inactivo">Inactivo</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
                               </select>
 
 
@@ -230,7 +229,7 @@ setData();
                             </div>
 
                             <div class="form-group">
-                                <label for="path"> Subir Documento: </label><input type="file" id="path" name="path" value="" required />
+                                <label for="path"> Subir Documento: </label><input type="file" id="path" name="path" value=""  />
                             </div>
 
                             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -262,7 +261,6 @@ setData();
           }
           
           
-         
           ?>
         </tbody>
       </table>
