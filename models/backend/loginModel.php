@@ -7,5 +7,11 @@ class LoginModel extends DB{
         WHERE email = '$email' and password = '$password'";
         return $this->run_query($query);
     }
+    
+    public function getCuerpos(){
+
+        $query = "SELECT * FROM cuerpos";
+        return $this->run_query($query);
+    }
 }
 ?>

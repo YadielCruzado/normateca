@@ -1,5 +1,4 @@
 <?php
-session_start();
 include($_SERVER['DOCUMENT_ROOT'] . '/normateca/models/backend/adminModel.php');
 function setData()
 {

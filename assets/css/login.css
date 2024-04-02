@@ -1,4 +1,4 @@
-body {
+ body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -91,6 +91,12 @@ body {
   border: none;
   border-radius: 5px;
   box-shadow: inset 0px 0px 10px 2px #e8f0fe;
+  margin-bottom: 10px;
+}
+.remenber {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 10px;
 }
 

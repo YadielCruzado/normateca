@@ -1,3 +1,15 @@
+<?php 
+
+include_once("../controllers/backend/loginController.php");
+setLogin();
+
+// if (count($_SESSION['cuerpos']) > 0) {
+// foreach ($_SESSION['cuerpos'] as $cat) {
+//     echo $cat['corp_abbr'], $cat['corp_name'];
+// }
+// }
+                 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +42,17 @@
             <label for="password">Password: </label>
             <input type="text" value="" name="password" id="password" placeholder="Enter your Password" />
             <br />
-            <div>
+            <label for="password">Cuerpos: </label>
+            <select id="cuerpo" name="cuerpo">
+            <option disabled selected>Cuerpos</option>
+                <?php
+                if (count($_SESSION['cuerpos']) > 0) {
+                foreach ($_SESSION['cuerpos'] as $cat) {
+                    echo '<option value="' . $cat['corp_abbr'] . '">' . $cat['corp_name'] . '</option>';
+                }
+                }
+                ?>
+            <div class="remember">
                 <input type="checkbox" name="Remember" id="Remember" />
                 <label for="Remember" id="remblbl">Remember me</label>
             </div>

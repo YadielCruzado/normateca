@@ -1,13 +1,12 @@
 <?php
-// admin.php
 
-// session_start();
+session_start();
+if(!isset($_SESSION['login'])) {
+  header("Location: login.php");
+  exit;
+}
 
-// if(!isset($_SESSION['loggin'])) {
-//   header("Location: login.php");
-//   exit;
-// }
-
+print_r($_SESSION['login']);
 
 include_once("../controllers/backend/adminController.php");
 setData();
@@ -31,6 +30,16 @@ setData();
     <div>
       <h1>Administrador Normateca</h1>
       <h3><i> Universidad de Puerto Rico en Arecibo </i></h3>
+    </div>
+    <div>
+      <?php
+        if (count($_SESSION['login']) > 0) {
+          foreach ($_SESSION['login'] as $log) {
+              echo $log['Nombre'] . ' ' . $log['Apellido'];
+          }
+        }
+      ?>
+      <a href="../controllers/backend/logoutController.php">Cerrar Sesion</a>
     </div>
    
   </header>
