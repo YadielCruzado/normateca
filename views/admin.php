@@ -170,8 +170,11 @@ setData();
     <div class="backline">
         <h3>Editar Documento</h3>
         <div class="search-bar">
-            <input type="text" placeholder="Buscar por nombre" />
-            <button type="submit">Buscar</button>
+            <form class="gabriel" method="POST" action="admin.php" style="display: flex;">
+                <input type="hidden" value="7" name="type">
+                <input type="text" name="searchQuery" placeholder="Buscar por nombre" style="flex: 1;">
+                <button type="submit">Buscar</button>
+            </form>
         </div>
         <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -242,7 +245,6 @@ setData();
                             </div>
 
                             <button type="submit" class="btn btn-primary">Save changes</button>
-                            <!-- Puedes añadir más campos de edición según sea necesario -->
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -264,13 +266,35 @@ setData();
         <tbody>
           
           <?php
-          foreach ($_SESSION['documentos'] as $indice => $documento) {
-              echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
-              echo '<td><button type="button" class="btn btn-primary editar-btn" data-toggle="modal" data-target="#exampleModal" data-id="' . $documento['Document_id'] . '" data-title="' . $documento['Document_title'] . '" data-fecha="' . $documento['Date_created'] . '" data-fiscal="' . $documento['fiscal'] . '" data-cuerpo="' . $documento['cuerpo'] . '" data-certi="' . $documento['certi'] . '" data-path="' . $documento['path'] . '" data-estado="' . $documento['estado'] . '" data-lenguaje="' . $documento['lenguaje'] . '">Editar</button></td>';
-          }
+          // foreach ($_SESSION['documentos'] as $indice => $documento) {
+          //     echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
+          //     echo '<td><button type="button" class="btn btn-primary editar-btn" data-toggle="modal" data-target="#exampleModal" data-id="' . $documento['Document_id'] . '" data-title="' . $documento['Document_title'] . '" data-fecha="' . $documento['Date_created'] . '" data-fiscal="' . $documento['fiscal'] . '" data-cuerpo="' . $documento['cuerpo'] . '" data-certi="' . $documento['certi'] . '" data-path="' . $documento['path'] . '" data-estado="' . $documento['estado'] . '" data-lenguaje="' . $documento['lenguaje'] . '">Editar</button></td>';
+          // }
+         
+                if (isset($_POST['searchQuery'])) {
+                    // Retrieve the search query
+                    $searchQuery = $_POST['searchQuery'];
+                    
+                    // Filter documents based on the search query
+                    $filteredDocuments = array_filter($_SESSION['documentos'], function($documento) use ($searchQuery) {
+                        return stripos($documento['Document_title'], $searchQuery) !== false;
+                    });
+
+                    // Display filtered documents
+                    foreach ($filteredDocuments as $documento) {
+                        echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
+                        echo '<td><button type="button" class="btn btn-primary editar-btn" data-toggle="modal" data-target="#exampleModal" data-id="' . $documento['Document_id'] . '" data-title="' . $documento['Document_title'] . '" data-fecha="' . $documento['Date_created'] . '" data-fiscal="' . $documento['fiscal'] . '" data-cuerpo="' . $documento['cuerpo'] . '" data-certi="' . $documento['certi'] . '" data-path="' . $documento['path'] . '" data-estado="' . $documento['estado'] . '" data-lenguaje="' . $documento['lenguaje'] . '">Editar</button></td></tr>';
+                    }
+                } else {
+                    // Display all documents if no search query
+                    foreach ($_SESSION['documentos'] as $documento) {
+                        echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
+                        echo '<td><button type="button" class="btn btn-primary editar-btn" data-toggle="modal" data-target="#exampleModal" data-id="' . $documento['Document_id'] . '" data-title="' . $documento['Document_title'] . '" data-fecha="' . $documento['Date_created'] . '" data-fiscal="' . $documento['fiscal'] . '" data-cuerpo="' . $documento['cuerpo'] . '" data-certi="' . $documento['certi'] . '" data-path="' . $documento['path'] . '" data-estado="' . $documento['estado'] . '" data-lenguaje="' . $documento['lenguaje'] . '">Editar</button></td></tr>';
+                    }
+                }
+                
           
-          
-          ?>
+          ?> 
         </tbody>
       </table>
     </div>

@@ -111,15 +111,62 @@ main > section {
 }
 
 .subir form,
-.editar form {
+
+/* .editar form {
   display: grid;
   grid-template-rows: repeat(3, auto);
   row-gap: 20px;
   border: 1px solid black;
   border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  
+} */
+.editar form {
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  row-gap: 20px;
+  border: 1px solid black;
+  /* border-radius: 5px; */
   padding: 10px;
   margin: 15px;
 }
+
+form.gabriel {
+  /* Add your desired styles here */
+  /* background-color: #f2f2f2; */
+  padding: 10px;
+  border: none;
+
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+}
+
+form.gabriel input[type="text"],
+form.gabriel button[type="submit"] {
+  /* Add styles for text inputs and submit buttons */
+  
+  padding: 8px;
+  margin-right: 5px;
+}
+
+form.gabriel input[type="text"] {
+  /* Add specific styles for text inputs */
+  width: 200px;
+}
+
+form.gabriel button[type="submit"] {
+  /* Add specific styles for submit buttons */
+  background-color: #967216;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+form.gabriel button[type="submit"]:hover {
+  background-color: #967216;
+}
+
 
 .subir form input[type="submit"],
 .editar form input[type="submit"] {
@@ -163,13 +210,22 @@ main > section {
   border: 1px solid black;
 }
 
-.backline {
+/* .backline {
   text-align: center;
   display: grid;
   grid-template-rows: repeat(4, auto);
   row-gap: 5px;
-}
+} */
 
+.backline {
+  text-align: center;
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  row-gap: 5px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
 .search-bar button {
   background-color: #967216;
   color: white;

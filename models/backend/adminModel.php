@@ -50,6 +50,12 @@ class AdminModel extends DB{
         return $this ->run_query($query);
     }
 
+    public function  search_queryn($searchQuery){
+        
+        $query = "SELECT Document_title, Date_created,Document_id,Fiscal_year,Cuerpo_abbr,Certification_number,Document_path,Document_state,Document_lenguaje FROM documentos WHERE Document_title LIKE $searchQuery ";
+        return $this ->run_query($query);
+    }
+
     public function updateDocument($documentId, $newName, $newDate,$fiscal,$cuerpo,$certi,$path,$estado,$lenguaje) {
         
         $query = "UPDATE documentos SET Document_title = '$newName', Date_created = '$newDate',Fiscal_year = '$fiscal',Cuerpo_abbr = '$cuerpo' ,Certification_number = '$certi' ,Document_path = '$path' , Document_state = '$estado' , Document_lenguaje = '$lenguaje'  WHERE Document_id = '$documentId'";
