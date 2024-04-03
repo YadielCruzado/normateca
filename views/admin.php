@@ -6,8 +6,6 @@ if(!isset($_SESSION['login'])) {
   exit;
 }
 
-print_r($_SESSION['login']);
-
 include_once("../controllers/backend/adminController.php");
 setData();
 
@@ -33,10 +31,9 @@ setData();
     </div>
     <div>
       <?php
-        if (count($_SESSION['login']) > 0) {
-          foreach ($_SESSION['login'] as $log) {
-              echo $log['Nombre'] . ' ' . $log['Apellido'];
-          }
+        if (!empty($_SESSION['login'])) {
+            $log = $_SESSION['login'];
+            echo $log['Nombre'] . ' ' . $log['Apellido'];
         }
       ?>
       <a href="../controllers/backend/logoutController.php">Cerrar Sesion</a>
@@ -100,16 +97,23 @@ setData();
                   <option value="">Select</option>
                   <option value="esp">Español</option>
                   <option value="eng">Ingles</option>
-
                 </select>
+
+                
 
                 <label for="filename"> Año Fiscal : </label>
                 <select id="añofiscal" name="fiscalYear">
                   <option value="">Select</option>
-                  <option value="2022-2023">2022-2023</option>
-                  <option value="2023-2024">2023-2024</option>
-                  <option value="2024-2025">2024-2025</option>
-                  <option value="2025-2026">2025-2026</option>
+                  <?php
+                    $anioActual = date("Y");
+                    $opciones = 10;
+
+                    for ($i = 0; $i <= $opciones; $i++) {
+                      $anioInicio = $anioActual - $i;
+                      $anioFin = $anioInicio - 1;
+                      echo '<option value="' . $anioFin . '-' . $anioInicio . '">' . $anioFin . '-' . $anioInicio . '</option>';
+                    }
+                  ?>
                 </select>
                 <label for="subcategorias">Cuerpo: </label>
                 <select id="subcategorias" name="corp">

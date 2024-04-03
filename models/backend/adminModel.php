@@ -1,19 +1,20 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/normateca/db/db_info.php');
+
 class AdminModel extends DB{
 
-    public function getCategorias(){
-
+    public function getCategorias($cuerpo){
         $query = "SELECT categories.Category_abbr, categories.Category_name, cuerpos.Cuerpo_name, cuerpos.Cuerpo_abbr
-        FROM categories
-        JOIN cuerpos ON categories.Cuerpo = cuerpos.Cuerpo_abbr
-        ORDER BY cuerpos.Cuerpo_name ASC";
+                  FROM categories
+                  JOIN cuerpos ON categories.Cuerpo = cuerpos.Cuerpo_abbr
+                  WHERE cuerpos.Cuerpo_abbr = '$cuerpo'";
         return $this->run_query($query);
     }
 
-    public function getCuerpos(){
+    public function getCuerpos($cuerpo){
 
-        $query = "SELECT * FROM cuerpos";
+        $query = "SELECT * FROM cuerpos
+                  WHERE `Cuerpo_abbr` = '$cuerpo'";
         return $this->run_query($query);
     }
 
@@ -25,38 +26,19 @@ class AdminModel extends DB{
         return $this->run_query($query);
     }
 
-    public function enlazarDocumentos(){
-
-        $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, documentos.Document_title, categories.Category_name
-        FROM documentos
-        JOIN categories ON categories.Category_abbr = documentos.Category_abbr";
-        return $this->run_query($query);
-    }
-
-    public function enlazarDocumentos2($searchQuery2) {
-        $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, documentos.Document_title, categories.Category_name
-        FROM documentos
-        JOIN categories ON categories.Category_abbr = documentos.Category_abbr
-        WHERE documentos.Document_title LIKE $searchQuery2";
-        return $this->run_query($query);
-    }
-
-
-    
-    public function enlazarDocumentos1($cuerpo){
+    public function GetEnlazarDocumentos($cuerpo){
 
         $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, documentos.Document_title, categories.Category_name
         FROM documentos
         JOIN categories ON categories.Category_abbr = documentos.Category_abbr
-        WHERE documentos.Cuerpo_abbr = $cuerpo";
+        WHERE documentos.Cuerpo_abbr = '$cuerpo'";
         return $this->run_query($query);
     }
-
-
-
-    public function  getdocinfo(){
+ 
+    public function getEditDocumentos($cuerpo){
         
-        $query = "SELECT Document_title, Date_created,Document_id,Fiscal_year,Cuerpo_abbr,Certification_number,Document_path,Document_state,Document_lenguaje FROM documentos ";
+        $query = "SELECT Document_title, Date_created,Document_id,Fiscal_year,Cuerpo_abbr,Certification_number,Document_path,Document_state,Document_lenguaje FROM documentos
+                  WHERE Cuerpo_abbr = '$cuerpo'";
         return $this ->run_query($query);
     }
 
