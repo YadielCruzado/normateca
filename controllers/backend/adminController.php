@@ -10,6 +10,7 @@ function setData()
     $enlazarDocumentos = [];
     $documentos = [];
     $documentosn = [];
+    $enlazarDocumentosn = [];
 
     $result = $model->getCategorias();
     if ($result->num_rows > 0) {
@@ -83,6 +84,7 @@ function setData()
     $_SESSION['Enlazar'] = $enlazarDocumentos;
     $_SESSION['documentos'] = $documentos;
     $_SESSION['documentosn'] = $documentosn;
+    $_SESSION['Enlazarn'] = $enlazarDocumentosn;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
@@ -235,40 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         } else {
             echo "errorrr";
         }
-    }else if ($_POST['type'] == "7") { //buscar documentos por filtrado de nombre
-        if (isset($_POST["searchQuery"])) {
-            $searchQuery = $_POST["searchQuery"];
-            $model = new AdminModel("localhost", "normateca", "root", ""); 
-            $model->start_connection(); 
-    
-            //query para buscar por nombre
-            $result = $model->search_queryn($searchQuery);
-    
-            //si el query tiene algo, entonces se ejecuta o no
-            if ($result !== false) {
-                if ($result->num_rows > 0) {//si es > 0, entonces hay resultados
-                    while ($row = $result->fetch_assoc()) {
-                        $values = array(
-                            "Document_title" => $row['Document_title'],
-                            "Date_created" => $row['Date_created'],
-                            "Document_id" => $row['Document_id'],
-                            "fiscal" => $row['Fiscal_year'],
-                            "cuerpo" => $row['Cuerpo_abbr'],
-                            "certi" => $row['Certification_number'],
-                            "path" => $row['Document_path'],
-                            "estado" => $row['Document_state'],
-                            "lenguaje" => $row['Document_lenguaje']
-                        );
-                        array_push($documentosn, $values);
-                    }
-                } else {
-                    $documentosn = null;
-                }
-            } 
-            $model->connection->close();
-        }
-    }
     
 }
+}
 
-?>

@@ -135,6 +135,7 @@ main > section {
 form.gabriel {
   /* Add your desired styles here */
   /* background-color: #f2f2f2; */
+  justify-content: center;
   padding: 10px;
   border: none;
 
@@ -210,14 +211,14 @@ form.gabriel button[type="submit"]:hover {
   border: 1px solid black;
 }
 
-/* .backline {
+.backline {
   text-align: center;
   display: grid;
   grid-template-rows: repeat(4, auto);
   row-gap: 5px;
-} */
+}
 
-.backline {
+/* .backline {
   text-align: center;
   display: grid;
   grid-template-rows: repeat(2, auto);
@@ -225,7 +226,7 @@ form.gabriel button[type="submit"]:hover {
   align-content: center;
   align-items: center;
   justify-content: center;
-}
+} */
 .search-bar button {
   background-color: #967216;
   color: white;

@@ -4,32 +4,9 @@ $(document).ready(function () {
     show: false, // Ensure modal is hidden by default
   });
 });
-// function openEditarModal(
-//   title,
-//   fecha,
-//   id,
-//   fiscal,
-//   cuerpo,
-//   certi,
-//   path,
-//   estado,
-//   lenguaje
-// ) {
-//   document.getElementById("nombreDocumento").value = title;
-//   document.getElementById("fechaDocumento").value = fecha;
-//   document.getElementById("documentoId").value = id; // Set the documentoId value
-//   document.getElementById("fiscal").value = fiscal;
-//   document.getElementById("cuerpo").value = cuerpo;
-//   document.getElementById("certi").value = certi;
-//   document.getElementById("path").value = path;
-//   document.getElementById("estado").value = estado;
-//   document.getElementById("lenguaje").value = lenguaje;
-
-//   $("#exampleModal").modal("show");
-// }
-
+// modal documentos
 $("#exampleModal").on("show.bs.modal", function (event) {
-  var button = $(event.relatedTarget); // Button that triggered the modal
+  var button = $(event.relatedTarget); 
   var id = button.data("id");
   var title = button.data("title");
   var fecha = button.data("fecha");
@@ -40,7 +17,7 @@ $("#exampleModal").on("show.bs.modal", function (event) {
   var estado = button.data("estado");
   var lenguaje = button.data("lenguaje");
 
-  // Populate modal with document details
+  
   $("#nombreDocumento").val(title);
   $("#fechaDocumento").val(fecha);
   $("#documentoId").val(id);
@@ -51,6 +28,25 @@ $("#exampleModal").on("show.bs.modal", function (event) {
   $("#estado").val(estado);
   $("#lenguaje").val(lenguaje);
 });
+
+    function limpiar() {
+        // Get the input field
+        console.log("Limpiar button clicked!");
+        var inputField = document.querySelector('input[name="search_query2"]');
+        
+        // Clear the input field value
+        inputField.value = '';
+        
+        // Submit the form to reload the page without search query
+        // You can modify the form action accordingly if needed
+        document.querySelector('.gabriel').submit();
+    }
+
+
+
+
+
+
 
 //modal editcategori
 function editcategori(button) {

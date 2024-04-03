@@ -134,8 +134,14 @@ setData();
           <div class="backline">
             <h3>Añadir enlace a otro Documento</h3>
             <div class="search-bar">
-                <input type="text" placeholder="Buscar por nombre" />
+            
+            <form class="gabriel" method="POST" action="admin.php" style="display: flex;">
+            <input type="hidden" value="8" name="type">
+                <input type="text" name="search_query2" placeholder="Buscar por nombre" />
                 <button class ="color" type="submit">Buscar</button>
+                <button class ="color" type="button" onclick="limpiar()">Limpiar</button>   
+                     
+                <form>
             </div>
 
             <table>
@@ -148,18 +154,42 @@ setData();
                 </tr>
               </thead>
               <tbody>
-                <?php
-                    if (count($_SESSION['Enlazar']) > 0) {
-                        foreach ($_SESSION['Enlazar'] as $Enlazar) {
-                            echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th>'.'</th><th>'.$Enlazar['category'] .'</th>';
-                            echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enlazar"
-                                  onclick="enlazar(this)">Enlazar</button></td>';
-                                  echo '</tr>';
-                        }
-                    } else {
-                        print '<tr><td colspan="2" style="text-align:center">Documentos no disponibles</td></tr>';
+          <?php
+            if (isset($_POST['search_query2'])) {
+                
+                $search_query2 = $_POST['search_query2'];
+                
+                // Filtrar los documentos
+                $filtered_results = array_filter($_SESSION['Enlazar'], function($Enlazar) use ($search_query2) {
+                    return stripos($Enlazar['title'], $search_query2) !== false;
+                });
+                
+                // data filtrada por el nombre del documento
+                if (count($filtered_results) > 0) {
+                    foreach ($filtered_results as $Enlazar) {
+                        echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th>'.'</th><th>'.$Enlazar['category'] .'</th>';
+                        echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enlazar"
+                              onclick="enlazar(this)">Enlazar</button></td>';
+                        echo '</tr>';
                     }
-                  ?>
+                } else {
+                    
+                    print '<tr><td colspan="2" style="text-align:center">No se encontraron documentos</td></tr>';
+                }
+            } else {
+                // predeterminado 
+                if (count($_SESSION['Enlazar']) > 0) {
+                    foreach ($_SESSION['Enlazar'] as $Enlazar) {
+                        echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th>'.'</th><th>'.$Enlazar['category'] .'</th>';
+                        echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enlazar"
+                              onclick="enlazar(this)">Enlazar</button></td>';
+                        echo '</tr>';
+                    }
+                } else {
+                    print '<tr><td colspan="2" style="text-align:center">Documentos no disponibles</td></tr>';
+                }
+            }
+          ?>
               </tbody>
             </table>
           </div>
@@ -174,6 +204,7 @@ setData();
                 <input type="hidden" value="7" name="type">
                 <input type="text" name="searchQuery" placeholder="Buscar por nombre" style="flex: 1;">
                 <button type="submit">Buscar</button>
+                <button class ="color" type="button" onclick="limpiar1()">Limpiar</button>
             </form>
         </div>
         <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -249,7 +280,6 @@ setData();
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <!-- <button type="submit" class="btn btn-primary">Save changes</button> -->
                     </div>
                 </div>
             </div>
@@ -266,34 +296,28 @@ setData();
         <tbody>
           
           <?php
-          // foreach ($_SESSION['documentos'] as $indice => $documento) {
-          //     echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
-          //     echo '<td><button type="button" class="btn btn-primary editar-btn" data-toggle="modal" data-target="#exampleModal" data-id="' . $documento['Document_id'] . '" data-title="' . $documento['Document_title'] . '" data-fecha="' . $documento['Date_created'] . '" data-fiscal="' . $documento['fiscal'] . '" data-cuerpo="' . $documento['cuerpo'] . '" data-certi="' . $documento['certi'] . '" data-path="' . $documento['path'] . '" data-estado="' . $documento['estado'] . '" data-lenguaje="' . $documento['lenguaje'] . '">Editar</button></td>';
-          // }
-         
                 if (isset($_POST['searchQuery'])) {
-                    // Retrieve the search query
+                  
                     $searchQuery = $_POST['searchQuery'];
                     
-                    // Filter documents based on the search query
+                    //filtrar el doc
                     $filteredDocuments = array_filter($_SESSION['documentos'], function($documento) use ($searchQuery) {
                         return stripos($documento['Document_title'], $searchQuery) !== false;
                     });
 
-                    // Display filtered documents
+                    //outputs documentos 
                     foreach ($filteredDocuments as $documento) {
                         echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
                         echo '<td><button type="button" class="btn btn-primary editar-btn" data-toggle="modal" data-target="#exampleModal" data-id="' . $documento['Document_id'] . '" data-title="' . $documento['Document_title'] . '" data-fecha="' . $documento['Date_created'] . '" data-fiscal="' . $documento['fiscal'] . '" data-cuerpo="' . $documento['cuerpo'] . '" data-certi="' . $documento['certi'] . '" data-path="' . $documento['path'] . '" data-estado="' . $documento['estado'] . '" data-lenguaje="' . $documento['lenguaje'] . '">Editar</button></td></tr>';
                     }
                 } else {
-                    // Display all documents if no search query
+                    // predeterminado si no hay busqueda 
                     foreach ($_SESSION['documentos'] as $documento) {
                         echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
                         echo '<td><button type="button" class="btn btn-primary editar-btn" data-toggle="modal" data-target="#exampleModal" data-id="' . $documento['Document_id'] . '" data-title="' . $documento['Document_title'] . '" data-fecha="' . $documento['Date_created'] . '" data-fiscal="' . $documento['fiscal'] . '" data-cuerpo="' . $documento['cuerpo'] . '" data-certi="' . $documento['certi'] . '" data-path="' . $documento['path'] . '" data-estado="' . $documento['estado'] . '" data-lenguaje="' . $documento['lenguaje'] . '">Editar</button></td></tr>';
                     }
                 }
                 
-          
           ?> 
         </tbody>
       </table>
@@ -385,6 +409,25 @@ setData();
   <script src="../assets/js/admin.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+  function limpiar() {
+        // Get the input field
+        var inputField = document.querySelector('input[name="search_query2"]');
+        
+        inputField.value = '';
+        
+        document.querySelector('.gabriel').submit();
+    }
+
+  function limpiar1() {
+        var inputField = document.querySelector('input[name="searchQuery"]');
+        
+        inputField.value = '';
+        
+        document.querySelector('.gabriel').submit();
+    }
+</script>
+
 
 </body>
 </html>

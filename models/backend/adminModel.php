@@ -33,6 +33,16 @@ class AdminModel extends DB{
         return $this->run_query($query);
     }
 
+    public function enlazarDocumentos2($searchQuery2) {
+        $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, documentos.Document_title, categories.Category_name
+        FROM documentos
+        JOIN categories ON categories.Category_abbr = documentos.Category_abbr
+        WHERE documentos.Document_title LIKE $searchQuery2";
+        return $this->run_query($query);
+    }
+
+
+    
     public function enlazarDocumentos1($cuerpo){
 
         $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, documentos.Document_title, categories.Category_name
