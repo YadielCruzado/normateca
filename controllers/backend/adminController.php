@@ -140,16 +140,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             $path = $_POST["path"];
             $estado = $_POST["estado"];
             $lenguaje = $_POST["lenguaje"];
-            echo $nombreDocumento;
-            echo $fechaDocumento;
-            echo $documentoId;
-            echo $fiscalYear;
-            echo $cuerpo;
-            echo $certi;
-            echo $path;
-            echo $estado;
-            echo $lenguaje;
-            echo "hola";
             $model = new AdminModel("localhost", "normateca", "root", "");
             $model->start_connection();
             $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento, $fiscalYear, $cuerpo, $certi, $path, $estado, $lenguaje);

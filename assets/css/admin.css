@@ -62,6 +62,12 @@ header .user {
   margin-right: 13px;
 }
 
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 main {
   margin: 10px;
   justify-content: center;

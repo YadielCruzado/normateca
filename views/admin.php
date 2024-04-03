@@ -29,7 +29,8 @@ setData();
       <h1>Administrador Normateca</h1>
       <h3><i> Universidad de Puerto Rico en Arecibo </i></h3>
     </div>
-    <div>
+    <div class="login">
+      
       <?php
         if (!empty($_SESSION['login'])) {
             $log = $_SESSION['login'];
