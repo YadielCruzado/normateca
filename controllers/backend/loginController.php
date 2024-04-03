@@ -39,18 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 if($cuerpo == $row['Cuerpo']){
-                    echo $row['name'];
-                    echo $row['Last_name'];
-                    echo $row['Cuerpo'];
-    
-                    $login = [];
-                    $values = array(
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['login'] = [];
+                    }
+
+                    $_SESSION['login'] = [
                         "Nombre" => $row['name'],
                         "Apellido" => $row['Last_name'],
                         "Cuerpo" => $row['Cuerpo']
-                    );
-                    array_push($login, $values);
-                    $_SESSION['login'] = $login;
+                    ];
+                    
                     header("Location: ../../views/admin.php?success"); 
                 } else{
                     header("Location:../../views/login.php?error");

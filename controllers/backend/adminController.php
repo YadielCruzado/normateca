@@ -11,7 +11,9 @@ function setData()
     $documentos = [];
     $documentosn = [];
 
-    $result = $model->getCategorias();
+    $cuerpo = $_SESSION['login']['Cuerpo']; 
+
+    $result = $model->getCategorias($cuerpo);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $values = array(
@@ -27,7 +29,7 @@ function setData()
         $categorias = null;
     }
 
-    $result = $model->getCuerpos();
+    $result = $model->getCuerpos($cuerpo);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $values = array(
@@ -42,7 +44,7 @@ function setData()
     }
 
     //enlazar documentos
-    $result = $model->enlazarDocumentos();
+    $result = $model->GetEnlazarDocumentos($cuerpo);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $values = array(
@@ -56,8 +58,8 @@ function setData()
     } else {
         $enlazarDocumentos = null;
     }
-
-    $result = $model->getdocinfo();
+    
+    $result = $model->getEditDocumentos($cuerpo);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $values = array(
