@@ -107,9 +107,9 @@ class AdminModel extends DB{
     }
 
     //contains 
-    public function Tracking($admin,$document,$action)
+    public function Tracking($admin,$document,$action){
         $query = "INSERT INTO `tracking` (`Admin_id`, `Document_id`, `Action`, `Date`) 
-                  VALUES ('1', '5', 'update document', current_timestamp())"
+                  VALUES ('$admin', '$document', '$action', current_timestamp())";
         return $this->run_query($query);
     }
 
