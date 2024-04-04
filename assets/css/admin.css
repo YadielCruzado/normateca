@@ -66,6 +66,22 @@ header .user {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-right: 20px;
+}
+.login h2 {
+  margin-right: 10px;
+  font-size: 20px;
+  margin-bottom: 0;
+}
+.login form button{
+  background-color: #967216;
+  color: whitesmoke;
+  font-weight: bold;
+  padding: 7px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  margin-right: 20px;
 }
 
 main {

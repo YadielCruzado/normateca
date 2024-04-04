@@ -199,11 +199,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         $model->updateACuerpo($Abreviacion, $oldabbr);
         $model->connection->close();
 
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $model->updateBdocs($Abreviacion, $oldabbr);
+        $model->connection->close();
+
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $model->updateCdocs($Abreviacion, $oldabbr);
+        $model->connection->close();
+
+        session_start();
+        $_SESSION['login']['Cuerpo'] = $Abreviacion;
 
         $model = new AdminModel("localhost", "normateca", "root", "");
         $model->start_connection();
         $success = $model->updateCuerpo($cuerpo, $Abreviacion, $oldabbr);
         $model->connection->close();
+
 
         if ($success) {
             header("Location: ../../views/admin.php?succes");
@@ -219,8 +232,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
 
         $model = new AdminModel("localhost", "normateca", "root", "");
         $model->start_connection();
-        $success = $model->updateCategory($categoria, $Abreviacion, $cuerpo, $oldabbr);
+        $model->updateACategory($Abreviacion,$oldabbr);
         $model->connection->close();
+
+        $model2 = new AdminModel("localhost", "normateca", "root", "");
+        $model2->start_connection();
+        $success = $model2->updateCategory($categoria, $Abreviacion, $cuerpo, $oldabbr);
+        var_dump($result);
+        $model2->connection->close();
 
         if ($success) {
             header("Location: ../../views/admin.php?succes");
@@ -229,7 +248,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         } else {
             echo "errorrr";
         }
-    
-}
+    }
 }
 

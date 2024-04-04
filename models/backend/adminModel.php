@@ -54,36 +54,64 @@ class AdminModel extends DB{
         return $this ->run_query($query);
     }
 
+    //categorias
     public function NewCategory($categoria,$Abreviacion,$cuerpo) {
         $query = "INSERT INTO categories 
         (Category_abbr, Category_name, Cuerpo) 
         VALUES ('".$Abreviacion . "','". $categoria . "','". $cuerpo."')";
         return $this->run_query($query);
-
+    }
+    //update categoria
+    public function updateCategory($categoria,$Abreviacion,$cuerpo,$oldabbr) {
+        $query = "UPDATE categories SET Category_abbr = '$Abreviacion', Category_name = '$categoria', Cuerpo = '$cuerpo'
+                  WHERE Category_abbr = '$oldabbr'";
+        return $this->run_query($query);
+    }
+    //update documentos en la categoria
+    public function updateACategory($Abreviacion,$oldabbr) {
+        $query = "UPDATE `documentos` SET `Category_abbr` = '$Abreviacion' 
+                  WHERE `Category_abbr` = '$oldabbr'";
+        return $this->run_query($query);
     }
 
+    //cuerpos
     public function NewCuerpo($cuerpo,$Abreviacion) {
         $query = "INSERT INTO cuerpos (Cuerpo_abbr, Cuerpo_name) 
         VALUES ('".$Abreviacion . "','". $cuerpo ."')";
         return $this->run_query($query);
 
     }
-
+    //update el cuerpo
     public function updateCuerpo($cuerpo, $Abreviacion,$oldabbr) {
         $query = "UPDATE cuerpos SET Cuerpo_abbr = '$Abreviacion', Cuerpo_name = '$cuerpo' 
                   WHERE Cuerpo_abbr = '$oldabbr'";
         return $this->run_query($query);
     }
+    //Update categorias en el cuerpo
     public function updateACuerpo($Abreviacion, $oldabbr){
         $query = "UPDATE `categories` SET `Cuerpo` = '$Abreviacion' 
         WHERE `Cuerpo` = '$oldabbr'";
         return $this->run_query($query);
     }
-
-    public function updateCategory($categoria,$Abreviacion,$cuerpo,$oldabbr) {
-        $query = "UPDATE categories SET Category_abbr = '$Abreviacion', Category_name = '$categoria', Cuerpo = '$cuerpo'
-                  WHERE Category_abbr = '$oldabbr'";
+    //Update documentos en el cuerpo
+    public function updateBdocs($Abreviacion, $oldabbr){
+        $query = "UPDATE `documentos` SET `Cuerpo_abbr` = '$Abreviacion'
+        WHERE `Cuerpo_abbr` = '$oldabbr'";
         return $this->run_query($query);
     }
+    //Update cuerpo en la session del admin
+    public function updateCdocs($Abreviacion, $oldabbr){
+        $query = "UPDATE `admin` SET `Cuerpo` = '$Abreviacion' 
+        WHERE `Cuerpo` = '$oldabbr'";
+        return $this->run_query($query);
+    }
+
+    //contains 
+    public function Tracking($admin,$document,$action)
+        $query = "INSERT INTO `tracking` (`Admin_id`, `Document_id`, `Action`, `Date`) 
+                  VALUES ('1', '5', 'update document', current_timestamp())"
+        return $this->run_query($query);
+    }
+
 }
 ?>

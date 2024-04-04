@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     }
 
                     $_SESSION['login'] = [
+                        "ID" => $row['Admin_id'],
                         "Nombre" => $row['name'],
                         "Apellido" => $row['Last_name'],
                         "Cuerpo" => $row['Cuerpo']

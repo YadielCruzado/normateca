@@ -6,6 +6,8 @@ if(!isset($_SESSION['login'])) {
   exit;
 }
 
+// print_r($_SESSION['login']);
+
 include_once("../controllers/backend/adminController.php");
 setData();
 
@@ -34,10 +36,12 @@ setData();
       <?php
         if (!empty($_SESSION['login'])) {
             $log = $_SESSION['login'];
-            echo $log['Nombre'] . ' ' . $log['Apellido'];
+            echo "<h2>" . $log['Nombre'] . ' ' . $log['Apellido'] . "</h2>";
         }
       ?>
-      <a href="../controllers/backend/logoutController.php">Cerrar Sesion</a>
+      <form action="../controllers/backend/logoutController.php" method="post">
+        <button type="submit">Cerrar Sesión</button>
+      </form>
     </div>
    
   </header>
@@ -130,7 +134,8 @@ setData();
 
 
 
-                <label for="firma"> Firmado por: </label><input type="text" id="firma" name="signature" />
+                <label for="firma"> Firmado por: </label>
+                <input type="text" id="firma" name="signature" value="<?php echo htmlspecialchars($log['Nombre'] . ' ' . $log['Apellido']); ?>" readonly>
               </div>
             </div>
 
