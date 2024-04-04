@@ -1,7 +1,7 @@
 <?php
-include_once("../controllers/backend/adminController.php");
+//include_once("../controllers/backend/adminController.php");
 include_once("../controllers/frontend/frontController.php");
-setData();
+//setData();
 doc();
 ?>
 

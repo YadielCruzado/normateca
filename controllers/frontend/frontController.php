@@ -13,7 +13,7 @@ if (!isset($_SESSION['keyword'])) {
 if (!isset($_SESSION['documentTitle'])) {
     $_SESSION['documentTitle'] = '';
 }
-if (!isset($_SESSION['categoria'])) {
+if (!isset($_SESSION['categorias'])) {
     $_SESSION['categoria'] = '';
 }
 if (!isset($_SESSION['cuerpo'])) {
@@ -42,9 +42,27 @@ function doc()
     $model = new frontModel("localhost", "normateca", "root", "");
     $model->start_connection();
 
+    $cuerpos = [];
     $documentos = [];
     $recientes = [];
     $paginas =[];
+    $categorias = [];
+
+    $result = $model->getCategorias();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $values = array(
+                "cat_abbr" => $row['Category_abbr'],
+                "cat_name" => $row['Category_name'],
+                "cat_corp" => $row['Cuerpo_name'],
+                "cat_corp_abbr" => $row['Cuerpo_abbr']
+            );
+
+            array_push($categorias, $values);
+        }
+    } else {
+        $categorias = null;
+    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['limpiar'])) {
         $_SESSION['certificationNumber'] = '';
@@ -179,6 +197,41 @@ function doc()
             array_push($paginas, $values);
         }
     }
+
+    $result = $model->getCuerpos();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $values = array(
+                "corp_abbr" => $row['Cuerpo_abbr'],
+                "corp_name" => $row['Cuerpo_name']
+            );
+
+            array_push($cuerpos, $values);
+        }
+    } else {
+        $cuerpos = null;
+    }
+
+    $result = $model->getCategorias($cuerpo);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $values = array(
+                "cat_abbr" => $row['Category_abbr'],
+                "cat_name" => $row['Category_name'],
+                "cat_corp" => $row['Cuerpo_name'],
+                "cat_corp_abbr" => $row['Cuerpo_abbr']
+            );
+
+            array_push($categorias, $values);
+        }
+    } else {
+        $categorias = null;
+    }
+
+  
+
+    $_SESSION['cats'] = $categorias;
+    $_SESSION['corps'] = $cuerpos;
     $_SESSION['registros'] = $registros;
     $_SESSION['paginas'] = $paginas;
     $_SESSION['documentos'] = $documentos;

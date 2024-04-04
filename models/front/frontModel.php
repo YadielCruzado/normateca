@@ -187,4 +187,21 @@ public function numPages(){
     return $this->run_query($query);
 }
 
+public function getCategorias(){
+    $query = "SELECT categories.Category_abbr, categories.Category_name, cuerpos.Cuerpo_name, cuerpos.Cuerpo_abbr
+              FROM categories
+              JOIN cuerpos ON categories.Cuerpo = cuerpos.Cuerpo_abbr";
+            
+    return $this->run_query($query);
+}
+
+public function getCuerpos(){
+
+    $query = "SELECT * FROM cuerpos";
+    return $this->run_query($query);
+}
+
+
+
+
 }
