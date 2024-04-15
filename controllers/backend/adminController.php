@@ -1,8 +1,18 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_SESSION['login'])) {
+    $userInfo = $_SESSION['login'];
+} else {
+    header("Location: login.php");
+    exit;
+}
 include($_SERVER['DOCUMENT_ROOT'] . '/normateca/models/backend/adminModel.php');
 
-function setData()
-{
+function setData(){
+    
     $model = new AdminModel("localhost", "normateca", "root", "");
     $model->start_connection();
     $categorias = [];
@@ -12,8 +22,8 @@ function setData()
     $documentosn = [];
     $enlazarDocumentosn = [];
 
-    $cuerpo = $_SESSION['login']['Cuerpo']; 
-
+    $cuerpo = $_SESSION['login']['Cuerpo'];
+    
     $result = $model->getCategorias($cuerpo);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -91,7 +101,7 @@ function setData()
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
     if ($_POST['type'] == "1") {
-        if ($_POST['type'] == "upload" and isset($_POST['filename'])) {
+        if (isset($_POST['filename'])) {
             $target_file = '../../files/' . basename($_FILES['pdf']['name']);
             $upload_file = '../files/' . basename($_FILES['pdf']['name']);
 
@@ -112,10 +122,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
                     "file_path" => $upload_file
                 );
 
+                $values2 = array(
+                    $_POST['filename'], $_POST['filedate'], $_POST['number'],  $_POST['state'], $_POST['cat'],
+                    $_POST['lang'], $_POST['fiscalYear'], $_POST['corp'], $_POST['signature'], $upload_file
+                );
+                
+                $Admin = $_SESSION['login']['ID'];
+                $values_string = json_encode($values2);
+
                 $model = new AdminModel("localhost", "normateca", "root", "");
                 $model->start_connection();
                 $model->InsertFile($values);
+                $id_insertado = $model->connection->insert_id; 
+                $model->Tracking($Admin, 'Insert', $id_insertado, $values_string, '');
                 $model->connection->close();
+
+                
 
                 if (move_uploaded_file($_FILES['pdf']['tmp_name'], $target_file)) {
                     setData();
@@ -124,8 +146,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
                     header("Location: ../../views/admin.php?error=path");
                 }
 
-                // echo "<script> location.href='../../views/admin.php?error=yes'; </script>";
-                // exit; 
             }
         }
     } else if ($_POST['type'] == "2") { //editar documentos
@@ -140,6 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             $path = $_POST["path"];
             $estado = $_POST["estado"];
             $lenguaje = $_POST["lenguaje"];
+            
             $model = new AdminModel("localhost", "normateca", "root", "");
             $model->start_connection();
             $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento, $fiscalYear, $cuerpo, $certi, $path, $estado, $lenguaje);

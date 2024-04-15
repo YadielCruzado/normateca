@@ -52,6 +52,7 @@ setLogin();
                 }
                 }
                 ?>
+            </select><br>
             <div class="remember">
                 <input type="checkbox" name="Remember" id="Remember" />
                 <label for="Remember" id="remblbl">Remember me</label>
