@@ -276,7 +276,7 @@ table {
 th,
 td {
   padding: 8px;
-  text-align: left;
+  /* text-align: left; */
 }
 
 thead {
@@ -303,7 +303,7 @@ tbody tr:nth-child(odd) {
 }
 
 .crear table td button {
-  width: 20%;
+  /* width: 20%; */
   justify-self: center;
   background-color: #967216;
   color: whitesmoke;
@@ -349,6 +349,32 @@ footer {
   border-radius: 5px;
   margin: 0 !important;
 }
+
+/*Enlazar */
+
+.Endiv {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.Ensection{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Ensection div{
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
+
+.Endocs {
+  display: flex;
+  justify-content: space-around;
+}
+
+
 
 @media (max-width: 900px) {
   header {

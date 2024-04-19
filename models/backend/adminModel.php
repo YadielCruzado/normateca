@@ -28,7 +28,7 @@ class AdminModel extends DB{
 
     public function GetEnlazarDocumentos($cuerpo){
 
-        $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, documentos.Document_title, categories.Category_name
+        $query = "SELECT documentos.Document_id, documentos.Certification_number, documentos.Fiscal_year, documentos.Document_title, categories.Category_name
         FROM documentos
         JOIN categories ON categories.Category_abbr = documentos.Category_abbr
         WHERE documentos.Cuerpo_abbr = '$cuerpo'";
@@ -113,5 +113,17 @@ class AdminModel extends DB{
         return $this->run_query($query);
     }
 
+    //Enmendar
+    public function Enmendar($main,  $amended){
+        $query = "INSERT INTO `enmienda` (`Document_id`, `Target_id`, `Date`)
+        VALUES ('$main', '$amended', current_timestamp())";
+        return $this->run_query($query);
+    }
+    //derrogar
+    public function Derrogar($main,  $Derr){
+        $query = "INSERT INTO `derroga` (`Document_id`, `Target_id`, `Date`)
+        VALUES ('$main', '$Derr', current_timestamp())";
+        return $this->run_query($query);
+    }
 }
 ?>

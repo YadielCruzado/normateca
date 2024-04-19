@@ -131,16 +131,15 @@ setData();
                   }
                   ?>
                 </select>
-
-
-
                 <label for="firma"> Firmado por: </label>
                 <input type="text" id="firma" name="signature" value="<?php echo htmlspecialchars($log['Nombre'] . ' ' . $log['Apellido']); ?>" readonly>
               </div>
             </div>
-
             <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
           </form>
+
+
+
           <div class="backline">
             <h3>Añadir enlace a otro Documento</h3>
             <div class="search-bar">
@@ -164,42 +163,65 @@ setData();
                 </tr>
               </thead>
               <tbody>
-          <?php
-            if (isset($_POST['search_query2'])) {
-                
-                $search_query2 = $_POST['search_query2'];
-                
-                // Filtrar los documentos
-                $filtered_results = array_filter($_SESSION['Enlazar'], function($Enlazar) use ($search_query2) {
-                    return stripos($Enlazar['title'], $search_query2) !== false;
-                });
-                
-                // data filtrada por el nombre del documento
-                if (count($filtered_results) > 0) {
-                    foreach ($filtered_results as $Enlazar) {
-                        echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th>'.'</th><th>'.$Enlazar['category'] .'</th>';
-                        echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enlazar"
-                              onclick="enlazar(this)">Enlazar</button></td>';
-                        echo '</tr>';
-                    }
-                } else {
+                <?php
+                  if (isset($_POST['search_query2'])) {
                     
-                    print '<tr><td colspan="2" style="text-align:center">No se encontraron documentos</td></tr>';
-                }
-            } else {
-                // predeterminado 
-                if (count($_SESSION['Enlazar']) > 0) {
-                    foreach ($_SESSION['Enlazar'] as $Enlazar) {
-                        echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th>'.'</th><th>'.$Enlazar['category'] .'</th>';
-                        echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enlazar"
-                              onclick="enlazar(this)">Enlazar</button></td>';
-                        echo '</tr>';
+                    $search_query2 = $_POST['search_query2'];
+                    
+                    // Filtrar los documentos
+                    $filtered_results = array_filter($_SESSION['Enlazar'], function($Enlazar) use ($search_query2) {
+                      return stripos($Enlazar['title'], $search_query2) !== false;
+                    });
+                    
+                    // data filtrada por el nombre del documento
+                    if (count($filtered_results) > 0) {
+                        foreach ($filtered_results as $Enlazar) {
+                          echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th><th>'.$Enlazar['category'] .'</th>';                          
+                          echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enmendar"
+                            data-Eid="'.$Enlazar['id'].'" 
+                            data-Enumber="'.$Enlazar['number'].'" 
+                            data-Efiscal="'.$Enlazar['fiscal'].'" 
+                            data-Etitle="'.$Enlazar['title'].'"
+                            data-Ecategory="'.$Enlazar['category'].'"
+                            onclick="Enmendar(this)">Enmendar</button>';
+                          echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#derrogar"
+                            data-id="'.$Enlazar['id'].'" 
+                            data-number="'.$Enlazar['number'].'" 
+                            data-fiscal="'.$Enlazar['fiscal'].'" 
+                            data-title="'.$Enlazar['title'].'"
+                            data-category="'.$Enlazar['category'].'"
+                            onclick="derrogar(this)">Derrogar</button></div></td>';
+                          echo '</tr>';
+                        }
+                    } else { 
+                      print '<tr><td colspan="2" style="text-align:center">No se encontraron documentos</td></tr>';
                     }
-                } else {
-                    print '<tr><td colspan="2" style="text-align:center">Documentos no disponibles</td></tr>';
-                }
-            }
-          ?>
+                  } else {
+                    // predeterminado 
+                    if (count($_SESSION['Enlazar']) > 0) {
+                      foreach ($_SESSION['Enlazar'] as $Enlazar) {
+                        echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th><th>'.$Enlazar['category'] .'</th>';                        
+                        echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enmendar"
+                          data-Eid="'.$Enlazar['id'].'" 
+                          data-Enumber="'.$Enlazar['number'].'" 
+                          data-Efiscal="'.$Enlazar['fiscal'].'" 
+                          data-Etitle="'.$Enlazar['title'].'"
+                          data-Ecategory="'.$Enlazar['category'].'"
+                          onclick="Enmendar(this)">Enmendar</button>';
+                        echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#derrogar"
+                          data-Did="'.$Enlazar['id'].'" 
+                          data-Dnumber="'.$Enlazar['number'].'" 
+                          data-Dfiscal="'.$Enlazar['fiscal'].'" 
+                          data-Dtitle="'.$Enlazar['title'].'"
+                          data-Dcategory="'.$Enlazar['category'].'"
+                          onclick="derrogar(this)">Derrogar</button></div></td>';
+                        echo '</tr></th>';
+                      }
+                    } else {
+                      print '<tr><td colspan="2" style="text-align:center">Documentos no disponibles</td></tr>';
+                    }
+                  }
+                ?>
               </tbody>
             </table>
           </div>
@@ -580,24 +602,87 @@ setData();
 </div>
 
 <!-- Enlazar -->
-<div class="modal" id="Enlazar">
-  <div class="modal-dialog">
+<div class="modal" id="Enmendar">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <!-- Cabecera del modal -->
       <div class="modal-header" >
-          <h4 class="modal-title">enlazar documento</h4>
+          <h4 class="modal-title">Enmendar documento</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <!-- Contenido del modal -->
       <div class="modal-body editar form">
         <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
-          <input type="hidden" value="7" name="type">
-          <input type="hidden" value="" name="oldabbr" id="oldabbr2">
-          <label for="EnombreCuerpo">Nombre de la Cuerpo</label>
-          <input type="text" class="form-control" id="EnombreCuerpo" name="cuerpo">
+        <input type="hidden" value="7" name="type">
+          <section class="Ensection">
+            <h3 id="EnTitulo"></h3>
+            <div>
+              <h3 id="EnNumber"></h3>
+              <h3>-</h3>
+              <h3 id="EnFiscal"></h3>
+            </div>
+          </section>
+          <input type="hidden" value="" name="MainDoc" id="EnId">
+          <div class="Endocs">
+            <h3>Enmienda al documento</h3>
+            <select  name="amendedDoc">
+              <?php
+                if (count($_SESSION['Enlazar']) > 0) {
+                  echo "<option selected disabled>Documento</option>";
+                  foreach ($_SESSION['Enlazar'] as $docs) {
+                    $value = $docs['id'];
+                    $text = $docs['title'];
+                    echo "<option value='$value'>$text</option>";
+                  }
+                }
+              ?>
+            </select>
+          </div>
+          
+          <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
-          <label for="Eabreviacioncuerpo">Abreviacion</label>
-          <input type="text" class="form-control" id="Eabreviacioncuerpo" min="2" max="3" name="Abreviacion">
+<div class="modal" id="derrogar">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Cabecera del modal -->
+      <div class="modal-header" >
+          <h4 class="modal-title">Derrogar documento</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Contenido del modal -->
+      <div class="modal-body editar form">
+        <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
+        <input type="hidden" value="8" name="type">
+          <section class="Ensection">
+            <h3 id="DerTitle"></h3>
+            <div>
+              <h3 id="DerNumber"></h3>
+              <h3>-</h3>
+              <h3 id="DerFiscal"></h3>
+            </div>
+          </section>
+          <input type="hidden" value="" name="MainDoc" id="DerId">
+          <div class="Endocs">
+            <h3>Enmienda al documento</h3>
+            <select  name="derrogaDoc">
+              <?php
+                if (count($_SESSION['Enlazar']) > 0) {
+                  echo "<option selected disabled>Documento</option>";
+                  foreach ($_SESSION['Enlazar'] as $docs) {
+                    $value = $docs['id'];
+                    $text = $docs['title'];
+                    echo "<option value='$value'>$text</option>";
+                  }
+                }
+              ?>
+            </select>
+          </div>
+          
           <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
         </form>
       </div>

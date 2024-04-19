@@ -59,6 +59,7 @@ function setData(){
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $values = array(
+                "id" => $row['Document_id'],
                 "number" => $row['Certification_number'],
                 "fiscal" => $row['Fiscal_year'],
                 "title" => $row['Document_title'],
@@ -254,17 +255,45 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         $model = new AdminModel("localhost", "normateca", "root", "");
         $model->start_connection();
         $model->updateACategory($Abreviacion,$oldabbr);
+        $success = $model->updateCategory($categoria, $Abreviacion, $cuerpo, $oldabbr);
         $model->connection->close();
-
-        $model2 = new AdminModel("localhost", "normateca", "root", "");
-        $model2->start_connection();
-        $success = $model2->updateCategory($categoria, $Abreviacion, $cuerpo, $oldabbr);
-        var_dump($result);
-        $model2->connection->close();
 
         if ($success) {
             header("Location: ../../views/admin.php?succes");
-            echo "$oldabbr";
+
+        } else {
+            echo "errorrr";
+        }
+    }else if ($_POST['type'] == "7") {
+        
+        $Main = $_POST["MainDoc"];
+        $amended = $_POST["amendedDoc"];
+
+        
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $success = $model->Enmendar($Main, $amended);
+        $model->connection->close();
+
+        if ($success) {
+            header("Location: ../../views/admin.php?succes");
+
+        } else {
+            echo "errorrr";
+        }
+    }else if ($_POST['type'] == "8") {
+        
+        $Main = $_POST["MainDoc"];
+        $Derr = $_POST["derrogaDoc"];
+
+        
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $success = $model->Derrogar($Main, $Derr);
+        $model->connection->close();
+
+        if ($success) {
+            header("Location: ../../views/admin.php?succes");
 
         } else {
             echo "errorrr";
