@@ -173,6 +173,64 @@ class frontModel extends DB
 
     return $this->run_query($query);
 }
+// public function numPages(){
+//     $query = "SELECT COUNT(*) as total FROM documentos";
+//     return $this->run_query($query);
+// }
+// arriba funciona bien bien 
+
+public function numPages($certificationNumber, $fiscalYear, $keyword, $documentTitle, $date_created, $desde, $hasta, $cuerpo, $categoria) {
+    $query = "SELECT COUNT(*) as total FROM documentos WHERE 1 = 1";
+
+    if ($certificationNumber != '') {
+        $query .= " AND documentos.Certification_number LIKE '%$certificationNumber%'";
+    }
+
+    if ($fiscalYear != '') {
+        $query .= " AND documentos.Fiscal_year LIKE '%$fiscalYear%'";
+    }
+
+    if ($keyword != '') {
+        $query .= " AND documentos.Document_title LIKE '%$documentTitle%'";
+    }
+
+    if ($date_created != '') {
+        $query .= " AND documentos.Date_created LIKE '$date_created'";
+    }
+
+    if ($desde != '' AND $hasta != '') {
+        $query .= " AND documentos.Date_created BETWEEN '$desde' AND '$hasta'";
+    }
+
+    if (!empty($cuerpo)) {
+        $cuerpoConditions = [];
+    
+        foreach ($cuerpo as $cuerpov) {
+            $cuerpoConditions[] = "documentos.Cuerpo_abbr LIKE '%$cuerpov%'";
+        }
+    
+        $cuerpoQuery = implode(" OR ", $cuerpoConditions);
+    
+        $query .= " AND (" . $cuerpoQuery . ")";
+    }
+
+    if (!empty($categoria)) {
+        $categoriaConditions = [];
+    
+        foreach ($categoria as $cate) {
+            $categoriaConditions[] = "documentos.Category_abbr LIKE '%$cate%'";
+        }
+    
+        $cateQuery = implode(" OR ", $categoriaConditions);
+    
+        $query .= " AND (" . $cateQuery . ")";
+    }
+
+    $result = $this->run_query($query);
+    return $result;
+}
+
+
 
 public function recientes(){
     $query = "SELECT Document_title, Fiscal_year, Certification_number, Cuerpo_abbr, Document_path
@@ -182,10 +240,15 @@ public function recientes(){
     return $this->run_query($query);
 }
 
-public function numPages(){
-    $query = "SELECT COUNT(*) as total FROM documentos";
-    return $this->run_query($query);
-}
+
+
+// public function numPages(){
+//     $query = "SELECT Cuerpo_abbr, COUNT(*) as total FROM documentos GROUP BY Cuerpo_abbr";
+//     return $this->run_query($query);
+// }
+
+
+
 
 public function getCategorias(){
     $query = "SELECT categories.Category_abbr, categories.Category_name, cuerpos.Cuerpo_name, cuerpos.Cuerpo_abbr
@@ -194,6 +257,7 @@ public function getCategorias(){
             
     return $this->run_query($query);
 }
+
 
 public function getCuerpos(){
 

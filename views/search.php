@@ -47,15 +47,17 @@ doc();
 
               <label>Cuerpo</label>
               <div class="filters">
-                <?php
-                  if (count($_SESSION['corps']) > 0) {
-                    foreach ($_SESSION['corps'] as $corp) {
-                        echo '<input type="checkbox" id="' . $corp['corp_abbr'] . '" name="cuerpo[]" value="' . $corp['corp_abbr'] . '" />';
-                        echo '<label for="' . $corp['corp_abbr'] . '"> ' . $corp['corp_abbr'] . ' - ' . $corp['corp_name'] . ' </label><br />';
-                    }
+                  <?php
+                  if (isset($_SESSION['corps']) && !empty($_SESSION['corps'])) {
+                      foreach ($_SESSION['corps'] as $corp) {
+                          $checked = (isset($_POST['cuerpo']) && in_array($corp['corp_abbr'], $_POST['cuerpo'])) ? 'checked' : '';
+                          echo '<input type="checkbox" id="' . $corp['corp_abbr'] . '" name="cuerpo[]" value="' . $corp['corp_abbr'] . '" ' . $checked . ' />';
+                          echo '<label for="' . $corp['corp_abbr'] . '"> ' . $corp['corp_abbr'] . ' - ' . $corp['corp_name'] . ' </label><br />';
+                      }
                   }
                   ?>
               </div>
+
               
 
               <label>Categoria</label>
@@ -211,37 +213,56 @@ doc();
                   </table>
 
                   <?php
-                    if (isset($_SESSION['paginas'])) {
-                        $paginas = $_SESSION['paginas'];
-                        foreach ($paginas as $pagina) {
-                            $totalPaginas = $pagina['pag'];
-                            $registros = $pagina['registros'];
-                            $total = $pagina['total'];
-                            $current_page = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-                            $first = ($current_page - 1) * $registros + 1;
-                            $last = min($current_page * $registros, $total);
+if (isset($_SESSION['paginas'])) {
+    $paginas = $_SESSION['paginas'];
+    foreach ($paginas as $pagina) {
+        $totalPaginas = $pagina['pag'];
+        $registros = $pagina['registros'];
+        $total = $pagina['total'];
+        $current_page = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+        $first = ($current_page - 1) * $registros + 1;
+        $last = min($current_page * $registros, $total);
 
-                            ?>
-                            <div class="table-aditional">
-                                <p>Mostrando <?php echo $first; ?> a <?php echo $last; ?> de <?php echo $total; ?> récords</p>
-                                <div class="pagination">
-                                    <a href="?pagina=1">&laquo;</a>
+        // Calculate the range of pages to display
+        $range = 3; // Number of pages before and after the current page to display
+        $start = max(1, $current_page - $range);
+        $end = min($totalPaginas, $current_page + $range);
 
-                                    <?php
-                                    for ($i = 1; $i <= $totalPaginas; $i++) {
-                                        $class = ($i == $current_page) ? 'active' : '';
-                                        echo "<a href='?pagina=$i' class='$class'>$i</a> ";
-                                    }
+        ?>
+        <div class="table-aditional">
+    <p>Mostrando <?php echo $first; ?> a <?php echo $last; ?> de <?php echo $total; ?> récords</p>
+    <div class="pagination">
 
-                                    echo "<a href='?pagina=$totalPaginas'>&raquo;</a>";
-                                    ?>
+    <?php if ($totalPaginas > 1): ?>
+        <?php if ($current_page > 1): ?>
+            <a href="?pagina=1">&laquo;</a>
+        <?php endif; ?>
 
-                                </div>
-                            </div>
-                            <?php
-                        }
-                    }
-                    ?>
+        <?php if ($start > 1): ?>
+            <span>...</span>
+        <?php endif; ?>
+
+        <?php for ($i = $start; $i <= $end; $i++): ?>
+            <?php $class = ($i == $current_page) ? 'active' : ''; ?>
+            <a href='?pagina=<?php echo $i; ?>' class='<?php echo $class; ?>'><?php echo $i; ?></a>
+        <?php endfor; ?>
+
+        <?php if ($end < $totalPaginas): ?>
+            <span>...</span>
+        <?php endif; ?>
+
+        <?php if ($current_page < $totalPaginas): ?>
+            <a href='?pagina=<?php echo $totalPaginas; ?>'>&raquo;</a>
+        <?php endif; ?>
+    <?php endif; ?>
+
+    </div>
+</div>
+        <?php
+    }
+}
+?>
+
           </div>
         </div>
       </section>

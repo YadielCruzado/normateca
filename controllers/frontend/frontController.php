@@ -185,18 +185,31 @@ function doc()
         $recientes = null;
     }
 
-    $result = $model->numPages();
-    if($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $totalPaginas = ceil($row['total'] / $registros);
-            $values = array(
-                "pag" => $totalPaginas,
-                "registros" => $registros,
-                "total" => $row['total']
-            );
-            array_push($paginas, $values);
-        }
+    // $result = $model->numPages();
+    // if($result->num_rows > 0) {
+    //     while ($row = $result->fetch_assoc()) {
+    //         $totalPaginas = ceil($row['total'] / $registros);
+    //         $values = array(
+    //             "pag" => $totalPaginas,
+    //             "registros" => $registros,
+    //             "total" => $row['total']
+    //         );
+    //         array_push($paginas, $values);
+    //     }
+    // }
+
+    $result = $model->numPages($certificationNumber, $fiscalYear, $keyword, $documentTitle, $date_created, $desde, $hasta, $cuerpo, $categoria);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $totalPaginas = ceil($row['total'] / $registros);
+        $values = array(
+            "pag" => $totalPaginas,
+            "registros" => $registros,
+            "total" => $row['total']
+        );
+        array_push($paginas, $values);
     }
+}
 
     $result = $model->getCuerpos();
     if ($result->num_rows > 0) {
@@ -210,22 +223,6 @@ function doc()
         }
     } else {
         $cuerpos = null;
-    }
-
-    $result = $model->getCategorias($cuerpo);
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $values = array(
-                "cat_abbr" => $row['Category_abbr'],
-                "cat_name" => $row['Category_name'],
-                "cat_corp" => $row['Cuerpo_name'],
-                "cat_corp_abbr" => $row['Cuerpo_abbr']
-            );
-
-            array_push($categorias, $values);
-        }
-    } else {
-        $categorias = null;
     }
 
   
