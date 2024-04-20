@@ -173,11 +173,12 @@ class frontModel extends DB
 
     return $this->run_query($query);
 }
+//query anterior de numpages
 // public function numPages(){
 //     $query = "SELECT COUNT(*) as total FROM documentos";
 //     return $this->run_query($query);
 // }
-// arriba funciona bien bien 
+
 
 public function numPages($certificationNumber, $fiscalYear, $keyword, $documentTitle, $date_created, $desde, $hasta, $cuerpo, $categoria) {
     $query = "SELECT COUNT(*) as total FROM documentos WHERE 1 = 1";
@@ -242,14 +243,6 @@ public function recientes(){
 
 
 
-// public function numPages(){
-//     $query = "SELECT Cuerpo_abbr, COUNT(*) as total FROM documentos GROUP BY Cuerpo_abbr";
-//     return $this->run_query($query);
-// }
-
-
-
-
 public function getCategorias(){
     $query = "SELECT categories.Category_abbr, categories.Category_name, cuerpos.Cuerpo_name, cuerpos.Cuerpo_abbr
               FROM categories
@@ -264,8 +257,5 @@ public function getCuerpos(){
     $query = "SELECT * FROM cuerpos";
     return $this->run_query($query);
 }
-
-
-
 
 }

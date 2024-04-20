@@ -6,6 +6,11 @@ function changeVisibility(tab, lastTab, btn, lastBtn) {
 	lastBtn.classList.toggle("active");
 }
 
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
 	const elements = {
 		tabs: {

@@ -94,8 +94,8 @@ doc();
                 <br /><label for="hasta">Hasta</label>
                 <input type="date" id="hasta" name="hasta" placeholder="Buscar documento..." />
               </div>
-            <button type="submitt" name="limpiar">Limpiar</button>
-            <button type="submit">Buscar</button>
+              <button type="button" onclick="Formulariolimpiar()">Limpiar</button>
+              <button type="submit">Buscar</button>
             </form>
           </div>
         </div>
@@ -141,7 +141,31 @@ doc();
                         document.getElementById("myForm").submit();
                     }
                     </script>
-     
+<script>
+  function Formulariolimpiar() {
+    // Obtener todos los elementos de tipo checkbox dentro del formulario
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    
+    // Desmarcar todos los checkboxes
+    checkboxes.forEach(function(checkbox) {
+      checkbox.checked = false;
+    });
+    
+    // Limpiar otros tipos de campos de formulario si es necesario
+    document.getElementById("certification_number").value = "";
+    document.getElementById("Fiscal_year").value = "";
+    document.getElementById("Keywordnames").value = "";
+    document.getElementById("Document_title").value = "";
+    document.getElementById("Date_created").value = "";
+    document.getElementById("desde").value = "";
+    document.getElementById("hasta").value = "";
+
+    // Redirigir a la misma página después de limpiar el formulario
+    window.location.href = 'search.php';
+  }
+</script>
+
+
                   <table>
                     <thead>
                       <tr>
