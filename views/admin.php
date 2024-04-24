@@ -380,8 +380,11 @@ $opciones = 20;
                 foreach ($_SESSION['keywords'] as $key) {
                   echo '<tr>';
                   echo '<td>' . $key['keyword_name'] . '</td>';
-                  echo '<td>' . "a" . '</td>'; // Assuming 'accion' is the action associated with the keyword
-                  echo '</tr>'; // Close the <tr> tag properly
+                  echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editkeywords"
+                    data-Key_name="' . $key['keyword_name'] . '"
+                    data-Key_id="' . $key['keyword_id'] . '"
+                    onclick="editkeywords(this)">Editar</button></td>';
+                  echo '</tr>'; 
                 }
               }
               ?>
@@ -721,6 +724,50 @@ $opciones = 20;
           <label for="path">Subir Documento:</label>
           <input type="file" id="path" name="path" value="" />
 
+          <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="Editkeywords">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Cabecera del modal -->
+      <div class="modal-header" >
+          <h4 class="modal-title">Derrogar documento</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Contenido del modal -->
+      <div class="modal-body editar form">
+        <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
+        <input type="hidden" value="8" name="type">
+          <section class="Ensection">
+            <h3 id="DerTitle"></h3>
+            <div>
+              <h3 id="DerNumber"></h3>
+              <h3>-</h3>
+              <h3 id="DerFiscal"></h3>
+            </div>
+          </section>
+          <input type="hidden" value="" name="MainDoc" id="DerId">
+          <div class="Endocs">
+            <h3>Enmienda al documento</h3>
+            <select  name="derrogaDoc">
+              <?php
+                if (count($_SESSION['Enlazar']) > 0) {
+                  echo "<option selected disabled>Documentos</option>";
+                  foreach ($_SESSION['Enlazar'] as $docs) {
+                    $value = $docs['id'];
+                    $text = $docs['title'];
+                    echo "<option value='$value'>$text</option>";
+                  }
+                }
+              ?>
+            </select>
+          </div>
+          
           <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
         </form>
       </div>
