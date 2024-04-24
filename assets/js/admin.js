@@ -4,29 +4,6 @@ $(document).ready(function () {
 		show: false, // Ensure modal is hidden by default
 	});
 });
-// modal documentos
-$("#exampleModal").on("show.bs.modal", function (event) {
-	var button = $(event.relatedTarget);
-	var id = button.data("id");
-	var title = button.data("title");
-	var fecha = button.data("fecha");
-	var fiscal = button.data("fiscal");
-	var cuerpo = button.data("cuerpo");
-	var certi = button.data("certi");
-	var path = button.data("path");
-	var estado = button.data("estado");
-	var lenguaje = button.data("lenguaje");
-
-	$("#nombreDocumento").val(title);
-	$("#fechaDocumento").val(fecha);
-	$("#documentoId").val(id);
-	$("#fiscal").val(fiscal);
-	$("#cuerpo").val(cuerpo);
-	$("#certi").val(certi);
-	$("#path").val(path);
-	$("#estado").val(estado);
-	$("#lenguaje").val(lenguaje);
-});
 
 function limpiar() {
 	// Get the input field
@@ -74,6 +51,42 @@ function Editcuerpo(button) {
 	document.getElementById("oldabbr2").value = abreviacion;
 }
 
+//modal editardocumento
+
+function EditDocumentos(button) {
+	var id = button.getAttribute("data-EDid");
+	var title = button.getAttribute("data-EDtitle");
+	var Cuerpo = button.getAttribute("data-EDcuerpo");
+	var category = button.getAttribute("data-EDcategory");
+	var certi = button.getAttribute("data-EDcerti");
+	var fiscal = button.getAttribute("data-EDfiscal");
+	var lenguaje = button.getAttribute("data-EDlenguaje");
+	var path = button.getAttribute("data-EDpath");
+	var Estado = button.getAttribute("data-EDestado");
+
+	document.getElementById("EDid").value = id;
+	document.getElementById("EDtitle").value = title;
+	document.getElementById("EDcuerpo").value = Cuerpo;
+	document.getElementById("EDcategory").value = category;
+	document.getElementById("EDcerti").value = certi;
+	// document.getElementById("EDfiscal").value = fiscal;
+	document.getElementById("EDlenguaje").value = lenguaje;
+	document.getElementById("EDpath").value = path;
+	document.getElementById("EDestado").value = Estado;
+
+	var selectedYear = fiscal; // Assuming you have the selected year in JavaScript
+
+	// Find the select element
+	var selectElement = document.getElementById("EDfiscal");
+	// Loop through options and select the one that matches the selectedYear
+	for (var i = 0; i < selectElement.options.length; i++) {
+		if (selectElement.options[i].value === selectedYear) {
+			selectElement.options[i].selected = true;
+			break; // Once found and selected, exit the loop
+		}
+	}
+}
+
 //modal enlazar
 function Enmendar(button) {
 	var id = button.getAttribute("data-Eid");
@@ -88,7 +101,7 @@ function Enmendar(button) {
 	document.getElementById("EnFiscal").innerText = fiscal;
 	document.getElementById("EnTitulo").innerText = title;
 }
-
+//modal derrogar
 function derrogar(button) {
 	var id = button.getAttribute("data-Did");
 	var number = button.getAttribute("data-Dnumber");

@@ -6,10 +6,10 @@ if(!isset($_SESSION['login'])) {
   exit;
 }
 
-// print_r($_SESSION['login']);
-
 include_once("../controllers/backend/adminController.php");
 setData();
+
+$opciones = 20;
 
 ?>
 <!DOCTYPE html>
@@ -76,9 +76,9 @@ setData();
 
                 <label for="estado"> Estado del Documento: </label>
                 <select id="estado" name="state">
-                  <option value="">Select</option>
-                  <option value="activo">Activo</option>
-                  <option value="inactivo">Inactivo</option>
+                  <option disabled selected>Select</option>
+                  <option value="1">Activo</option>
+                  <option value="0">Inactivo</option>
                 </select>
 
                 <label for="categorias">Categoria del Documento:</label>
@@ -92,27 +92,25 @@ setData();
                   }
                   ?>
                 </select>
-
-
               </div>
 
               <div class="innerBox">
                 <label for="filename"> Lenguaje de Documento: </label>
                 <select id="lenguaje" name="lenguaje">
-                  <option value="">Select</option>
-                  <option value="esp">Español</option>
-                  <option value="eng">Ingles</option>
+                  <option disabled selected>Select</option>
+                  <option value="ESP">Español</option>
+                  <option value="ENG">Ingles</option>
                 </select>
 
                 
 
                 <label for="filename"> Año Fiscal : </label>
                 <select id="añofiscal" name="fiscalYear">
-                  <option value="">Select</option>
+                  <option disabled selected>Select</option>
                   <?php
                     $anioActual = date("Y");
-                    $opciones = 10;
-
+                    //opcion is at the start of the file 
+                    //because it affect another select
                     for ($i = 0; $i <= $opciones; $i++) {
                       $anioInicio = $anioActual - $i;
                       $anioFin = $anioInicio - 1;
@@ -239,89 +237,13 @@ setData();
                 <button class ="color" type="button" onclick="limpiar1()">Limpiar</button>
             </form>
         </div>
-        <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Editar Documento</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" action="admin.php" id="formEditarDocumento">
-                        <input type="hidden" value="2" name="type">
-                            
-                            <div class="form-group">
-                            <input type="hidden" id="documentoId" name="documentoId" value="documentoId">
-                                <label for="nombreDocumento">Nombre del Documento</label>
-                                <input type="text" class="form-control" id="nombreDocumento" name="nombreDocumento">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="fechaDocumento">Fecha del Documento</label>
-                                <input type="text" class="form-control" id="fechaDocumento" name="fechaDocumento">
-                            </div>
-
-                            <label for="cuerpo">Cuerpo: </label>
-                                <select id="cuerpo" name="cuerpo">
-                                  <option selected disabled>Select</option>
-                                  <?php
-                                  if (count($_SESSION['corps']) > 0) {
-                                    foreach ($_SESSION['corps'] as $corp) {
-                                      echo '<option value="' . $corp['corp_abbr'] . '">' . $corp['corp_name'] . '</option>';
-                                    }
-                                  }
-                                  ?>
-                                </select>
-      
-                            <div class="form-group">
-                                <label for="fiscal">Año Fiscal</label>
-                                <input type="text" class="form-control" id="fiscal" name="fiscal">
-                            </div>
-
-
-                            <label for="lenguaje"> Lenguaje de Documento: </label>
-                                <select id="lenguaje" name="lenguaje" class="form-control">
-                                  <option value="">Select</option>
-                                  <option value="esp">Español</option>
-                                  <option value="eng">Ingles</option>
-
-                                </select>
-                          
-                            
-                            <label for="estado"> Estado del Documento: </label>
-                              <select id="estado" name="estado" class="form-control">
-                                <option value="">Select</option>
-                                <option value="1">Activo</option>
-                                <option value="0">Inactivo</option>
-                              </select>
-
-
-                            <div class="form-group">
-                                <label for="certi">Numero de certificacion </label>
-                                <input type="text" class="form-control" id="certi" name="certi">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="path"> Subir Documento: </label><input type="file" id="path" name="path" value=""  />
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <table>
         <thead>
           <tr>
-              <th>Nombre </th>
-              <th>Fecha</th>
+              <th>Certification number </th>
+              <th>Titulo</th>
+              <th>Categoria</th>
               <th>Editar</th>
           </tr>
         </thead>
@@ -339,17 +261,36 @@ setData();
 
                     //outputs documentos 
                     foreach ($filteredDocuments as $documento) {
-                        echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
-                        echo '<td><button type="button" class="btn btn-primary editar-btn" data-toggle="modal" data-target="#exampleModal" data-id="' . $documento['Document_id'] . '" data-title="' . $documento['Document_title'] . '" data-fecha="' . $documento['Date_created'] . '" data-fiscal="' . $documento['fiscal'] . '" data-cuerpo="' . $documento['cuerpo'] . '" data-certi="' . $documento['certi'] . '" data-path="' . $documento['path'] . '" data-estado="' . $documento['estado'] . '" data-lenguaje="' . $documento['lenguaje'] . '">Editar</button></td></tr>';
+                      echo '<tr><th>' . $documento['certi'] .'-'. $documento['fiscal'] .'</th><th>'.$documento['Document_title'] .'</th><th>'.$documento['categoria'] .'</th>';
+                        echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editar"
+                        data-EDid="' . $documento['Document_id'] . '" 
+                        data-EDtitle="' . $documento['Document_title'] . '" 
+                        data-EDcuerpo="' . $documento['cuerpo'] . '" 
+                        data-EDcategory="' . $documento['category'] . '"
+                        data-EDcerti="' . $documento['certi'] . '"
+                        data-EDfiscal="' . $documento['fiscal'] . '" 
+                        data-EDlenguaje="' . $documento['lenguaje'] . '"
+                        data-EDpath="' . $documento['path'] . '" 
+                        data-EDestado="' . $documento['estado'] . '" 
+                        onclick="EditDocumentos(this)">Editar</button></div></td>';
                     }
                 } else {
                     // predeterminado si no hay busqueda 
                     foreach ($_SESSION['documentos'] as $documento) {
-                        echo '<tr><td>' . $documento['Document_title'] . '</td><td>' . $documento['Date_created'] . '</td>';
-                        echo '<td><button type="button" class="btn btn-primary editar-btn" data-toggle="modal" data-target="#exampleModal" data-id="' . $documento['Document_id'] . '" data-title="' . $documento['Document_title'] . '" data-fecha="' . $documento['Date_created'] . '" data-fiscal="' . $documento['fiscal'] . '" data-cuerpo="' . $documento['cuerpo'] . '" data-certi="' . $documento['certi'] . '" data-path="' . $documento['path'] . '" data-estado="' . $documento['estado'] . '" data-lenguaje="' . $documento['lenguaje'] . '">Editar</button></td></tr>';
+                        echo '<tr><th>' . $documento['certi'] .'-'. $documento['fiscal'] .'</th><th>'.$documento['Document_title'] .'</th><th>'.$documento['categoria'] .'</th>';
+                        echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editar"
+                        data-EDid="' . $documento['Document_id'] . '" 
+                        data-EDtitle="' . $documento['Document_title'] . '" 
+                        data-EDcuerpo="' . $documento['cuerpo'] . '" 
+                        data-EDcategory="' . $documento['category'] . '"
+                        data-EDcerti="' . $documento['certi'] . '"
+                        data-EDfiscal="' . $documento['fiscal'] . '" 
+                        data-EDlenguaje="' . $documento['lenguaje'] . '"
+                        data-EDpath="' . $documento['path'] . '" 
+                        data-EDestado="' . $documento['estado'] . '" 
+                        onclick="EditDocumentos(this)">Editar</button></div></td>';
                     }
                 }
-                
           ?> 
         </tbody>
       </table>
@@ -628,7 +569,7 @@ setData();
             <select  name="amendedDoc">
               <?php
                 if (count($_SESSION['Enlazar']) > 0) {
-                  echo "<option selected disabled>Documento</option>";
+                  echo "<option selected disabled>Documentos</option>";
                   foreach ($_SESSION['Enlazar'] as $docs) {
                     $value = $docs['id'];
                     $text = $docs['title'];
@@ -672,7 +613,7 @@ setData();
             <select  name="derrogaDoc">
               <?php
                 if (count($_SESSION['Enlazar']) > 0) {
-                  echo "<option selected disabled>Documento</option>";
+                  echo "<option selected disabled>Documentos</option>";
                   foreach ($_SESSION['Enlazar'] as $docs) {
                     $value = $docs['id'];
                     $text = $docs['title'];
@@ -683,6 +624,82 @@ setData();
             </select>
           </div>
           
+          <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Editar Documento -->
+<div class="modal" id="Editar">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Cabecera del modal -->
+      <div class="modal-header" >
+          <h4 class="modal-title">Editar Documento</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Contenido del modal -->
+      <div class="modal-body editar form">
+        <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
+          <input type="hidden" value="2" name="type">
+
+          <input type="hidden" value="" id="EDid" name="documentoId">
+          <input type="hidden" value="" id="EDcuerpo" name="Cuerpo">
+          
+          <label for="nombreDocumento">Nombre del Documento</label>
+          <input type="text"  id="EDtitle" name="nombreDocumento">
+
+          <label for="fechaDocumento">Categoria del Documento</label>
+          <select id="EDcategory" name="categoria">
+            <option selected disabled>Select</option>
+            <?php
+              if (count($_SESSION['cats']) > 0) {
+                foreach ($_SESSION['cats'] as $cat) {
+                  echo '<option value="' . $cat['cat_abbr'] . '">' . $cat['cat_name'] . '</option>';
+                }
+              }
+            ?>
+          </select>
+
+          <label for="certi">Numero de certificacion </label>
+          <input type="number" class="form-control" id="EDcerti" name="certi">
+           
+          <label for="fiscal">Año Fiscal</label>
+          <select id="EDfiscal" name="fiscalYear">
+            <option disabled>Select</option>
+            <?php
+            $anioActual = date("Y");
+
+            for ($i = 0; $i <= $opciones; $i++) {
+                $anioInicio = $anioActual - $i;
+                $anioFin = $anioInicio - 1;
+                $optionValue = $anioFin . '-' . $anioInicio;
+                echo '<option value="' . $optionValue . '">' . $optionValue . '</option>';
+            }
+            ?>
+          </select>
+
+          <label for="lenguaje"> Lenguaje de Documento: </label>
+          <select id="EDlenguaje" name="lenguaje" class="form-control">
+            <option selected disabled>Select</option>
+            <option value="ESP">Español</option>
+            <option value="ENG">Ingles</option>
+          </select>
+
+          <label for="estado"> Estado del Documento: </label>
+          <select id="EDestado" name="estado" class="form-control">
+            <option selected disabled>Select</option>
+            <option value="1">Activo</option>
+            <option value="0">Inactivo</option>
+          </select>
+
+          <input type="hidden" value="" id="EDpath" name="OldPath">
+
+          <label for="path">Subir Documento:</label>
+          <input type="file" id="path" name="path" value="" />
+
           <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
         </form>
       </div>

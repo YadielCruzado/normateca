@@ -75,15 +75,16 @@ function setData(){
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $values = array(
-                "Document_title" => $row['Document_title'],
-                "Date_created" => $row['Date_created'],
                 "Document_id" => $row['Document_id'],
-                "fiscal" => $row['Fiscal_year'],
+                "Document_title" => $row['Document_title'],
                 "cuerpo" => $row['Cuerpo_abbr'],
+                "category" => $row['Category_abbr'],
+                "categoria" => $row['Category_name'],
                 "certi" => $row['Certification_number'],
+                "fiscal" => $row['Fiscal_year'],
+                "lenguaje" => $row['Document_lenguaje'],
                 "path" => $row['Document_path'],
-                "estado" => $row['Document_state'],
-                "lenguaje" => $row['Document_lenguaje']
+                "estado" => $row['Document_state']
             );
 
             array_push($documentos, $values);
@@ -103,11 +104,12 @@ function setData(){
 if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
     if ($_POST['type'] == "1") {
         if (isset($_POST['filename'])) {
-            $target_file = '../../files/' . basename($_FILES['pdf']['name']);
+            $target_directory = '../../files/';
+            $target_file = $target_directory . basename($_FILES['pdf']['name']);
             $upload_file = '../files/' . basename($_FILES['pdf']['name']);
-
+        
             $file_type = mime_content_type($_FILES['pdf']['tmp_name']);
-
+        
             if ($file_type == "application/pdf") {
                 $values = array(
                     "file_name" => $_POST['filename'],
@@ -122,57 +124,95 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
                     "file_signature" => $_POST['signature'],
                     "file_path" => $upload_file
                 );
-
-                $values2 = array(
-                    $_POST['filename'], $_POST['filedate'], $_POST['number'],  $_POST['state'], $_POST['cat'],
-                    $_POST['lang'], $_POST['fiscalYear'], $_POST['corp'], $_POST['signature'], $upload_file
-                );
+        
+                // Convert the values array to a string for tracking
+                $values_string = json_encode($values);
+        
+                // Get admin ID from session
+                $Admin = isset($_SESSION['login']['ID']) ? $_SESSION['login']['ID'] : '';
                 
-                $Admin = $_SESSION['login']['ID'];
-                $values_string = json_encode($values2);
-
-                $model = new AdminModel("localhost", "normateca", "root", "");
-                $model->start_connection();
-                $model->InsertFile($values);
-                $id_insertado = $model->connection->insert_id; 
-                $model->Tracking($Admin, 'Insert', $id_insertado, $values_string, '');
-                $model->connection->close();
-
-                
-
+                // Move uploaded file to the target directory
                 if (move_uploaded_file($_FILES['pdf']['tmp_name'], $target_file)) {
-                    setData();
-                    header("Location: ../../views/admin.php?succes");
+        
+                    // Insert file data into the database
+                    $model = new AdminModel("localhost", "normateca", "root", "");
+                    $model->start_connection();
+                    $model->InsertFile($values);
+                    $id_insertado = $model->connection->insert_id; 
+                    $model->Tracking($Admin, 'Insert', $id_insertado, $values_string, '');
+                    $model->connection->close();
+        
+                    // Successful upload
+                    header("Location: ../../views/admin.php?success");
+                    exit();
                 } else {
+                    // Error uploading file
                     header("Location: ../../views/admin.php?error=path");
+                    exit();
                 }
-
+            } else {
+                // Invalid file type
+                header("Location: ../../views/admin.php?error=filetype");
+                exit();
             }
         }
     } else if ($_POST['type'] == "2") { //editar documentos
-        if (isset($_POST["documentoId"]) OR isset($_POST["nombreDocumento"]) OR isset($_POST["fechaDocumento"]) OR isset($_POST["fiscalYear"]) OR isset($_POST["cuerpo"]) OR isset($_POST["certi"]) OR isset($_POST["path"]) OR isset($_POST["estado"]) OR isset($_POST["lenguaje"])) {
+        if (isset($_POST["documentoId"]) || isset($_POST["nombreDocumento"]) || isset($_POST["fechaDocumento"]) || isset($_POST["fiscalYear"]) || isset($_POST["Cuerpo"]) || isset($_POST["certi"]) || isset($_POST["path"]) || isset($_POST["estado"]) || isset($_POST["lenguaje"])) {
 
             $documentoId = $_POST["documentoId"];
+            $cuerpo = $_POST["Cuerpo"];
             $nombreDocumento = $_POST["nombreDocumento"];
-            $fechaDocumento = $_POST["fechaDocumento"];
-            $fiscalYear = $_POST["fiscalYear"];
-            $cuerpo = $_POST["cuerpo"];
+            $categoria = $_POST["categoria"];
             $certi = $_POST["certi"];
-            $path = $_POST["path"];
-            $estado = $_POST["estado"];
+            $fiscalYear = $_POST["fiscalYear"];
             $lenguaje = $_POST["lenguaje"];
+            $estado = $_POST["estado"]; 
+            $oldpath = $_POST["OldPath"];
             
-            $model = new AdminModel("localhost", "normateca", "root", "");
-            $model->start_connection();
-            $success = $model->updateDocument($documentoId, $nombreDocumento, $fechaDocumento, $fiscalYear, $cuerpo, $certi, $path, $estado, $lenguaje);
-            $model->connection->close();
+            // Check if a file was uploaded
+            if (isset($_FILES["path"]) && $_FILES["path"]["error"] == 0) {
+                // A file was uploaded
+                $target_file = '../../files/' . basename($_FILES['path']['name']);
+                $upload_file = '../files/' . basename($_FILES['path']['name']);
 
-            if ($success) {
-                echo "se uoopdate la dataaa";
-                header("Location:admin.php");
+                $file_type = mime_content_type($_FILES['path']['tmp_name']);
 
+                if ($file_type == "application/pdf") {
+                    // Move uploaded file to the target directory
+                    if (move_uploaded_file($_FILES['path']['tmp_name'], $target_file)) {
+                        // File uploaded successfully
+                        $model = new AdminModel("localhost", "normateca", "root", "");
+                        $model->start_connection();
+                        $model->updateDocument($documentoId, $nombreDocumento, $cuerpo, $categoria, $certi, $fiscalYear, $lenguaje, $upload_file, $estado);
+                        $model->connection->close();
+
+                        header("Location: ../../views/admin.php?success");
+                        exit();
+                    } else {
+                        // Error uploading file
+                        header("Location: ../../views/admin.php?error=fileupload");
+                        exit();
+                    }
+                } else {
+                    // Invalid file type
+                    header("Location: ../../views/admin.php?error=filetype");
+                    exit();
+                }
             } else {
-                echo "errorrr";
+                // No file uploaded
+                $model = new AdminModel("localhost", "normateca", "root", "");
+                $model->start_connection();
+                $success = $model->updateDocument($documentoId, $nombreDocumento, $cuerpo, $categoria, $certi, $fiscalYear, $lenguaje, $oldpath, $estado);
+                $model->connection->close();
+
+                if ($success) {
+                    echo "Data updated successfully.";
+                    header("Location: ../../views/admin.php?success");
+                    exit(); // Always exit after a header redirect
+                } else {
+                    header("Location: ../../views/admin.php?error");
+                    exit();
+                }
             }
         }
     } else if ($_POST['type'] == "3") { //crear categorias
@@ -300,4 +340,3 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         }
     }
 }
-

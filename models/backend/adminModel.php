@@ -5,29 +5,26 @@ class AdminModel extends DB{
 
     public function getCategorias($cuerpo){
         $query = "SELECT categories.Category_abbr, categories.Category_name, cuerpos.Cuerpo_name, cuerpos.Cuerpo_abbr
-                  FROM categories
-                  JOIN cuerpos ON categories.Cuerpo = cuerpos.Cuerpo_abbr
-                  WHERE cuerpos.Cuerpo_abbr = '$cuerpo'";
+        FROM categories
+        JOIN cuerpos ON categories.Cuerpo = cuerpos.Cuerpo_abbr
+        WHERE cuerpos.Cuerpo_abbr = '$cuerpo'";
         return $this->run_query($query);
     }
 
     public function getCuerpos($cuerpo){
-
         $query = "SELECT * FROM cuerpos
-                  WHERE `Cuerpo_abbr` = '$cuerpo'";
+        WHERE `Cuerpo_abbr` = '$cuerpo'";
         return $this->run_query($query);
     }
 
     public function InsertFile($values){
-
         $query = "INSERT 
-        INTO documentos (Document_title, Cuerpo_abbr, Category_abbr, Certification_number, Fiscal_year, Document_lenguaje, Document_path, Date_created, Document_state, Amended) 
-        VALUES ('" . $values['file_name'] . "', '" . $values['file_corp'] . "', '" . $values['file_cat'] . "', '" . $values['file_number'] . "', '" . $values['file_year'] . "', '" . $values['file_lang'] . "', '" . $values['file_path'] . "', '" . $values['file_date'] . "', '" . $values['file_state'] . "', 0)";
+        INTO documentos (Document_title, Cuerpo_abbr, Category_abbr, Certification_number, Fiscal_year, Document_lenguaje, Document_path, Date_created, Document_state) 
+        VALUES ('" . $values['file_name'] . "', '" . $values['file_corp'] . "', '" . $values['file_cat'] . "', '" . $values['file_number'] . "', '" . $values['file_year'] . "', '" . $values['file_lang'] . "', '" . $values['file_path'] . "', '" . $values['file_date'] . "', '" . $values['file_state'] . "')";
         return $this->run_query($query);
     }
 
     public function GetEnlazarDocumentos($cuerpo){
-
         $query = "SELECT documentos.Document_id, documentos.Certification_number, documentos.Fiscal_year, documentos.Document_title, categories.Category_name
         FROM documentos
         JOIN categories ON categories.Category_abbr = documentos.Category_abbr
@@ -36,21 +33,21 @@ class AdminModel extends DB{
     }
  
     public function getEditDocumentos($cuerpo){
-        
-        $query = "SELECT Document_title, Date_created,Document_id,Fiscal_year,Cuerpo_abbr,Certification_number,Document_path,Document_state,Document_lenguaje FROM documentos
-                  WHERE Cuerpo_abbr = '$cuerpo'";
+        $query = "SELECT Document_id,Document_title,Cuerpo_abbr,documentos.Category_abbr,categories.Category_name,Certification_number,Fiscal_year,Document_lenguaje,Document_path,Document_state
+        FROM documentos
+        JOIN categories ON documentos.Category_abbr = categories.Category_abbr
+        WHERE Cuerpo_abbr = '$cuerpo'";
         return $this ->run_query($query);
     }
 
-    public function  search_queryn($searchQuery){
-        
+    public function search_queryn($searchQuery){
         $query = "SELECT Document_title, Date_created,Document_id,Fiscal_year,Cuerpo_abbr,Certification_number,Document_path,Document_state,Document_lenguaje FROM documentos WHERE Document_title LIKE $searchQuery ";
         return $this ->run_query($query);
     }
 
-    public function updateDocument($documentId, $newName, $newDate,$fiscal,$cuerpo,$certi,$path,$estado,$lenguaje) {
-        
-        $query = "UPDATE documentos SET Document_title = '$newName', Date_created = '$newDate',Fiscal_year = '$fiscal',Cuerpo_abbr = '$cuerpo' ,Certification_number = '$certi' ,Document_path = '$path' , Document_state = '$estado' , Document_lenguaje = '$lenguaje'  WHERE Document_id = '$documentId'";
+    public function updateDocument($documentId, $nombreDocumento, $cuerpo, $categoria, $certi, $fiscalYear, $lenguaje, $path, $estado) {
+        $query = "UPDATE documentos SET Document_title = '$nombreDocumento', `Cuerpo_abbr` = '$cuerpo', `Category_abbr` = '$categoria', `Certification_number` = '$certi', 
+        `Fiscal_year` = '$fiscalYear', `Document_lenguaje` = '$lenguaje', `Document_path` = '$path', `Date_created` = current_timestamp(), `Document_state` = '$estado' WHERE Document_id = '$documentId'";
         return $this ->run_query($query);
     }
 
@@ -64,13 +61,13 @@ class AdminModel extends DB{
     //update categoria
     public function updateCategory($categoria,$Abreviacion,$cuerpo,$oldabbr) {
         $query = "UPDATE categories SET Category_abbr = '$Abreviacion', Category_name = '$categoria', Cuerpo = '$cuerpo'
-                  WHERE Category_abbr = '$oldabbr'";
+        WHERE Category_abbr = '$oldabbr'";
         return $this->run_query($query);
     }
     //update documentos en la categoria
     public function updateACategory($Abreviacion,$oldabbr) {
         $query = "UPDATE `documentos` SET `Category_abbr` = '$Abreviacion' 
-                  WHERE `Category_abbr` = '$oldabbr'";
+        WHERE `Category_abbr` = '$oldabbr'";
         return $this->run_query($query);
     }
 
@@ -84,7 +81,7 @@ class AdminModel extends DB{
     //update el cuerpo
     public function updateCuerpo($cuerpo, $Abreviacion,$oldabbr) {
         $query = "UPDATE cuerpos SET Cuerpo_abbr = '$Abreviacion', Cuerpo_name = '$cuerpo' 
-                  WHERE Cuerpo_abbr = '$oldabbr'";
+        WHERE Cuerpo_abbr = '$oldabbr'";
         return $this->run_query($query);
     }
     //Update categorias en el cuerpo

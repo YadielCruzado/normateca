@@ -133,17 +133,6 @@ main > section {
 }
 
 .subir form,
-
-/* .editar form {
-  display: grid;
-  grid-template-rows: repeat(3, auto);
-  row-gap: 20px;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 5px;
-  
-} */
 .editar form {
   display: grid;
   grid-template-rows: repeat(3, auto);
@@ -239,16 +228,6 @@ form.gabriel button[type="submit"]:hover {
   grid-template-rows: repeat(4, auto);
   row-gap: 5px;
 }
-
-/* .backline {
-  text-align: center;
-  display: grid;
-  grid-template-rows: repeat(2, auto);
-  row-gap: 5px;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-} */
 .search-bar button {
   background-color: #967216;
   color: white;
@@ -276,7 +255,7 @@ table {
 th,
 td {
   padding: 8px;
-  /* text-align: left; */
+  text-align: center;
 }
 
 thead {
@@ -372,9 +351,19 @@ footer {
 .Endocs {
   display: flex;
   justify-content: space-around;
+  
+}
+.Endocs select {
+  font-size: 1.05rem;
+}
+.Endocs select option {
+  font-size: 1.30rem;
+  text-align: center;
 }
 
-
+.m1{
+  justify-content: center;
+}
 
 @media (max-width: 900px) {
   header {
@@ -390,8 +379,4 @@ footer {
   header div {
     line-height: 10px;
   }
-}
-
-.m1{
-  justify-content: center;
 }
