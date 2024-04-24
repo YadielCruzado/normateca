@@ -178,7 +178,9 @@ form.gabriel button[type="submit"] {
 form.gabriel button[type="submit"]:hover {
   background-color: #967216;
 }
-
+.subir h3{
+  text-align: center;
+}
 
 .subir form input[type="submit"],
 .editar form input[type="submit"] {
@@ -363,6 +365,12 @@ footer {
 
 .m1{
   justify-content: center;
+}
+
+/* keywords */
+
+.keywords{
+  text-align: center;
 }
 
 @media (max-width: 900px) {

@@ -122,5 +122,11 @@ class AdminModel extends DB{
         VALUES ('$main', '$Derr', current_timestamp())";
         return $this->run_query($query);
     }
+
+    //keywords
+    public function getKeywords(){
+        $query = "SELECT * FROM keywords ";
+        return $this->run_query($query);
+    }
 }
 ?>

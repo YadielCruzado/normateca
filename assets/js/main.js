@@ -6,22 +6,19 @@ function changeVisibility(tab, lastTab, btn, lastBtn) {
 	lastBtn.classList.toggle("active");
 }
 
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
 	const elements = {
 		tabs: {
 			subir: document.getElementById("subir"),
 			editar: document.getElementById("editar"),
 			crear: document.getElementById("crear"),
+			keyword: document.getElementById("keyword"),
 		},
 		buttons: {
 			subir: document.getElementById("subirBtn"),
 			editar: document.getElementById("editarBtn"),
 			crear: document.getElementById("crearBtn"),
+			keyword: document.getElementById("KeywordsBtn"),
 			categoria: document.getElementById("categoriaBtn"),
 			subcategoria: document.getElementById("subcatBtn"),
 		},
@@ -68,5 +65,18 @@ document.addEventListener("DOMContentLoaded", () => {
 		elements.lastTab = elements.tabs.crear;
 		elements.lastBtn = elements.buttons.crear;
 		localStorage.setItem("lastTab", "crear");
+	});
+
+	elements.buttons.keyword.addEventListener("click", () => {
+		changeVisibility(
+			elements.tabs.keyword,
+			elements.lastTab,
+			elements.buttons.keyword,
+			elements.lastBtn
+		);
+
+		elements.lastTab = elements.tabs.keyword;
+		elements.lastBtn = elements.buttons.keyword;
+		localStorage.setItem("lastTab", "keyword");
 	});
 });

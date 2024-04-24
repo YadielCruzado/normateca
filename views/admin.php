@@ -52,10 +52,12 @@ $opciones = 20;
         <button type="button" name="tab" id="subirBtn" class="active">Subir Documento</button>
         <button type="button" name="tab" id="editarBtn">Editar Documento</button>
         <button type="button" name="tab" id="crearBtn">Crear Categorias</button>
+        <button type="button" name="tab" id="KeywordsBtn">Keywords</button>
       </div>
 
       <div class="tabs">
         <div id="subir" class="subir">
+        <h3>Subir Documentos</h3>
           <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
           <input type="hidden" value="1" name="type">
             <div class="file">
@@ -135,8 +137,6 @@ $opciones = 20;
             </div>
             <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
           </form>
-
-
 
           <div class="backline">
             <h3>Añadir enlace a otro Documento</h3>
@@ -226,80 +226,77 @@ $opciones = 20;
         </div>
 
         
-        <div id="editar" class="editar" style="display: none">
-    <div class="backline">
-        <h3>Editar Documento</h3>
-        <div class="search-bar">
-            <form class="gabriel" method="POST" action="admin.php" style="display: flex;">
-                <input type="hidden" value="7" name="type">
-                <input type="text" name="searchQuery" placeholder="Buscar por nombre" style="flex: 1;">
-                <button type="submit">Buscar</button>
-                <button class ="color" type="button" onclick="limpiar1()">Limpiar</button>
-            </form>
+      <div id="editar" class="editar" style="display: none">
+        <div class="backline">
+            <h3>Editar Documento</h3>
+            <div class="search-bar">
+                <form class="gabriel" method="POST" action="admin.php" style="display: flex;">
+                    <input type="hidden" value="7" name="type">
+                    <input type="text" name="searchQuery" placeholder="Buscar por nombre" style="flex: 1;">
+                    <button type="submit">Buscar</button>
+                    <button class ="color" type="button" onclick="limpiar1()">Limpiar</button>
+                </form>
+            </div>
         </div>
-    </div>
-    <table>
-        <thead>
-          <tr>
-              <th>Certification number </th>
-              <th>Titulo</th>
-              <th>Categoria</th>
-              <th>Editar</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <?php
-                if (isset($_POST['searchQuery'])) {
-                  
-                    $searchQuery = $_POST['searchQuery'];
-                    
-                    //filtrar el doc
-                    $filteredDocuments = array_filter($_SESSION['documentos'], function($documento) use ($searchQuery) {
-                        return stripos($documento['Document_title'], $searchQuery) !== false;
-                    });
+        <table>
+            <thead>
+              <tr>
+                  <th>Certification number </th>
+                  <th>Titulo</th>
+                  <th>Categoria</th>
+                  <th>Editar</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <?php
+                    if (isset($_POST['searchQuery'])) {
+                      
+                        $searchQuery = $_POST['searchQuery'];
+                        
+                        //filtrar el doc
+                        $filteredDocuments = array_filter($_SESSION['documentos'], function($documento) use ($searchQuery) {
+                            return stripos($documento['Document_title'], $searchQuery) !== false;
+                        });
 
-                    //outputs documentos 
-                    foreach ($filteredDocuments as $documento) {
-                      echo '<tr><th>' . $documento['certi'] .'-'. $documento['fiscal'] .'</th><th>'.$documento['Document_title'] .'</th><th>'.$documento['categoria'] .'</th>';
-                        echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editar"
-                        data-EDid="' . $documento['Document_id'] . '" 
-                        data-EDtitle="' . $documento['Document_title'] . '" 
-                        data-EDcuerpo="' . $documento['cuerpo'] . '" 
-                        data-EDcategory="' . $documento['category'] . '"
-                        data-EDcerti="' . $documento['certi'] . '"
-                        data-EDfiscal="' . $documento['fiscal'] . '" 
-                        data-EDlenguaje="' . $documento['lenguaje'] . '"
-                        data-EDpath="' . $documento['path'] . '" 
-                        data-EDestado="' . $documento['estado'] . '" 
-                        onclick="EditDocumentos(this)">Editar</button></div></td>';
+                        //outputs documentos 
+                        foreach ($filteredDocuments as $documento) {
+                          echo '<tr><th>' . $documento['certi'] .'-'. $documento['fiscal'] .'</th><th>'.$documento['Document_title'] .'</th><th>'.$documento['categoria'] .'</th>';
+                            echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editar"
+                            data-EDid="' . $documento['Document_id'] . '" 
+                            data-EDtitle="' . $documento['Document_title'] . '" 
+                            data-EDcuerpo="' . $documento['cuerpo'] . '" 
+                            data-EDcategory="' . $documento['category'] . '"
+                            data-EDcerti="' . $documento['certi'] . '"
+                            data-EDfiscal="' . $documento['fiscal'] . '" 
+                            data-EDlenguaje="' . $documento['lenguaje'] . '"
+                            data-EDpath="' . $documento['path'] . '" 
+                            data-EDestado="' . $documento['estado'] . '" 
+                            onclick="EditDocumentos(this)">Editar</button></div></td>';
+                        }
+                    } else {
+                        // predeterminado si no hay busqueda 
+                        foreach ($_SESSION['documentos'] as $documento) {
+                            echo '<tr><th>' . $documento['certi'] .'-'. $documento['fiscal'] .'</th><th>'.$documento['Document_title'] .'</th><th>'.$documento['categoria'] .'</th>';
+                            echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editar"
+                            data-EDid="' . $documento['Document_id'] . '" 
+                            data-EDtitle="' . $documento['Document_title'] . '" 
+                            data-EDcuerpo="' . $documento['cuerpo'] . '" 
+                            data-EDcategory="' . $documento['category'] . '"
+                            data-EDcerti="' . $documento['certi'] . '"
+                            data-EDfiscal="' . $documento['fiscal'] . '" 
+                            data-EDlenguaje="' . $documento['lenguaje'] . '"
+                            data-EDpath="' . $documento['path'] . '" 
+                            data-EDestado="' . $documento['estado'] . '" 
+                            onclick="EditDocumentos(this)">Editar</button></div></td>';
+                        }
                     }
-                } else {
-                    // predeterminado si no hay busqueda 
-                    foreach ($_SESSION['documentos'] as $documento) {
-                        echo '<tr><th>' . $documento['certi'] .'-'. $documento['fiscal'] .'</th><th>'.$documento['Document_title'] .'</th><th>'.$documento['categoria'] .'</th>';
-                        echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editar"
-                        data-EDid="' . $documento['Document_id'] . '" 
-                        data-EDtitle="' . $documento['Document_title'] . '" 
-                        data-EDcuerpo="' . $documento['cuerpo'] . '" 
-                        data-EDcategory="' . $documento['category'] . '"
-                        data-EDcerti="' . $documento['certi'] . '"
-                        data-EDfiscal="' . $documento['fiscal'] . '" 
-                        data-EDlenguaje="' . $documento['lenguaje'] . '"
-                        data-EDpath="' . $documento['path'] . '" 
-                        data-EDestado="' . $documento['estado'] . '" 
-                        onclick="EditDocumentos(this)">Editar</button></div></td>';
-                    }
-                }
-          ?> 
-        </tbody>
-      </table>
-    </div>
-    </div>
-    </div>
-
+              ?> 
+            </tbody>
+          </table>
+        </div>
+      
         <div id="crear" class="crear back" style="display: none">
-
           <h3>Categorias disponibles</h3>
           <table>
             <thead>
@@ -367,12 +364,36 @@ $opciones = 20;
             </tbody>
           </table>
         </div>
+        
+        <div id="keyword" class="keywords" style="display: none">
+          <h3>Keyword</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Keyword</th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+            <tbody id="keywords">
+              <?php
+              if (count($_SESSION['keywords']) > 0) {
+                foreach ($_SESSION['keywords'] as $key) {
+                  echo '<tr>';
+                  echo '<td>' . $key['keyword_name'] . '</td>';
+                  echo '<td>' . "a" . '</td>'; // Assuming 'accion' is the action associated with the keyword
+                  echo '</tr>'; // Close the <tr> tag properly
+                }
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <h4>Visita nuestro sitio web:<a href="#"> upra.edu</a></h4>
+    <h4>Visita nuestro sitio web:<a href="https://upra.edu/"> upra.edu</a></h4>
   </footer>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

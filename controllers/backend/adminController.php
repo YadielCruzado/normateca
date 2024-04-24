@@ -21,6 +21,7 @@ function setData(){
     $documentos = [];
     $documentosn = [];
     $enlazarDocumentosn = [];
+    $keywords = [];
 
     $cuerpo = $_SESSION['login']['Cuerpo'];
     
@@ -93,12 +94,26 @@ function setData(){
         $documentos = null;
     }
 
+    $result = $model->getKeywords();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $values = array(
+                "keyword_id" => $row['Keywords_id'],
+                "keyword_name" => $row['Keywords_name']
+            );
+            array_push($keywords, $values);
+        } 
+    } else {
+        $documentos = null;
+    }
+
     $_SESSION['corps'] = $cuerpos;
     $_SESSION['cats'] = $categorias;
     $_SESSION['Enlazar'] = $enlazarDocumentos;
     $_SESSION['documentos'] = $documentos;
     $_SESSION['documentosn'] = $documentosn;
     $_SESSION['Enlazarn'] = $enlazarDocumentosn;
+    $_SESSION['keywords'] = $keywords;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
