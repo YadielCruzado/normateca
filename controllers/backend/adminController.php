@@ -353,5 +353,38 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         } else {
             echo "errorrr";
         }
+    }else if ($_POST['type'] == "9") { //keywords editar
+  
+        $id = $_POST["key_id"];
+        $name = $_POST["key"];
+
+        
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $success = $model->updateKeyword($id, $name);
+        $model->connection->close();
+
+        if ($success) {
+            header("Location: ../../views/admin.php?succes");
+
+        } else {
+            echo "errorrr";
+        }
+    }else if ($_POST['type'] == "10") { //keywords insertar
+
+        $name = $_POST["key"];
+
+        $model = new AdminModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $success = $model->insertKeyword($name);
+        $model->connection->close();
+
+        if ($success) {
+            header("Location: ../../views/admin.php?succes");
+
+        } else {
+            echo "errorrr";
+        }
+        
     }
 }

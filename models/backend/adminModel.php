@@ -124,8 +124,21 @@ class AdminModel extends DB{
     }
 
     //keywords
+    //select all
     public function getKeywords(){
         $query = "SELECT * FROM keywords ";
+        return $this->run_query($query);
+    }
+
+    //insert
+    public function insertKeyword($nombre) {
+        $query = "INSERT INTO `keywords` (`Keywords_id`, `Keywords_name`) VALUES (NULL, '$nombre')";
+        return $this->run_query($query);
+    }
+
+    //edit
+    public function updateKeyword($id, $nombre) {
+        $query = "UPDATE keywords SET `Keywords_name` = '$nombre' WHERE `keywords`.`Keywords_id` = $id";
         return $this->run_query($query);
     }
 }

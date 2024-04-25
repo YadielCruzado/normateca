@@ -101,6 +101,7 @@ function Enmendar(button) {
 	document.getElementById("EnFiscal").innerText = fiscal;
 	document.getElementById("EnTitulo").innerText = title;
 }
+
 //modal derrogar
 function derrogar(button) {
 	var id = button.getAttribute("data-Did");
@@ -114,4 +115,14 @@ function derrogar(button) {
 	document.getElementById("DerNumber").innerText = number;
 	document.getElementById("DerFiscal").innerText = fiscal;
 	document.getElementById("DerTitle").innerText = title;
+}
+
+//modal keyword
+function editkeywords(button) {
+	var id = button.getAttribute("data-Key_id");
+	var nombre = button.getAttribute("data-Key_name");
+	console.log(id, nombre);
+
+	document.getElementById("key_id").value = id;
+	document.getElementById("key_nombre").value = nombre;
 }

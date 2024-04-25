@@ -358,36 +358,56 @@ $opciones = 20;
                 print '<tr><td colspan="2" style="text-align:center">Categorias no disponibles</td></tr>';
               }
               ?>
-              <tr>
-                <td colspan="4" style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddCuerpo">Añadir Cuerpo</button></td>
-              </tr>
             </tbody>
           </table>
         </div>
         
         <div id="keyword" class="keywords" style="display: none">
-          <h3>Keyword</h3>
+          <h3>Keywords</h3>
           <table>
             <thead>
               <tr>
                 <th>Keyword</th>
                 <th>Accion</th>
+                <th>Keyword</th>
+                <th>Accion</th>
               </tr>
             </thead>
             <tbody id="keywords">
-              <?php
+            <?php
               if (count($_SESSION['keywords']) > 0) {
-                foreach ($_SESSION['keywords'] as $key) {
-                  echo '<tr>';
-                  echo '<td>' . $key['keyword_name'] . '</td>';
-                  echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editkeywords"
-                    data-Key_name="' . $key['keyword_name'] . '"
-                    data-Key_id="' . $key['keyword_id'] . '"
-                    onclick="editkeywords(this)">Editar</button></td>';
-                  echo '</tr>'; 
-                }
+                  $keywords = $_SESSION['keywords'];
+                  for ($i = 0; $i < count($keywords); $i += 2) {
+                      echo '<tr>';
+                      
+                      // Primer Keyword_name y botón
+                      echo '<td>' . $keywords[$i]['keyword_name'] . '</td>';
+                      echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editkeywords"
+                              data-Key_name="' . $keywords[$i]['keyword_name'] . '"
+                              data-Key_id="' . $keywords[$i]['keyword_id'] . '"
+                              onclick="editkeywords(this)">Editar</button></td>';
+                      
+                      // Segundo Keyword_name y botón (si está disponible)
+                      if ($i + 1 < count($keywords)) {
+                          echo '<td>' . $keywords[$i + 1]['keyword_name'] . '</td>';
+                          echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editkeywords"
+                                  data-Key_name="' . $keywords[$i + 1]['keyword_name'] . '"
+                                  data-Key_id="' . $keywords[$i + 1]['keyword_id'] . '"
+                                  onclick="editkeywords(this)">Editar</button></td>';
+                      } else {
+                          // Si no hay un segundo Keyword_name, imprimir celdas vacías
+                          echo '<td></td>';
+                          echo '<td></td>';
+                      }
+                      
+                      echo '</tr>';
+                  }
               }
-              ?>
+            ?>
+
+              <tr>
+                <td colspan="4" style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddKeyword">Añadir Keyword</button></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -736,37 +756,42 @@ $opciones = 20;
     <div class="modal-content">
       <!-- Cabecera del modal -->
       <div class="modal-header" >
-          <h4 class="modal-title">Derrogar documento</h4>
+          <h4 class="modal-title">Editar keyword</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <!-- Contenido del modal -->
       <div class="modal-body editar form">
         <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
-        <input type="hidden" value="8" name="type">
-          <section class="Ensection">
-            <h3 id="DerTitle"></h3>
-            <div>
-              <h3 id="DerNumber"></h3>
-              <h3>-</h3>
-              <h3 id="DerFiscal"></h3>
-            </div>
-          </section>
-          <input type="hidden" value="" name="MainDoc" id="DerId">
-          <div class="Endocs">
-            <h3>Enmienda al documento</h3>
-            <select  name="derrogaDoc">
-              <?php
-                if (count($_SESSION['Enlazar']) > 0) {
-                  echo "<option selected disabled>Documentos</option>";
-                  foreach ($_SESSION['Enlazar'] as $docs) {
-                    $value = $docs['id'];
-                    $text = $docs['title'];
-                    echo "<option value='$value'>$text</option>";
-                  }
-                }
-              ?>
-            </select>
-          </div>
+
+        <input type="hidden" value="9" name="type">
+        <input type="hidden" value="" id="key_id" name="key_id">
+        
+          <label for="key_nombre">Keyword</label>
+          <input type="text" id="key_nombre" name="key" value="" />
+          
+          <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="AddKeyword">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Cabecera del modal -->
+      <div class="modal-header" >
+          <h4 class="modal-title">Añadir keyword</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Contenido del modal -->
+      <div class="modal-body editar form">
+        <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
+
+        <input type="hidden" value="10" name="type">
+        
+          <label for="key_nombre">Keyword</label>
+          <input type="text" id="key_nombre" name="key" value="" />
           
           <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
         </form>
