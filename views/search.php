@@ -1,7 +1,31 @@
 <?php
-//include_once("../controllers/backend/adminController.php");
+
 include_once("../controllers/frontend/frontController.php");
-//setData();
+
+// Verificar y asignar valores de $_POST a variables
+$certificationNumber = isset($_POST['certification_number']) ? $_POST['certification_number'] : '';
+$fiscalYear = isset($_POST['Fiscal_year']) ? $_POST['Fiscal_year'] : '';
+$keyword = isset($_POST['Keywordnames']) ? $_POST['Keywordnames'] : '';
+$documentTitle = isset($_POST['Document_title']) ? $_POST['Document_title'] : '';
+$dateCreated = isset($_POST['Date_created']) ? $_POST['Date_created'] : '';
+$desde = isset($_POST['desde']) ? $_POST['desde'] : '';
+$hasta = isset($_POST['hasta']) ? $_POST['hasta'] : '';
+
+// Asignar valores a $_SESSION
+$_SESSION['certificationNumber'] = $certificationNumber;
+$_SESSION['fiscalYear'] = $fiscalYear;
+$_SESSION['keyword'] = $keyword;
+$_SESSION['documentTitle'] = $documentTitle;
+$_SESSION['dateCreated'] = $dateCreated;
+$_SESSION['desde'] = $desde;
+$_SESSION['hasta'] = $hasta;
+
+// Procesar cambio de número de registros por página
+if (isset($_POST['selectedRecords'])) {
+  $_SESSION['registros'] = $_POST['selectedRecords'];
+}
+
+// Procesar búsqueda
 doc();
 ?>
 
@@ -22,7 +46,7 @@ doc();
       </div>
     </header>
     <div class="titulo">
-      <h2>Busqueda de Certificaciones</h2>
+      <h2>Búsqueda de Certificaciones</h2>
     </div>
 
     <main>
@@ -32,57 +56,48 @@ doc();
             <h2>Parámetros de Búsqueda</h2>
             <form class="search" action="search.php" method="POST">
 
-              <label for="certification_number">Numero de Certificación</label>
-              <input type="search" id="certification_number" name="certification_number" placeholder="Buscar documento..." />
-              
+              <label for="certification_number">Número de Certificación</label>
+              <!-- <input type="search" id="certification_number" name="certification_number" placeholder="Buscar documento..." /> -->
+              <input type="search" id="certification_number" name="certification_number" placeholder="Buscar documento..." value="<?php echo isset($_SESSION['certificationNumber']) ? $_SESSION['certificationNumber'] : ''; ?>" />
           
               <label for="Fiscal_year">Año Fiscal</label>
-              <input type="search" id="Fiscal_year" name="Fiscal_year" placeholder="Buscar documento..." />
+              <!-- <input type="search" id="Fiscal_year" name="Fiscal_year" placeholder="Buscar documento..." /> -->
+              <input type="search" id="Fiscal_year" name="Fiscal_year" placeholder="Buscar documento..." value="<?php echo isset($_SESSION['fiscalYear']) ? $_SESSION['fiscalYear'] : ''; ?>" />
+
+
+
 
               <label for="Keywordnames">Palabra Clave</label>
-              <input type="search" id="Keywordnames" name="Keywordnames" placeholder="Buscar documento..." />
-              
-              <label for="Document_title">Titulo</label>
-              <input type="search" id="Document_title" name="Document_title" placeholder="Buscar documento..." />
+              <!-- <input type="search" id="Keywordnames" name="Keywordnames" placeholder="Buscar documento..." /> -->
+              <input type="search" id="Keywordnames" name="Keywordnames" placeholder="Buscar documento..." value="<?php echo isset($_SESSION['keyword']) ? $_SESSION['keyword'] : ''; ?>" />
+
+              <label for="Document_title">Título</label>
+              <!-- <input type="search" id="Document_title" name="Document_title" placeholder="Buscar documento..." /> -->
+              <input type="search" id="Document_title" name="Document_title" placeholder="Buscar documento..." value="<?php echo isset($_SESSION['documentTitle']) ? $_SESSION['documentTitle'] : ''; ?>" />
 
               <label>Cuerpo</label>
               <div class="filters">
-                  <?php
-                  if (isset($_SESSION['corps']) && !empty($_SESSION['corps'])) {
-                      foreach ($_SESSION['corps'] as $corp) {
-                          $checked = (isset($_POST['cuerpo']) && in_array($corp['corp_abbr'], $_POST['cuerpo'])) ? 'checked' : '';
-                          echo '<input type="checkbox" id="' . $corp['corp_abbr'] . '" name="cuerpo[]" value="' . $corp['corp_abbr'] . '" ' . $checked . ' />';
-                          echo '<label for="' . $corp['corp_abbr'] . '"> ' . $corp['corp_abbr'] . ' - ' . $corp['corp_name'] . ' </label><br />';
-                      }
-                  }
-                  ?>
+              <?php
+foreach ($_SESSION['corps'] as $corp) {
+  $checked = (isset($_SESSION['cuerpo']) && is_array($_SESSION['cuerpo']) && in_array($corp['corp_abbr'], $_SESSION['cuerpo'])) ? 'checked' : '';
+  echo '<input type="checkbox" id="' . $corp['corp_abbr'] . '" name="cuerpo[]" value="' . $corp['corp_abbr'] . '" ' . $checked . ' />';
+    echo '<label for="' . $corp['corp_abbr'] . '"> ' . $corp['corp_abbr'] . ' - ' . $corp['corp_name'] . ' </label><br />';
+}
+?>
               </div>
 
               
 
-              <label>Categoria</label>
+              <label>Categoría</label>
               <div class="filters">
-                  <?php
-                  if (count($_SESSION['cats']) > 0) {
-                      foreach ($_SESSION['cats'] as $cat) {
-                          echo '<input type="checkbox" id="' . $cat['cat_abbr'] . '" name="categoria[]" value="' . $cat['cat_abbr'] . '" />';
-                          echo '<label for="' . $cat['cat_abbr'] . '"> ' . $cat['cat_abbr'] . ' - ' . $cat['cat_name'] . '</label><br />';
-                      }
-                  }
-                  ?>
+              <?php
+foreach ($_SESSION['cats'] as $cat) {
+    $checked = (isset($_SESSION['cats']) && in_array($cat['cat_abbr'], $_SESSION['cats'])) ? 'checked' : '';
+    echo '<input type="checkbox" id="' . $cat['cat_abbr'] . '" name="categoria[]" value="' . $cat['cat_abbr'] . '" ' . $checked . ' />';
+    echo '<label for="' . $cat['cat_abbr'] . '"> ' . $cat['cat_abbr'] . ' - ' . $cat['cat_name'] . '</label><br />';
+}
+?>
               </div>
-<!-- 
-              <label>Relacion</label>
-              <div class="filters">
-                <input type="checkbox" id="enmendadopor" name="enmendadopor" />
-                <label for="enmendadopor">Enmendado por</label><br />
-                <input type="checkbox" id="derogadopor" name="derogadopor" />
-                <label for="derogadopor">Derrogado por</label><br />
-                <input type="checkbox" id="enmiendaa" name="enmiendaa" />
-                <label for="enmiendaa">Enmienda a</label><br />
-                <input type="checkbox" id="derogaa" name="derogaa" />
-                <label for="derogaa">Derroga a</label><br />
-              </div> -->
 
               <label for="Date_created">Fecha</label>
               <input type="date" id="Date_created" name="Date_created" placeholder="Buscar documento..." />
@@ -94,8 +109,22 @@ doc();
                 <br /><label for="hasta">Hasta</label>
                 <input type="date" id="hasta" name="hasta" placeholder="Buscar documento..." />
               </div>
-              <button type="button" onclick="Formulariolimpiar()">Limpiar</button>
+              <button type="submit" onclick="Formulariolimpiar()">Limpiar</button>
               <button type="submit">Buscar</button>
+            </form>
+
+            <form id="searchForm" method="POST" action="search.php">
+              <input type="hidden" name="certificationNumber" value="<?php echo $_SESSION['certificationNumber']; ?>">
+              <input type="hidden" name="fiscalYear" value="<?php echo $_SESSION['fiscalYear']; ?>">
+              <input type="hidden" name="keyword" value="<?php echo $_SESSION['keyword']; ?>">
+              <input type="hidden" name="documentTitle" value="<?php echo $_SESSION['documentTitle']; ?>">
+              <input type="hidden" name="cats" value="<?php echo $_SESSION['cats']; ?>">
+              <input type="hidden" name="cuerpo" value="<?php echo $_SESSION['cuerpo']; ?>">
+              <input type="hidden" name="dateCreated" value="<?php echo $_SESSION['dateCreated']; ?>">
+              <input type="hidden" name="desde" value="<?php echo $_SESSION['desde']; ?>">
+              <input type="hidden" name="hasta" value="<?php echo $_SESSION['hasta']; ?>">
+              <input type="hidden" name="paginaActual" value="<?php echo $_SESSION['paginaActual']; ?>">
+              <input type="hidden" name="registros" value="<?php echo $_SESSION['registros']; ?>">
             </form>
           </div>
         </div>
@@ -118,9 +147,9 @@ doc();
                </div>
      
                <div class="results">
-                 <label for="records">Records:</label>
+                 <label for="records">Registros:</label>
                  <form id="myForm" method="post" action="search.php">
-                    <select id="records" name="records" onchange="updateRecords()">
+                    <select id="records" name="selectedRecords" onchange="updateRecords()">
                       <option value="10" <?php if ($_SESSION['registros'] == 10) echo 'selected'; ?>>10</option>
                       <option value="25" <?php if ($_SESSION['registros'] == 25) echo 'selected'; ?>>25</option>
                       <option value="50" <?php if ($_SESSION['registros'] == 50) echo 'selected'; ?>>50</option>
@@ -142,13 +171,13 @@ doc();
                     }
                     </script>
 <script>
-  function Formulariolimpiar() {
+function Formulariolimpiar() {
     // Obtener todos los elementos de tipo checkbox dentro del formulario
     var checkboxes = document.querySelectorAll('input[type="checkbox"]');
     
     // Desmarcar todos los checkboxes
     checkboxes.forEach(function(checkbox) {
-      checkbox.checked = false;
+        checkbox.checked = false;
     });
     
     // Limpiar otros tipos de campos de formulario si es necesario
@@ -160,20 +189,34 @@ doc();
     document.getElementById("desde").value = "";
     document.getElementById("hasta").value = "";
 
+    // Limpiar las variables de sesión relacionadas con los filtros
+    <?php
+    unset($_SESSION['certificationNumber']);
+    unset($_SESSION['fiscalYear']);
+    unset($_SESSION['keyword']);
+    unset($_SESSION['documentTitle']);
+    unset($_SESSION['cuerpo']);
+    unset($_SESSION['categoria']);
+    unset($_SESSION['dateCreated']);
+    unset($_SESSION['desde']);
+    unset($_SESSION['hasta']);
+    ?>
+    
     // Redirigir a la misma página después de limpiar el formulario
     window.location.href = 'search.php';
-  }
+}
 </script>
+
 
 
                   <table>
                     <thead>
                       <tr>
                         <th>Cuerpo</th>
-                        <th>Numero</th>
+                        <th>Número</th>
                         <th>Año Fiscal</th>
-                        <th>Titulo</th>
-                        <th>Categoria</th>
+                        <th>Título</th>
+                        <th>Categoría</th>
                         <th>Relaciones</th>
                         <th>Descargar</th>
                       </tr>
@@ -181,7 +224,7 @@ doc();
                     <tbody>
                     <?php
                     if (empty($_SESSION['documentos'])) {
-                      echo '<tr><td colspan="7">No documents available</td></tr>';
+                      echo '<tr><td colspan="7">No hay documentos disponibles</td></tr>';
                   }else{
 
                       foreach ($_SESSION['documentos'] as $doc) {

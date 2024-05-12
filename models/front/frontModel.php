@@ -5,6 +5,8 @@ class frontModel extends DB
    
     public function filtrarDocs($certificationNumber, $fiscalYear, $keyword, $documentTitle,$cuerpo,$categoria,$date_created,$desde,$hasta,$paginaActual,$registros,$inicio)
 {
+    echo "Certification Number: " . $_SESSION['certificationNumber'] . "<br>";
+    echo "Fiscal Year: " . $_SESSION['fiscalYear'] . "<br>";
     
     $query = "SELECT 
     documentos.Document_id AS Document_id, 
@@ -173,6 +175,7 @@ class frontModel extends DB
 
     return $this->run_query($query);
 }
+
 //query anterior de numpages
 // public function numPages(){
 //     $query = "SELECT COUNT(*) as total FROM documentos";
@@ -182,6 +185,9 @@ class frontModel extends DB
 
 public function numPages($certificationNumber, $fiscalYear, $keyword, $documentTitle, $date_created, $desde, $hasta, $cuerpo, $categoria) {
     $query = "SELECT COUNT(*) as total FROM documentos WHERE 1 = 1";
+    echo "Certification Number numoages: " . $_SESSION['certificationNumber'] . "<br>";
+    echo "Fiscal Year: " . $_SESSION['fiscalYear'] . "<br>";
+    echo $certificationNumber;
 
     if ($certificationNumber != '') {
         $query .= " AND documentos.Certification_number LIKE '%$certificationNumber%'";

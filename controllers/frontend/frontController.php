@@ -1,5 +1,5 @@
 <?php
-// session_start();
+ session_start();
 // inicializar las variables
 if (!isset($_SESSION['certificationNumber'])) {
     $_SESSION['certificationNumber'] = '';
@@ -113,17 +113,22 @@ function doc()
     }
         
         // Opcional: puedes también definir variables adicionales para simplificar el código
-        $certificationNumber = $_SESSION['certificationNumber'];
-        $fiscalYear = $_SESSION['fiscalYear'];
-        $keyword = $_SESSION['keyword'];
-        $documentTitle = $_SESSION['documentTitle'];
-        $categoria = $_SESSION['categoria'];
-        $cuerpo = $_SESSION['cuerpo'];
-        $date_created = $_SESSION['dateCreated'];
-        $desde = $_SESSION['desde'];
-        $hasta = $_SESSION['hasta'];
+        $certificationNumber = isset($_SESSION['certificationNumber']) ? $_SESSION['certificationNumber'] : '';
+        $fiscalYear = isset($_SESSION['fiscalYear']) ? $_SESSION['fiscalYear'] : '';
+        $keyword = isset($_SESSION['keyword']) ? $_SESSION['keyword'] : '';
+        $documentTitle = isset($_SESSION['documentTitle']) ? $_SESSION['documentTitle'] : '';
+        $date_created = isset($_SESSION['date_created']) ? $_SESSION['date_created'] : '';
+        $desde = isset($_SESSION['desde']) ? $_SESSION['desde'] : '';
+        $hasta = isset($_SESSION['hasta']) ? $_SESSION['hasta'] : '';
+        $cuerpo = isset($_SESSION['cuerpo']) ? $_SESSION['cuerpo'] : [];
+        $categoria = isset($_SESSION['categoria']) ? $_SESSION['categoria'] : [];
+
+
+
         $paginaActual = $_SESSION['paginaActual'];
         $registros = $_SESSION['registros'];
+        var_dump($paginaActual);
+        var_dump($registros);
         $inicio = ($paginaActual - 1) * $registros;
 
         $result = $model->filtrarDocs($certificationNumber, $fiscalYear, $keyword, $documentTitle,$cuerpo,$categoria,$date_created,$desde,$hasta,$paginaActual,$registros,$inicio);
@@ -184,19 +189,6 @@ function doc()
     } else {
         $recientes = null;
     }
-
-    // $result = $model->numPages();
-    // if($result->num_rows > 0) {
-    //     while ($row = $result->fetch_assoc()) {
-    //         $totalPaginas = ceil($row['total'] / $registros);
-    //         $values = array(
-    //             "pag" => $totalPaginas,
-    //             "registros" => $registros,
-    //             "total" => $row['total']
-    //         );
-    //         array_push($paginas, $values);
-    //     }
-    // }
 
     $result = $model->numPages($certificationNumber, $fiscalYear, $keyword, $documentTitle, $date_created, $desde, $hasta, $cuerpo, $categoria);
 if ($result->num_rows > 0) {
