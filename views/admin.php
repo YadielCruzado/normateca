@@ -97,7 +97,7 @@ $opciones = 20;
               </div>
 
               <div class="innerBox">
-                <label for="filename"> Lenguaje de Documento: </label>
+                <label for="lenguaje"> Lenguaje de Documento: </label>
                 <select id="lenguaje" name="lenguaje">
                   <option disabled selected>Select</option>
                   <option value="ESP">Español</option>
@@ -106,13 +106,11 @@ $opciones = 20;
 
                 
 
-                <label for="filename"> Año Fiscal : </label>
+                <label for="añofiscal"> Año Fiscal : </label>
                 <select id="añofiscal" name="fiscalYear">
                   <option disabled selected>Select</option>
                   <?php
                     $anioActual = date("Y");
-                    //opcion is at the start of the file 
-                    //because it affect another select
                     for ($i = 0; $i <= $opciones; $i++) {
                       $anioInicio = $anioActual - $i;
                       $anioFin = $anioInicio - 1;
@@ -120,8 +118,8 @@ $opciones = 20;
                     }
                   ?>
                 </select>
-                <label for="subcategorias">Cuerpo: </label>
-                <select id="subcategorias" name="corp">
+                <label for="Cuerpo">Cuerpo: </label>
+                <select id="Cuerpo" name="corp">
                   <option selected disabled>Select</option>
                   <?php
                   if (count($_SESSION['corps']) > 0) {
@@ -131,6 +129,24 @@ $opciones = 20;
                   }
                   ?>
                 </select>
+
+                <label for="dropdownMenuButton1">Keywords: </label>
+                <div class="dropdown" id="dropdown1">
+                  <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" aria-haspopup="true" aria-expanded="false">
+                      Select Keywords
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <?php
+                      // Dynamically generate checkboxes from session data
+                      if(isset($_SESSION['keywords']) && is_array($_SESSION['keywords'])) {
+                          foreach ($_SESSION['keywords'] as $keyword) {
+                              echo '<label><input type="checkbox" class="dropdown-checkbox" name="selected_keywords[]" value="' . $keyword['keyword_id'] . '">' . $keyword['keyword_name'] . '</label>';
+                          }
+                      }
+                    ?>
+                  </div>
+                </div>
+
                 <label for="firma"> Firmado por: </label>
                 <input type="text" id="firma" name="signature" value="<?php echo htmlspecialchars($log['Nombre'] . ' ' . $log['Apellido']); ?>" readonly>
               </div>
@@ -743,7 +759,7 @@ $opciones = 20;
 
           <label for="path">Subir Documento:</label>
           <input type="file" id="path" name="path" value="" />
-
+          
           <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
         </form>
       </div>

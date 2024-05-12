@@ -141,5 +141,12 @@ class AdminModel extends DB{
         $query = "UPDATE keywords SET `Keywords_name` = '$nombre' WHERE `keywords`.`Keywords_id` = $id";
         return $this->run_query($query);
     }
+
+    //contains 
+    public function insertContains($doc, $key) {
+        $query = "INSERT INTO `contains` (`Document_id`, `Keyword_id`) VALUES ('$doc', '$key')";
+        return $this->run_query($query);
+    }
 }
 ?>
+

@@ -132,13 +132,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
                     "file_desc" => $_POST['desc'],
                     "file_number" => $_POST['number'],
                     "file_state" => $_POST['state'],
-                    "file_cat" => $_POST['cat'],
-                    "file_lang" => $_POST['lang'],
+                    "file_cat" => $_POST['category'],
+                    "file_lang" => $_POST['lenguaje'],
                     "file_year" => $_POST['fiscalYear'],
                     "file_corp" => $_POST['corp'],
                     "file_signature" => $_POST['signature'],
                     "file_path" => $upload_file
                 );
+
+                $selectedKeywords = $_POST['selected_keywords'];
+
+                
+                
         
                 // Convert the values array to a string for tracking
                 $values_string = json_encode($values);
@@ -154,9 +159,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
                     $model->start_connection();
                     $model->InsertFile($values);
                     $id_insertado = $model->connection->insert_id; 
-                    $model->Tracking($Admin, 'Insert', $id_insertado, $values_string, '');
+
+                    // Process the selected keywords
+                    foreach ($selectedKeywords as $selectedKeyword) {
+                        $model->insertContains($id_insertado, $selectedKeyword);
+                    }
                     $model->connection->close();
-        
+                    
                     // Successful upload
                     header("Location: ../../views/admin.php?success");
                     exit();

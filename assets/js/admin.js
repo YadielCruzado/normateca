@@ -126,3 +126,50 @@ function editkeywords(button) {
 	document.getElementById("key_id").value = id;
 	document.getElementById("key_nombre").value = nombre;
 }
+
+//keywords
+document.addEventListener("DOMContentLoaded", function () {
+	var dropdownToggle = document.querySelector(".dropdown-toggle");
+	var dropdownMenu = document.querySelector(".dropdown-menu");
+
+	dropdownToggle.addEventListener("click", function () {
+		dropdownMenu.classList.toggle("show");
+	});
+
+	// Close dropdown when clicking outside
+	window.addEventListener("click", function (event) {
+		if (!dropdownToggle.contains(event.target)) {
+			dropdownMenu.classList.remove("show");
+		}
+	});
+
+	var checkboxes = document.querySelectorAll(".dropdown-checkbox");
+	checkboxes.forEach(function (checkbox) {
+		checkbox.addEventListener("change", function () {
+			updateButtonText();
+		});
+	});
+});
+
+function updateButtonText() {
+	var button = document.querySelector("button");
+	var selectedOptions = getSelectedOptions();
+	button.textContent = "Get Selected Values (" + selectedOptions.length + ")";
+}
+
+function getSelectedOptions() {
+	var selectedOptions = [];
+	var checkboxes = document.querySelectorAll(".dropdown-checkbox");
+	checkboxes.forEach(function (checkbox) {
+		if (checkbox.checked) {
+			selectedOptions.push(checkbox.value);
+		}
+	});
+	return selectedOptions;
+}
+
+function getSelectedValues() {
+	var selectedOptions = getSelectedOptions();
+	console.log(selectedOptions);
+	// You can perform further actions with the selected options here
+}
