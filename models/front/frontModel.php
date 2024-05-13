@@ -170,7 +170,7 @@ class frontModel extends DB
     if ($inicio != '' AND $registros != '') {
         $query .= " LIMIT $inicio, $registros";
     }
-
+ 
     return $this->run_query($query);
 }
 //query anterior de numpages
@@ -226,7 +226,7 @@ public function numPages($certificationNumber, $fiscalYear, $keyword, $documentT
     
         $query .= " AND (" . $cateQuery . ")";
     }
-
+    
     $result = $this->run_query($query);
     return $result;
 }

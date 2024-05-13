@@ -1,5 +1,5 @@
 <?php
-// session_start();
+ session_start();
 // inicializar las variables
 if (!isset($_SESSION['certificationNumber'])) {
     $_SESSION['certificationNumber'] = '';
