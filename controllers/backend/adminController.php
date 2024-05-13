@@ -59,18 +59,37 @@ function setData(){
     $result = $model->GetEnlazarDocumentos($cuerpo);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
+            // Obtener documentos modificados
+            $ammended = $model->enmienda_documents($row['Document_id']);
+            $derroga = $model->derroga_documents($row['Document_id']);
+            
+            // Guardar los valores devueltos por ammended_documents()
+            $ammended_values = array();
+            while ($ammended_row = $ammended->fetch_assoc()) {
+                $ammended_values[] = $ammended_row;
+            }
+            // Guardar los valores devueltos por derroga_documents()
+            $derroga_values = array();
+            while ($derroga_row = $derroga->fetch_assoc()) {
+                $derroga_values[] = $derroga_row;
+            }
+
+            // Guardar los valores del documento original junto con los documentos modificados
             $values = array(
                 "id" => $row['Document_id'],
                 "number" => $row['Certification_number'],
                 "fiscal" => $row['Fiscal_year'],
                 "title" => $row['Document_title'],
-                "category" => $row['Category_name']
+                "category" => $row['Category_name'],
+                "ammended" => $ammended_values, // Guardar los valores devueltos por ammended_documents()
+                "derroga" => $derroga_values // Guardar los valores devueltos por derroga_documents()
             );
             array_push($enlazarDocumentos, $values);
         }
     } else {
         $enlazarDocumentos = null;
     }
+
     
     $result = $model->getEditDocumentos($cuerpo);
     if ($result->num_rows > 0) {

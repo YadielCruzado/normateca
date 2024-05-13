@@ -283,7 +283,6 @@ tbody tr:nth-child(odd) {
 }
 
 .crear table td button {
-  /* width: 20%; */
   justify-self: center;
   background-color: #967216;
   color: whitesmoke;
@@ -297,21 +296,25 @@ tbody tr:nth-child(odd) {
 a:link,
 a:visited,
 a:active {
-  text-decoration: none;
-  color: whitesmoke;
+  color: black; 
+  text-decoration: none; 
+}
+
+a:hover {
+  color: blue; 
+  text-decoration: underline; 
 }
 
 footer {
+  height: 60px; 
   background-color: #161515;
   border-top: 5px solid var(--accent);
-  color: white;
-  position: bottom;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  margin: auto auto;
-  margin-top: 150px;
+  color: #fff;
   text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 
 .enlazar {
@@ -367,10 +370,28 @@ footer {
 }
 
 /* keywords */
-
-.keywords{
+.keywords {
   text-align: center;
 }
+
+.dropdown button{
+  width: 100%;
+  justify-content: center;
+  font-weight: normal;
+  display: block;
+  min-height: 1.2em;
+  padding: 0px 2px 1px;
+  white-space: nowrap;
+}
+
+.keyword-menu {
+  display: flex;
+  flex-wrap: wrap;
+}
+.keyword-menu label{
+  margin: 0 5px;
+}
+
 
 @media (max-width: 900px) {
   header {

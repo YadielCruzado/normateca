@@ -111,12 +111,27 @@ class AdminModel extends DB{
     }
 
     //Enmendar
+    public function enmienda_documents($documentId){
+        $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, documentos.Document_path 
+              FROM `enmienda` 
+              JOIN `documentos` ON `enmienda`.`Document_id` = `documentos`.`Document_id`
+              WHERE `documentos`.`Document_id` = $documentId";
+        return $this->run_query($query);
+    }
     public function Enmendar($main,  $amended){
         $query = "INSERT INTO `enmienda` (`Document_id`, `Target_id`, `Date`)
         VALUES ('$main', '$amended', current_timestamp())";
         return $this->run_query($query);
     }
+
     //derrogar
+    public function derroga_documents($documentId){
+        $query = "SELECT documentos.Certification_number, documentos.Fiscal_year, documentos.Document_path 
+              FROM `derroga` 
+              JOIN `documentos` ON `derroga`.`Document_id` = `documentos`.`Document_id`
+              WHERE `documentos`.`Document_id` = $documentId";
+        return $this->run_query($query);
+    }
     public function Derrogar($main,  $Derr){
         $query = "INSERT INTO `derroga` (`Document_id`, `Target_id`, `Date`)
         VALUES ('$main', '$Derr', current_timestamp())";

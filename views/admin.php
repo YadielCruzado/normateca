@@ -9,6 +9,8 @@ if(!isset($_SESSION['login'])) {
 include_once("../controllers/backend/adminController.php");
 setData();
 
+// print_r($_SESSION['Enlazar']);
+
 $opciones = 20;
 
 ?>
@@ -173,6 +175,7 @@ $opciones = 20;
                   <th>Certification number</th>
                   <th>Titulo</th>
                   <th>Categoria</th>
+                  <th>Relacion</th>
                   <th>Enlazar</th>
                 </tr>
               </thead>
@@ -190,7 +193,23 @@ $opciones = 20;
                     // data filtrada por el nombre del documento
                     if (count($filtered_results) > 0) {
                         foreach ($filtered_results as $Enlazar) {
-                          echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th><th>'.$Enlazar['category'] .'</th>';                          
+                          echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th><th>'.$Enlazar['category'] .'</th>';  
+
+                          echo '<th>';
+                          if (isset($Enlazar['ammended']) && $Enlazar['ammended'] != null) {
+                            echo 'Enmienda a <br>';
+                              foreach ($Enlazar['ammended'] as $ammended_doc) {
+                                  echo '<a href="' . $ammended_doc['Document_path'] . '" target="_blank">' . $ammended_doc['Certification_number'] . '-' . $ammended_doc['Fiscal_year'] . '</a><br>';
+                              }
+                          }
+                          if (isset($Enlazar['derroga']) && $Enlazar['derroga'] != null) {
+                            echo 'Derroga a <br>';
+                              foreach ($Enlazar['derroga'] as $derroga_doc) {
+                                  echo '<a href="' . $derroga_doc['Document_path'] . '" target="_blank">' . $derroga_doc['Certification_number'] . '-' . $derroga_doc['Fiscal_year'] . '</a><br>';
+                              }
+                          }
+                          echo '</th>';
+                          
                           echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enmendar"
                             data-Eid="'.$Enlazar['id'].'" 
                             data-Enumber="'.$Enlazar['number'].'" 
@@ -211,10 +230,25 @@ $opciones = 20;
                       print '<tr><td colspan="2" style="text-align:center">No se encontraron documentos</td></tr>';
                     }
                   } else {
-                    // predeterminado 
                     if (count($_SESSION['Enlazar']) > 0) {
                       foreach ($_SESSION['Enlazar'] as $Enlazar) {
-                        echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th><th>'.$Enlazar['category'] .'</th>';                        
+                        echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th><th>'.$Enlazar['category'] .'</th>';    
+
+                        echo '<th>';
+                        if (isset($Enlazar['ammended']) && $Enlazar['ammended'] != null) {
+                          echo 'Enmienda a <br>';
+                            foreach ($Enlazar['ammended'] as $ammended_doc) {
+                                echo '<a class="black" href="' . $ammended_doc['Document_path'] . '" target="_blank">' . $ammended_doc['Certification_number'] . '-' . $ammended_doc['Fiscal_year'] . '</a><br>';
+                            }
+                        }
+                        if (isset($Enlazar['derroga']) && $Enlazar['derroga'] != null) {
+                          echo 'Derroga a <br>';
+                            foreach ($Enlazar['derroga'] as $derroga_doc) {
+                                echo '<a href="' . $derroga_doc['Document_path'] . '" target="_blank">' . $derroga_doc['Certification_number'] . '-' . $derroga_doc['Fiscal_year'] . '</a><br>';
+                            }
+                        }
+                        echo '</th>';
+
                         echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enmendar"
                           data-Eid="'.$Enlazar['id'].'" 
                           data-Enumber="'.$Enlazar['number'].'" 
@@ -432,7 +466,7 @@ $opciones = 20;
   </main>
 
   <footer>
-    <h4>Visita nuestro sitio web:<a href="https://upra.edu/"> upra.edu</a></h4>
+    <h4></h4>
   </footer>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
