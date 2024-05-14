@@ -1,8 +1,6 @@
 <?php
-//include_once("../controllers/backend/adminController.php");
-include_once("../controllers/frontend/frontController.php");
-//setData();
-doc();
+  include_once("../controllers/frontend/frontController.php");
+  doc();
 ?>
 
 <!DOCTYPE html>
@@ -48,41 +46,31 @@ doc();
               <label>Cuerpo</label>
               <div class="filters">
                   <?php
-                  if (isset($_SESSION['corps']) && !empty($_SESSION['corps'])) {
-                      foreach ($_SESSION['corps'] as $corp) {
-                          $checked = (isset($_POST['cuerpo']) && in_array($corp['corp_abbr'], $_POST['cuerpo'])) ? 'checked' : '';
-                          echo '<input type="checkbox" id="' . $corp['corp_abbr'] . '" name="cuerpo[]" value="' . $corp['corp_abbr'] . '" ' . $checked . ' />';
-                          echo '<label for="' . $corp['corp_abbr'] . '"> ' . $corp['corp_abbr'] . ' - ' . $corp['corp_name'] . ' </label><br />';
-                      }
-                  }
+                    if (isset($_SESSION['corps']) && !empty($_SESSION['corps'])) {
+                        foreach ($_SESSION['corps'] as $corp) {
+                            $checked = (isset($_POST['cuerpo']) && in_array($corp['corp_abbr'], $_POST['cuerpo'])) ? 'checked' : '';
+                            echo '<input type="checkbox" id="' . $corp['corp_abbr'] . '" name="cuerpo[]" value="' . $corp['corp_abbr'] . '" ' . $checked . ' />';
+                            echo '<label for="' . $corp['corp_abbr'] . '"> ' . $corp['corp_abbr'] . ' - ' . $corp['corp_name'] . ' </label><br />';
+                        }
+                    }else{
+                      echo '<p>No hay cuerpos disponibles</p>';
+                    }
                   ?>
               </div>
-
-              
 
               <label>Categoria</label>
               <div class="filters">
                   <?php
-                  if (count($_SESSION['cats']) > 0) {
-                      foreach ($_SESSION['cats'] as $cat) {
-                          echo '<input type="checkbox" id="' . $cat['cat_abbr'] . '" name="categoria[]" value="' . $cat['cat_abbr'] . '" />';
-                          echo '<label for="' . $cat['cat_abbr'] . '"> ' . $cat['cat_abbr'] . ' - ' . $cat['cat_name'] . '</label><br />';
-                      }
-                  }
+                    if (isset($_SESSION['cats']) && !empty($_SESSION['cats'])) {
+                        foreach ($_SESSION['cats'] as $cat) {
+                            echo '<input type="checkbox" id="' . $cat['cat_abbr'] . '" name="categoria[]" value="' . $cat['cat_abbr'] . '" />';
+                            echo '<label for="' . $cat['cat_abbr'] . '"> ' . $cat['cat_abbr'] . ' - ' . $cat['cat_name'] . '</label><br />';
+                        }
+                    }else{
+                      echo '<p>No hay cuerpos disponibles</p>';
+                    }
                   ?>
               </div>
-<!-- 
-              <label>Relacion</label>
-              <div class="filters">
-                <input type="checkbox" id="enmendadopor" name="enmendadopor" />
-                <label for="enmendadopor">Enmendado por</label><br />
-                <input type="checkbox" id="derogadopor" name="derogadopor" />
-                <label for="derogadopor">Derrogado por</label><br />
-                <input type="checkbox" id="enmiendaa" name="enmiendaa" />
-                <label for="enmiendaa">Enmienda a</label><br />
-                <input type="checkbox" id="derogaa" name="derogaa" />
-                <label for="derogaa">Derroga a</label><br />
-              </div> -->
 
               <label for="Date_created">Fecha</label>
               <input type="date" id="Date_created" name="Date_created" placeholder="Buscar documento..." />
@@ -101,16 +89,20 @@ doc();
         </div>
              <div class="lastBox">
                <div>
+                <hr>
                  <h2>Certificaciones Recientes</h2>
-                 <hr />
+                 
                  <div class="recents">
                    <div class="JA">
                     <?php
-                      foreach ($_SESSION['recientes'] as $rec) {
-                        echo '<tr>';
-                        echo '<li><a href="'.$rec['path'].'" target="_blank">'.$rec['cuerpo'].' - '.$rec['number'].' - '.$rec['fiscal'].'</a> - '.$rec['title'].'</li>';
-                        echo '</tr>';
-                        
+                      if (isset($_SESSION['recientes']) && !empty($_SESSION['recientes'])) {
+                        foreach ($_SESSION['recientes'] as $rec) {
+                          echo '<tr>';
+                          echo '<li><a href="'.$rec['path'].'" target="_blank">'.$rec['cuerpo'].' - '.$rec['number'].'-'.$rec['fiscal'].'</a> - '.$rec['title'].'</li>';
+                          echo '</tr>';
+                        }
+                      }else{
+                        echo '<p>No hay documentos disponibles</p>';
                       }
                     ?>
                    </div>
@@ -128,44 +120,6 @@ doc();
                     </select>
                     <input type="hidden" id="selectedRecords" name="selectedRecords" value="10">
                   </form>
-
-                  <script>
-                    function updateRecords() {
-                        // Obtén el valor seleccionado
-                        var selectedValue = document.getElementById("records").value;
-
-                        // Actualiza el valor del campo oculto
-                        document.getElementById("selectedRecords").value = selectedValue;
-
-                        // Envía el formulario automáticamente
-                        document.getElementById("myForm").submit();
-                    }
-                    </script>
-<script>
-  function Formulariolimpiar() {
-    // Obtener todos los elementos de tipo checkbox dentro del formulario
-    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    
-    // Desmarcar todos los checkboxes
-    checkboxes.forEach(function(checkbox) {
-      checkbox.checked = false;
-    });
-    
-    // Limpiar otros tipos de campos de formulario si es necesario
-    document.getElementById("certification_number").value = "";
-    document.getElementById("Fiscal_year").value = "";
-    document.getElementById("Keywordnames").value = "";
-    document.getElementById("Document_title").value = "";
-    document.getElementById("Date_created").value = "";
-    document.getElementById("desde").value = "";
-    document.getElementById("hasta").value = "";
-
-    // Redirigir a la misma página después de limpiar el formulario
-    window.location.href = 'search.php';
-  }
-</script>
-
-
                   <table>
                     <thead>
                       <tr>
@@ -180,115 +134,112 @@ doc();
                     </thead>
                     <tbody>
                     <?php
-                    if (empty($_SESSION['documentos'])) {
-                      echo '<tr><td colspan="7">No documents available</td></tr>';
-                  }else{
+                      if (empty($_SESSION['doc'])) {
+                        echo '<tr><td colspan="7">No documents available</td></tr>';
+                      }else{
+                        foreach ($_SESSION['doc'] as $doc) {
+                          echo '<tr>';
+                          echo '<td>'.$doc['cuerpo'].'</td>'; 
+                          echo '<td>'.$doc['certi'].'</td>';
+                          echo '<td>'.$doc['fiscal'].'</td>';
+                          echo '<td>'.$doc['title'].'</td>';
+                          echo '<td>'.$doc['categoria'].'</td>';
 
-                      foreach ($_SESSION['documentos'] as $doc) {
-                      echo '<tr>';
-                      echo '<td>'.$doc['cuerpo'].'</td>'; 
-                      echo '<td>'.$doc['certi'].'</td>';
-                      echo '<td>'.$doc['fiscal'].'</td>';
-                      echo '<td>'.$doc['title'].'</td>';
-                      echo '<td>'.$doc['categoria'].'</td>';
+                          echo'<td>';
+                          if (isset($doc['ammended']) && $doc['ammended'] != null) {
+                            echo 'Enmienda a <br>';
+                              foreach ($doc['ammended'] as $ammended_doc) {
+                                  echo '<a class="black" href="' . $ammended_doc['Document_path'] . '" target="_blank">' . $ammended_doc['Certification_number'] . '-' . $ammended_doc['Fiscal_year'] . '</a><br>';
+                              }
+                              echo '<br>';
+                          }
+                          if (isset($doc['derroga']) && $doc['derroga'] != null) {
+                            echo 'Derroga a <br>';
+                              foreach ($doc['derroga'] as $derroga_doc) {
+                                  echo '<a href="' . $derroga_doc['Document_path'] . '" target="_blank">' . $derroga_doc['Certification_number'] . '-' . $derroga_doc['Fiscal_year'] . '</a><br>';
+                              }
+                          }
+                          echo '</td>';
 
-                      // echo '<td>'.$doc['certificacion_fiscal'].'</td>';
-                    //   if ($doc['certi_derr'] == '') {
-                    //     echo '<td></td>'; // Print "(no derr)" in the table cell when certi_derr is empty
-                    // } else {
-                    //   echo '<td><p>Derrogados</p>' . ' <a href="' . $doc['doc_path'] . '">' . $doc['certi_derr'] . ' - ' . $doc['fiscal_derr'] . '</a></td>';
-                    // }
-                    // && $doc['enmiendapor_cert'] != ''
-                    if ($doc['certi_derr'] == '' && $doc['certi_enm'] == '' && $doc['derrogadopor_cert'] == '' && $doc['enmiendapor_cert'] == '') {
-                      echo '<td></td>';
-                  } elseif ($doc['certi_derr'] != '' && $doc['certi_enm'] != '' && $doc['derrogadopor_cert'] != '' && $doc['enmiendapor_cert'] != '' ) {
-                      echo '<td>';
-                      echo '<p>Derroga a</p> <a href="' . $doc['doc_path'] . '"target="_blank">' . $doc['certi_derr'] . ' - ' . $doc['fiscal_derr'] . '</a><br>';
-                      echo '<p>Enmienda a</p> <a href="' . $doc['doc_path_enm'] . '"target="_blank">' . $doc['certi_enm'] . ' - ' . $doc['fiscal_enm'] . '</a>';
-                      echo '<p>Derrogado por</p> <a href="' . $doc['derrogadopor_path'] . '"target="_blank">' . $doc['derrogadopor_cert'] . ' - ' . $doc['derrogadopor_fiscal'] . '</a>';
-                      echo '<p>Enmendado por</p> <a href="' . $doc['enmiendapor_path'] . '"target="_blank">' . $doc['enmiendapor_cert'] . ' - ' . $doc['enmiendapor_fiscal'] . '</a>';
-                      echo '</td>';
-                  } elseif ($doc['certi_derr'] != '') {
-                      echo '<td>';
-                      echo '<p>Derroga a</p> <a href="' . $doc['doc_path'] . '"target="_blank">' . $doc['certi_derr'] . ' - ' . $doc['fiscal_derr'] . '</a>';
-                      echo '</td>';
-                  } elseif ($doc['certi_enm'] != '') {
-                      echo '<td>';
-                      echo '<p>Enmienda a</p> <a href="' . $doc['doc_path_enm'] . '"target="_blank">' . $doc['certi_enm'] . ' - ' . $doc['fiscal_enm'] . '</a>';
-                      echo '</td>';
-                  } elseif ($doc['derrogadopor_cert'] != '') {
-                    echo '<td>';
-                    echo '<p>Derrogado por</p> <a href="' . $doc['derrogadopor_path'] . '"target="_blank">' . $doc['derrogadopor_cert'] . ' - ' . $doc['derrogadopor_fiscal'] . '</a>';  
-                    echo '</td>';
-                 } elseif ($doc['enmiendapor_cert'] != '') {
-                  echo '<td>';
-                  echo '<p>Enmendado por</p> <a href="' . $doc['enmiendapor_path'] . '"target="_blank">' . $doc['enmiendapor_cert'] . ' - ' . $doc['enmiendapor_fiscal'] . '</a>';
-                  echo '</td>';
-              } 
-                  echo '<td> <a href="' . $doc['path'] . '"target="_blank">PDF</a></td>';
-                  echo '</tr>';
-                  
-                    }
-
+                          echo '<td><a href="' . $doc['path'] . '" target="_blank">ver</a></td>';
+                        }
                       }
-                   
                     ?>
                     </tbody>
                   </table>
 
                   <?php
-if (isset($_SESSION['paginas'])) {
-    $paginas = $_SESSION['paginas'];
-    foreach ($paginas as $pagina) {
-        $totalPaginas = $pagina['pag'];
-        $registros = $pagina['registros'];
-        $total = $pagina['total'];
-        $current_page = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-        $first = ($current_page - 1) * $registros + 1;
-        $last = min($current_page * $registros, $total);
 
-        // Calculate the range of pages to display
-        $range = 3; // Number of pages before and after the current page to display
-        $start = max(1, $current_page - $range);
-        $end = min($totalPaginas, $current_page + $range);
+                    // Función para generar la interfaz de paginación
+                    function generarPaginacion($current_page, $totalPaginas) {
+                        $html = '';
 
-        ?>
-        <div class="table-aditional">
-    <p>Mostrando <?php echo $first; ?> a <?php echo $last; ?> de <?php echo $total; ?> récords</p>
-    <div class="pagination">
+                        if ($totalPaginas > 1) {
+                            $html .= '<div class="pagination">';
+                            
+                            if ($current_page > 1) {
+                                $html .= '<a href="?pagina=1">&laquo;</a>';
+                            }
 
-    <?php if ($totalPaginas > 1): ?>
-        <?php if ($current_page > 1): ?>
-            <a href="?pagina=1">&laquo;</a>
-        <?php endif; ?>
+                            $range = 3; // Número de páginas antes y después de la página actual
+                            $start = max(1, $current_page - $range);
+                            $end = min($totalPaginas, $current_page + $range);
 
-        <?php if ($start > 1): ?>
-            <span>...</span>
-        <?php endif; ?>
+                            if ($start > 1) {
+                                $html .= '<span>...</span>';
+                            }
 
-        <?php for ($i = $start; $i <= $end; $i++): ?>
-            <?php $class = ($i == $current_page) ? 'active' : ''; ?>
-            <a href='?pagina=<?php echo $i; ?>' class='<?php echo $class; ?>'><?php echo $i; ?></a>
-        <?php endfor; ?>
+                            for ($i = $start; $i <= $end; $i++) {
+                                $class = ($i == $current_page) ? 'active' : '';
+                                $html .= '<a href="?pagina=' . $i . '" class="' . $class . '">' . $i . '</a>';
+                            }
 
-        <?php if ($end < $totalPaginas): ?>
-            <span>...</span>
-        <?php endif; ?>
+                            if ($end < $totalPaginas) {
+                                $html .= '<span>...</span>';
+                            }
 
-        <?php if ($current_page < $totalPaginas): ?>
-            <a href='?pagina=<?php echo $totalPaginas; ?>'>&raquo;</a>
-        <?php endif; ?>
-    <?php endif; ?>
+                            if ($current_page < $totalPaginas) {
+                                $html .= '<a href="?pagina=' . $totalPaginas . '">&raquo;</a>';
+                            }
 
-    </div>
-</div>
-        <?php
-    }
-}
-?>
+                            $html .= '</div>';
+                        }
+
+                        return $html;
+                    }
+
+                    // Obtener la página actual desde la URL
+                    $current_page = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+
+                    // Obtener el número de registros por página
+                    $registros_por_pagina = isset($_GET['registros']) ? (int)$_GET['registros'] : 10;
+
+                    // Mostrar la paginación si existen datos de paginación en la sesión
+                    if (isset($_SESSION['paginas'])) {
+                        foreach ($_SESSION['paginas'] as $pagina) {
+                            $totalPaginas = $pagina['pag'];
+                            $registros = $pagina['registros'];
+                            $total = $pagina['total'];
+
+                            // Calcular el número de página actual basado en el número de registros por página
+                            $current_page = min($current_page, ceil($total / $registros_por_pagina));
+
+                            // Calcular el rango de registros a mostrar en la página actual
+                            $first = ($current_page - 1) * $registros_por_pagina + 1;
+                            $last = min($current_page * $registros_por_pagina, $total);
+
+                            echo '<div class="table-aditional">';
+                            echo '<p>Mostrando ' . $first . ' a ' . $last . ' de ' . $total . ' registros</p>';
+                            echo generarPaginacion($current_page, $totalPaginas);
+                            echo '</div>';
+                        }
+                    }
+                    ?>
 
           </div>
         </div>
       </section>
     </main>
+    <script src="../assets/js/front.js"></script>
   </body>
+</html>

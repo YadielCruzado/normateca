@@ -531,27 +531,25 @@ $opciones = 20;
   <script src="../assets/js/main.js"></script>
   <script src="../assets/js/admin.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script>
-  function limpiar() {
-        // Get the input field
-        var inputField = document.querySelector('input[name="search_query2"]');
-        
-        inputField.value = '';
-        
-        document.querySelector('.gabriel').submit();
-    }
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function limpiar() {
+          // Get the input field
+          var inputField = document.querySelector('input[name="search_query2"]');
+          
+          inputField.value = '';
+          
+          document.querySelector('.gabriel').submit();
+      }
 
-  function limpiar1() {
-        var inputField = document.querySelector('input[name="searchQuery"]');
-        
-        inputField.value = '';
-        
-        document.querySelector('.gabriel').submit();
-    }
-</script>
-
-
+    function limpiar1() {
+          var inputField = document.querySelector('input[name="searchQuery"]');
+          
+          inputField.value = '';
+          
+          document.querySelector('.gabriel').submit();
+      }
+  </script>
 </body>
 </html>
 
