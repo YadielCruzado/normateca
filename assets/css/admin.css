@@ -72,7 +72,7 @@ header .user {
   font-size: 20px;
   margin-bottom: 0;
 }
-.login form button{
+.login form button {
   background-color: #967216;
   color: whitesmoke;
   font-weight: bold;
@@ -155,7 +155,7 @@ form.gabriel {
 form.gabriel input[type="text"],
 form.gabriel button[type="submit"] {
   /* Add styles for text inputs and submit buttons */
-  
+
   padding: 8px;
   margin-right: 5px;
 }
@@ -177,7 +177,7 @@ form.gabriel button[type="submit"] {
 form.gabriel button[type="submit"]:hover {
   background-color: #967216;
 }
-.subir h3{
+.subir h3 {
   text-align: center;
 }
 
@@ -296,17 +296,17 @@ tbody tr:nth-child(odd) {
 a:link,
 a:visited,
 a:active {
-  color: black; 
-  text-decoration: none; 
+  color: black;
+  text-decoration: none;
 }
 
 a:hover {
-  color: blue; 
-  text-decoration: underline; 
+  color: blue;
+  text-decoration: underline;
 }
 
 footer {
-  height: 60px; 
+  height: 60px;
   background-color: #161515;
   border-top: 5px solid var(--accent);
   color: #fff;
@@ -326,7 +326,7 @@ footer {
   display: flex;
   align-items: center;
 }
-.records form{
+.records form {
   display: block;
   border: none;
   border-radius: 5px;
@@ -340,13 +340,13 @@ footer {
   justify-content: space-evenly;
 }
 
-.Ensection{
+.Ensection {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.Ensection div{
+.Ensection div {
   display: flex;
   align-items: center;
   margin: 10px;
@@ -355,17 +355,16 @@ footer {
 .Endocs {
   display: flex;
   justify-content: space-around;
-  
 }
 .Endocs select {
   font-size: 1.05rem;
 }
 .Endocs select option {
-  font-size: 1.30rem;
+  font-size: 1.3rem;
   text-align: center;
 }
 
-.m1{
+.m1 {
   justify-content: center;
 }
 
@@ -374,7 +373,7 @@ footer {
   text-align: center;
 }
 
-.dropdown button{
+.dropdown button {
   width: 100%;
   justify-content: center;
   font-weight: normal;
@@ -388,10 +387,9 @@ footer {
   display: flex;
   flex-wrap: wrap;
 }
-.keyword-menu label{
+.keyword-menu label {
   margin: 0 5px;
 }
-
 
 @media (max-width: 900px) {
   header {

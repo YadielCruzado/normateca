@@ -136,6 +136,7 @@ function setData(){
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
+    $_SESSION['form_success'] = true;
     if ($_POST['type'] == "1") {
         if (isset($_POST['filename'])) {
             $target_directory = '../../files/';
