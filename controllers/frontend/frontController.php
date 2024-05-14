@@ -1,117 +1,58 @@
 <?php
- session_start();
-// inicializar las variables
-if (!isset($_SESSION['certificationNumber'])) {
-    $_SESSION['certificationNumber'] = '';
-}
-if (!isset($_SESSION['fiscalYear'])) {
-    $_SESSION['fiscalYear'] = '';
-}
-if (!isset($_SESSION['keyword'])) {
-    $_SESSION['keyword'] = '';
-}
-if (!isset($_SESSION['documentTitle'])) {
-    $_SESSION['documentTitle'] = '';
-}
-if (!isset($_SESSION['categorias'])) {
-    $_SESSION['categoria'] = '';
-}
-if (!isset($_SESSION['cuerpo'])) {
-    $_SESSION['cuerpo'] = '';
-}
-if (!isset($_SESSION['dateCreated'])) {
-    $_SESSION['dateCreated'] = '';
-}
-if (!isset($_SESSION['desde'])) {
-    $_SESSION['desde'] = '';
-}
-if (!isset($_SESSION['hasta'])) {
-    $_SESSION['hasta'] = '';
-}
-if (!isset($_SESSION['paginaActual'])) {
-    $_SESSION['paginaActual'] = '1';
-}
-if (!isset($_SESSION['registros'])) {
-    $_SESSION['registros'] = '10';
-}
+    session_start();
 
-include_once("../models/front/frontModel.php");
+    // Initialize session variables with default values if they are not already set
+    $_SESSION['certificationNumber'] ??= '';
+    $_SESSION['fiscalYear'] ??= '';
+    $_SESSION['keyword'] ??= '';
+    $_SESSION['documentTitle'] ??= '';
+    $_SESSION['categoria'] ??= '';
+    $_SESSION['cuerpo'] ??= '';
+    $_SESSION['dateCreated'] ??= '';
+    $_SESSION['desde'] ??= '';
+    $_SESSION['hasta'] ??= '';
+    $_SESSION['paginaActual'] ??= '1';
+    $_SESSION['registros'] ??= '10';
 
-function doc()
-{
-    $model = new frontModel("localhost", "normateca", "root", "");
-    $model->start_connection();
+    include_once("../models/front/frontModel.php");
 
-    $cuerpos = [];
-    $documentos = [];
-    $recientes = [];
-    $paginas =[];
-    $categorias = [];
+    function doc(){
 
-    $result = $model->getCategorias();
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $values = array(
-                "cat_abbr" => $row['Category_abbr'],
-                "cat_name" => $row['Category_name'],
-                "cat_corp" => $row['Cuerpo_name'],
-                "cat_corp_abbr" => $row['Cuerpo_abbr']
-            );
-
-            array_push($categorias, $values);
-        }
-    } else {
-        $categorias = null;
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['limpiar'])) {
-        $_SESSION['certificationNumber'] = '';
-        $_SESSION['fiscalYear'] = '';
-        $_SESSION['keyword'] = '';
-        $_SESSION['documentTitle'] = '';
-        $_SESSION['categoria'] = '';
-        $_SESSION['cuerpo'] = '';
-        $_SESSION['dateCreated'] = '';
-        $_SESSION['desde'] = '';
-        $_SESSION['hasta'] = '';
-        $_SESSION['paginaActual'] = '1';
-        $_SESSION['registros'] = '10';
-    }
-
-    if (isset($_POST['certification_number']) && $_POST['certification_number'] !== '') {
-    $_SESSION['certificationNumber'] = $_POST['certification_number'];
-    }
-    if (isset($_POST['Fiscal_year']) && $_POST['Fiscal_year'] !== '') {
-        $_SESSION['fiscalYear'] = $_POST['Fiscal_year'];
-    }
-    if (isset($_POST['Keywordnames']) && $_POST['Keywordnames'] !== '') {
-        $_SESSION['keyword'] = $_POST['Keywordnames'];
-    }
-    if (isset($_POST['Document_title']) && $_POST['Document_title'] !== '') {
-        $_SESSION['documentTitle'] = $_POST['Document_title'];
-    }
-    if (isset($_POST['categoria']) && $_POST['categoria'] !== '') {
-        $_SESSION['categoria'] = $_POST['categoria'];
-    }
-    if (isset($_POST['cuerpo']) && $_POST['cuerpo'] !== '') {
-        $_SESSION['cuerpo'] = $_POST['cuerpo'];
-    }
-    if (isset($_POST['Date_created']) && $_POST['Date_created'] !== '') {
-        $_SESSION['dateCreated'] = $_POST['Date_created'];
-    }
-    if (isset($_POST['desde']) && $_POST['desde'] !== '') {
-        $_SESSION['desde'] = $_POST['desde'];
-    }
-    if (isset($_POST['hasta']) && $_POST['hasta'] !== '') {
-        $_SESSION['hasta'] = $_POST['hasta'];
-    }
-    if (isset($_GET['pagina'])) {
-        $_SESSION['paginaActual'] = (int)$_GET['pagina'];
-    }
-    if (isset($_POST['selectedRecords'])) {
-        $_SESSION['registros'] = (int)$_POST['selectedRecords'];
-    }
+        $model = new frontModel("localhost", "normateca", "root", "");
+        $model->start_connection();
         
+        $categorias = [];
+        $cuerpos = [];
+        $recientes = [];
+        $documentos = [];
+        $paginas =[];
+
+        // Define the mapping between $_POST keys and $_SESSION keys
+        $postToSessionMap = [
+        'certification_number' => 'certificationNumber',
+        'Fiscal_year' => 'fiscalYear',
+        'Keywordnames' => 'keyword',
+        'Document_title' => 'documentTitle',
+        'categoria' => 'categoria',
+        'cuerpo' => 'cuerpo',
+        'Date_created' => 'dateCreated',
+        'desde' => 'desde',
+        'hasta' => 'hasta',
+        'selectedRecords' => 'registros'
+        ];
+
+        // Loop through the mapping and set session variables if corresponding POST values exist
+        foreach ($postToSessionMap as $postKey => $sessionKey) {
+            if (isset($_POST[$postKey]) && $_POST[$postKey] !== '') {
+                $_SESSION[$sessionKey] = $_POST[$postKey];
+            }
+        }
+
+        // Set paginaActual session variable if pagina is set in GET
+        if (isset($_GET['pagina'])) {
+            $_SESSION['paginaActual'] = (int)$_GET['pagina'];
+        }
+
         // Opcional: puedes también definir variables adicionales para simplificar el código
         $certificationNumber = $_SESSION['certificationNumber'];
         $fiscalYear = $_SESSION['fiscalYear'];
@@ -126,112 +67,135 @@ function doc()
         $registros = $_SESSION['registros'];
         $inicio = ($paginaActual - 1) * $registros;
 
-        $result = $model->filtrarDocs($certificationNumber, $fiscalYear, $keyword, $documentTitle,$cuerpo,$categoria,$date_created,$desde,$hasta,$paginaActual,$registros,$inicio);
-    
-        if ($result) {
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $values = array(
-                        "id" => $row['Document_id'],
-                        "title" => $row['Document_title'],
-                        "cuerpo" => $row['Cuerpo_abbr'],
-                        "categoria" => $row['Category_abbr'],
-                        "certi" => $row['Certification_number'],
-                        "fiscal" => $row['Fiscal_year'],
-                        "target_derroga" => $row['derroga'],
-                        "target_enmienda" => $row['enmienda'],
-                        "path" => $row['Doc_Path'],
-                        
-                        "certi_derr" => $row['certificacion_number'],
-                        "fiscal_derr" => $row['fiscal_year'],
-                        "doc_path" => $row['doc_path'],
+        $contar = $model->contar_registros();
+        $total_registros_row = $contar->fetch_assoc();
+        $total_registros = $total_registros_row['total'];
 
-                        "certi_enm" => $row['enm_cert'],
-                        "fiscal_enm" => $row['enm_fisc'],
-                        "doc_path_enm" => $row['enm_doc_path'],
-                        
-                        "derrogadopor_cert" => $row['derrogadopor_cert'],
-                        "derrogadopor_path" => $row['derrogadopor_path'],
-                        "derrogadopor_fiscal" => $row['derrogadopor_fiscal'],
+        if ($inicio >= $total_registros) {
 
-                        "enmiendapor_cert" => $row['enmiendapor_cert'],
-                        "enmiendapor_path" => $row['enmiendapor_path'],
-                        "enmiendapor_fiscal" => $row['enmiendapor_fiscal']
-                    );
+            $inicio = max(0, $total_registros - $registros);
+        }
+        
+        $result = $model->get_documentos($certificationNumber, $fiscalYear, $keyword, $documentTitle,$cuerpo,$categoria,$date_created,$desde,$hasta,$paginaActual,$registros,$inicio);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
 
-                    array_push($documentos, $values);
+                // Obtener documentos modificados
+                $ammended = $model->enmienda_documents($row['Document_id']);
+                $derroga = $model->derroga_documents($row['Document_id']);
+                
+                // Guardar los valores devueltos por ammended_documents()
+                $ammended_values = array();
+                while ($ammended_row = $ammended->fetch_assoc()) {
+                    $ammended_values[] = $ammended_row;
                 }
-            } else {
-                $documentos = null;
+                // Guardar los valores devueltos por derroga_documents()
+                $derroga_values = array();
+                while ($derroga_row = $derroga->fetch_assoc()) {
+                    $derroga_values[] = $derroga_row;
+                }
+
+                $values = array(
+                    "id" => $row['Document_id'],
+                    "title" => $row['Document_title'],
+                    "cuerpo" => $row['Cuerpo_name'],
+                    "categoria" => $row['Category_name'],
+                    "certi" => $row['Certification_number'],
+                    "fiscal" => $row['Fiscal_year'],
+                    "path" => $row['Document_path'],
+                    "ammended" => $ammended_values, // Guardar los valores devueltos por ammended_documents()
+                    "derroga" => $derroga_values // Guardar los valores devueltos por derroga_documents()
+                );
+
+                array_push($documentos, $values);
             }
         } else {
-            
-            echo "Error executing query: ";
+            $cuerpos = array();
         }
 
-    $result = $model->recientes();
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $values = array(
-                "title" => $row['Document_title'],
-                "cuerpo" => $row['Cuerpo_abbr'],
-                "number" => $row['Certification_number'],
-                "fiscal" => $row['Fiscal_year'],
-                "path" => $row['Document_path']
-            );
-            array_push($recientes, $values);
+        $result = $model->getCategorias();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $values = array(
+                    "cat_abbr" => $row['Category_abbr'],
+                    "cat_name" => $row['Category_name'],
+                    "cat_corp" => $row['Cuerpo_name'],
+                    "cat_corp_abbr" => $row['Cuerpo_abbr']
+                );
+    
+                array_push($categorias, $values);
+            }
+        } else {
+            $categorias = null;
         }
-    } else {
-        $recientes = null;
-    }
 
-    // $result = $model->numPages();
-    // if($result->num_rows > 0) {
-    //     while ($row = $result->fetch_assoc()) {
-    //         $totalPaginas = ceil($row['total'] / $registros);
-    //         $values = array(
-    //             "pag" => $totalPaginas,
-    //             "registros" => $registros,
-    //             "total" => $row['total']
-    //         );
-    //         array_push($paginas, $values);
-    //     }
-    // }
-
-    $result = $model->numPages($certificationNumber, $fiscalYear, $keyword, $documentTitle, $date_created, $desde, $hasta, $cuerpo, $categoria);
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $totalPaginas = ceil($row['total'] / $registros);
-        $values = array(
-            "pag" => $totalPaginas,
-            "registros" => $registros,
-            "total" => $row['total']
-        );
-        array_push($paginas, $values);
-    }
-}
-
-    $result = $model->getCuerpos();
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $values = array(
-                "corp_abbr" => $row['Cuerpo_abbr'],
-                "corp_name" => $row['Cuerpo_name']
-            );
-
-            array_push($cuerpos, $values);
+        $result = $model->getCuerpos();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $values = array(
+                    "corp_abbr" => $row['Cuerpo_abbr'],
+                    "corp_name" => $row['Cuerpo_name']
+                );
+                array_push($cuerpos, $values);
+            }
+        } else {
+            $cuerpos = array();
         }
-    } else {
-        $cuerpos = null;
+
+        $result = $model->recientes();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $values = array(
+                    "title" => $row['Document_title'],
+                    "cuerpo" => $row['Cuerpo_name'],
+                    "number" => $row['Certification_number'],
+                    "fiscal" => $row['Fiscal_year'],
+                    "path" => $row['Document_path']
+                );
+                array_push($recientes, $values);
+            }
+        } else {
+            $recientes = null;
+        }
+
+        $result = $model->numPages($certificationNumber, $fiscalYear, $keyword, $documentTitle, $date_created, $desde, $hasta, $cuerpo, $categoria);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $totalPaginas = ceil($row['total'] / $registros);
+                $values = array(
+                    "pag" => $totalPaginas,
+                    "registros" => $registros,
+                    "total" => $row['total']
+                );
+                array_push($paginas, $values);
+            }
+        }
+
+ 
+        $_SESSION['cats'] = $categorias;
+        $_SESSION['corps'] = $cuerpos;
+        $_SESSION['recientes'] = $recientes;
+        $_SESSION['doc'] = $documentos;
+        $_SESSION['paginas'] = $paginas;
     }
 
-  
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['limpiar']) && $_POST['limpiar'] === 'true') {
+        // Set session variables
+        $_SESSION['certificationNumber'] = '';
+        $_SESSION['fiscalYear'] = '';
+        $_SESSION['keyword'] = '';
+        $_SESSION['documentTitle'] =  '';
+        $_SESSION['categoria'] = '';
+        $_SESSION['cuerpo'] = '';
+        $_SESSION['dateCreated'] = '';
+        $_SESSION['desde'] = '';
+        $_SESSION['hasta'] =  '';
+        $_SESSION['paginaActual'] = '1';
+        $_SESSION['registros'] = '10';
+    
+        // Redirect
+        header("Location: ../../views/search.php");
+        exit; // Stop further execution
+    }
 
-    $_SESSION['cats'] = $categorias;
-    $_SESSION['corps'] = $cuerpos;
-    $_SESSION['registros'] = $registros;
-    $_SESSION['paginas'] = $paginas;
-    $_SESSION['documentos'] = $documentos;
-    $_SESSION['recientes'] = $recientes;
-}
-
+?>
