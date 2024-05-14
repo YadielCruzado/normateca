@@ -136,8 +136,9 @@ function setData(){
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
-    $_SESSION['form_success'] = true;
+    
     if ($_POST['type'] == "1") {
+        $_SESSION['form_success'] = true;
         if (isset($_POST['filename'])) {
             $target_directory = '../../files/';
             $target_file = $target_directory . basename($_FILES['pdf']['name']);
@@ -201,6 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             }
         }
     } else if ($_POST['type'] == "2") { //editar documentos
+        $_SESSION['form_edit'] = true;
         if (isset($_POST["documentoId"]) || isset($_POST["nombreDocumento"]) || isset($_POST["fechaDocumento"]) || isset($_POST["fiscalYear"]) || isset($_POST["Cuerpo"]) || isset($_POST["certi"]) || isset($_POST["path"]) || isset($_POST["estado"]) || isset($_POST["lenguaje"])) {
 
             $documentoId = $_POST["documentoId"];
@@ -260,6 +262,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             }
         }
     } else if ($_POST['type'] == "3") { //crear categorias
+        $_SESSION['addcatt'] = true;
+
         $categoria = $_POST["categoria"];
         $Abreviacion = $_POST["Abreviacion"];
         $cuerpo = $_POST["cuerpo"];
@@ -278,7 +282,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         }
 
     } else if ($_POST['type'] == "4") { //crear cuerpos
-
+        $_SESSION['addcatt'] = true;
         $cuerpo = $_POST["cuerpo"];
         $Abreviacion = $_POST["Abreviacion"];
 
@@ -295,7 +299,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             echo "errorrr";
         }
     } else if ($_POST['type'] == "5") { //editar cuerpos
-
+        $_SESSION['editcatt'] = true;
         $cuerpo = $_POST["cuerpo"];
         $Abreviacion = $_POST["Abreviacion"];
         $oldabbr = $_POST["oldabbr"];
@@ -331,6 +335,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         }
 
     } else if ($_POST['type'] == "6") { //editar categorias
+        $_SESSION['editcatt'] = true;
         $categoria = $_POST["categoria"];
         $Abreviacion = $_POST["Abreviacion"];
         $cuerpo = $_POST["cuerpoDropdown"];
@@ -349,7 +354,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             echo "errorrr";
         }
     }else if ($_POST['type'] == "7") {
-        
+        $_SESSION['amended_s'] = true;
         $Main = $_POST["MainDoc"];
         $amended = $_POST["amendedDoc"];
 
@@ -366,7 +371,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             echo "errorrr";
         }
     }else if ($_POST['type'] == "8") {
-        
+        $_SESSION['derrogado_s'] = true;
         $Main = $_POST["MainDoc"];
         $Derr = $_POST["derrogaDoc"];
 
@@ -383,7 +388,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             echo "errorrr";
         }
     }else if ($_POST['type'] == "9") { //keywords editar
-  
+        $_SESSION['key_edit'] = true;
         $id = $_POST["key_id"];
         $name = $_POST["key"];
 
@@ -400,7 +405,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
             echo "errorrr";
         }
     }else if ($_POST['type'] == "10") { //keywords insertar
-
+        $_SESSION['key_add'] = true;
         $name = $_POST["key"];
 
         $model = new AdminModel("localhost", "normateca", "root", "");

@@ -65,7 +65,7 @@ $opciones = 20;
   <main>
 
     <section>
-                      <!-- Popup message -->
+                      <!-- Popup message document submitted -->
             <div id="popup" class="popup" style="display: none;">
             <div class="alert alert-success d-flex align-items-center" role="alert">
               <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
@@ -74,6 +74,89 @@ $opciones = 20;
               </div>
             </div>
             </div>
+            <!-- Popup message enmendar -->
+            <div id="popup2" class="popup2" style="display: none;">
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+              <div>
+              Documento enmendado exitosamente
+              </div>
+            </div>
+            </div>
+            <!-- Popup message -->
+<div id="popup1" class="popup1" style="display: none;">
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+              <div>
+              Documento Editado exitosamente
+              </div>
+            </div>
+            </div>
+
+             <!-- Popup message -->
+<div id="popup3" class="popup3" style="display: none;">
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+              <div>
+              Documento derrogado exitosamente
+              </div>
+            </div>
+            </div>
+
+<!-- Popup keyword edit -->
+<div id="popup4" class="popup4" style="display: none;">
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+              <div>
+              Keyword editado exitosamente
+              </div>
+            </div>
+            </div>
+
+
+<!-- Popup keyword add -->
+<div id="popup5" class="popup5" style="display: none;">
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+              <div>
+              Keyword añadido exitosamente
+              </div>
+            </div>
+            </div>
+
+            
+<!-- Popup keyword add -->
+<div id="popup6" class="popup6" style="display: none;">
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+              <div>
+              Añadido exitosamente
+              </div>
+            </div>
+            </div>
+
+            <!-- Popup keyword add -->
+            <div id="popup7" class="popup7" style="display: none;">
+              <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                <div>
+                Editado exitosamente
+                </div>
+              </div>
+            </div>
+
+            <!-- Popup keyword add -->
+            <div id="popup8" class="popup8" style="display: none;">
+              <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                <div>
+                Añadido exitosamente
+                </div>
+              </div>
+            </div>
+
+
+
       <div class="buttons">
         <button type="button" name="tab" id="subirBtn" class="active">Subir Documento</button>
         <button type="button" name="tab" id="editarBtn">Editar Documento</button>
@@ -202,7 +285,8 @@ $opciones = 20;
                   unset($_SESSION['form_success']);
               }
               ?>
-
+              
+             
             <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
           </form>
 
@@ -328,7 +412,50 @@ $opciones = 20;
             </table>
           </div>
         </div>
+              
+        <?php
+              //
+              if (isset($_SESSION['form_edit']) && $_SESSION['form_edit']) {
+                  // Display the success message
+                  echo '<script>
+                          document.addEventListener("DOMContentLoaded", function() {
+                            const popup1 = document.getElementById("popup1");
 
+                            // Show the popup
+                            popup1.style.display = "block";
+
+                            // Hide the popup after 5 seconds
+                            setTimeout(function() {
+                              popup1.style.display = "none";
+                            }, 5000);
+                          });
+                        </script>';
+                  
+                  // Unset the session variable to avoid showing the message again on subsequent page loads
+                  unset($_SESSION['form_edit']);
+              }
+              ?>
+
+
+              
+             <script>
+                  document.addEventListener("DOMContentLoaded", function() {
+                      // Get the button element
+                      const addCat = document.getElementById("addCat");
+              
+                      // Add click event listener to the button
+                      addCat.addEventListener("click", function() {
+                          // Show the alert
+                          const popup6 = document.getElementById("popup6");
+                          popup5.style.display = "block";
+              
+                          // Hide the alert after 5 seconds
+                          setTimeout(function() {
+                              popup6.style.display = "none";
+                          }, 5000);
+                      });
+                  });
+              </script>
         
       <div id="editar" class="editar" style="display: none">
         <div class="backline">
@@ -336,12 +463,13 @@ $opciones = 20;
             <div class="search-bar">
                 <form class="gabriel" method="POST" action="admin.php" style="display: flex;">
                     <input type="hidden" value="" name="type">
-                    <input type="text" name="searchQuery" placeholder="Buscar por nombre" style="flex: 1;">
+                    <input type="text" name="searchQuery" placeholder="Buscar por nombre">
                     <button type="submit">Buscar</button>
                     <button class ="color" type="button" onclick="limpiar1()">Limpiar</button>
                 </form>
             </div>
         </div>
+        
         <table>
             <thead>
               <tr>
@@ -692,6 +820,93 @@ $opciones = 20;
   </div>
 </div>
 
+          <?php
+if (isset($_SESSION['addcatt']) && $_SESSION['addcatt']) {
+                  // Display the success message
+                  echo '<script>
+                          document.addEventListener("DOMContentLoaded", function() {
+                            const popup8 = document.getElementById("popup8");
+
+                            // Show the popup
+                            popup8.style.display = "block";
+
+                            // Hide the popup after 5 seconds
+                            setTimeout(function() {
+                              popup8.style.display = "none";
+                            }, 5000);
+                          });
+                        </script>';
+                  
+                  // Unset the session variable to avoid showing the message again on subsequent page loads
+                  unset($_SESSION['addcatt']);
+              }
+              ?>
+                <?php
+if (isset($_SESSION['editcatt']) && $_SESSION['editcatt']) {
+                  // Display the success message
+                  echo '<script>
+                          document.addEventListener("DOMContentLoaded", function() {
+                            const popup7 = document.getElementById("popup7");
+
+                            // Show the popup
+                            popup7.style.display = "block";
+
+                            // Hide the popup after 5 seconds
+                            setTimeout(function() {
+                              popup7.style.display = "none";
+                            }, 5000);
+                          });
+                        </script>';
+                  
+                  // Unset the session variable to avoid showing the message again on subsequent page loads
+                  unset($_SESSION['editcatt']);
+              }
+              ?>
+
+                <?php
+if (isset($_SESSION['amended_s']) && $_SESSION['amended_s']) {
+                  // Display the success message
+                  echo '<script>
+                          document.addEventListener("DOMContentLoaded", function() {
+                            const popup2 = document.getElementById("popup2");
+
+                            // Show the popup
+                            popup2.style.display = "block";
+
+                            // Hide the popup after 5 seconds
+                            setTimeout(function() {
+                              popup2.style.display = "none";
+                            }, 5000);
+                          });
+                        </script>';
+                  
+                  // Unset the session variable to avoid showing the message again on subsequent page loads
+                  unset($_SESSION['amended_s']);
+              }
+              ?>
+
+              <?php
+              if (isset($_SESSION['derrogado_s']) && $_SESSION['derrogado_s']) {
+                                // Display the success message
+                                echo '<script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                          const popup3 = document.getElementById("popup3");
+
+                                          // Show the popup
+                                          popup3.style.display = "block";
+
+                                          // Hide the popup after 5 seconds
+                                          setTimeout(function() {
+                                            popup3.style.display = "none";
+                                          }, 5000);
+                                        });
+                                      </script>';
+                                
+                                // Unset the session variable to avoid showing the message again on subsequent page loads
+                                unset($_SESSION['derrogado_s']);
+                            }
+                ?>
+
 <!-- Enlazar -->
 <div class="modal" id="Enmendar">
   <div class="modal-dialog modal-lg">
@@ -856,6 +1071,27 @@ $opciones = 20;
     </div>
   </div>
 </div>
+    <?php
+      if (isset($_SESSION['key_edit']) && $_SESSION['key_edit']) {
+      // Display the success message
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                  const popup4 = document.getElementById("popup4");
+
+                  // Show the popup
+                  popup4.style.display = "block";
+
+                  // Hide the popup after 5 seconds
+                  setTimeout(function() {
+                    popup4.style.display = "none";
+                  }, 5000);
+                });
+              </script>';
+        
+        // Unset the session variable to avoid showing the message again on subsequent page loads
+        unset($_SESSION['key_edit']);
+      }
+    ?>
 
 <div class="modal" id="Editkeywords">
   <div class="modal-dialog modal-lg">
@@ -881,7 +1117,27 @@ $opciones = 20;
     </div>
   </div>
 </div>
+      <?php
+  if (isset($_SESSION['key_add']) && $_SESSION['key_add']) {
+      // Display the success message
+      echo '<script>
+              document.addEventListener("DOMContentLoaded", function() {
+                const popup5 = document.getElementById("popup5");
 
+                // Show the popup
+                popup5.style.display = "block";
+
+                // Hide the popup after 5 seconds
+                setTimeout(function() {
+                  popup5.style.display = "none";
+                }, 5000);
+              });
+            </script>';
+      
+      // Unset the session variable to avoid showing the message again on subsequent page loads
+      unset($_SESSION['key_add']);
+  }
+    ?>
 <div class="modal" id="AddKeyword">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
