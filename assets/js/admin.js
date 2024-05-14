@@ -174,4 +174,3 @@ function getSelectedValues() {
   // You can perform further actions with the selected options here
 }
 
-// pop up
