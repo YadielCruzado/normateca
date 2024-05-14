@@ -413,6 +413,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         } else {
             echo "errorrr";
         }
-        
     }
+    // }else if ($_POST['type'] == "10") { //query search 
+
+    //     $name = $_POST["key"];
+
+    //     $model = new AdminModel("localhost", "normateca", "root", "");
+    //     $model->start_connection();
+    //     $success = $model->insertKeyword($name);
+    //     $model->connection->close();
+
+    //     if ($success) {
+    //         header("Location: ../../views/admin.php?succes");
+
+    //     } else {
+    //         echo "errorrr";
+    //     }
+        
+    // }
 }
