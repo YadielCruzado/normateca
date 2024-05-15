@@ -167,8 +167,8 @@ $opciones = 20;
       <div class="tabs">
         <div id="subir" class="subir">
         <h3>Subir Documentos</h3>
-
-          <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
+        
+          <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data" onsubmit="return validateForm()">
           <input type="hidden" value="1" name="type">
             <div class="file">
               <label for="pdf"> Subir Documento: </label><input type="file" id="pdf" name="pdf" value="" required />
@@ -219,7 +219,7 @@ $opciones = 20;
                 
 
                 <label for="añofiscal"> Año Fiscal : </label>
-                <select id="añofiscal" name="fiscalYear">
+                <select id="añofiscal" name="fiscalYear" required>
                   <option disabled selected>Select</option>
                   <?php
                     $anioActual = date("Y");
@@ -231,7 +231,7 @@ $opciones = 20;
                   ?>
                 </select>
                 <label for="Cuerpo">Cuerpo: </label>
-                <select id="Cuerpo" name="corp">
+                <select id="Cuerpo" name="corp" required>
                   <option selected disabled>Select</option>
                   <?php
                   if (count($_SESSION['corps']) > 0) {
@@ -1159,7 +1159,23 @@ if (isset($_SESSION['amended_s']) && $_SESSION['amended_s']) {
     </div>
   </div>
 </div>
+<script>
+ function validateForm() {
+  var filename = document.getElementById("filename").value;
+  var filedate = document.getElementById("fecha").value;
+  var desc = document.getElementById("descripcion").value;
+  var numeroCertificacion = document.getElementById("Numero_certificacion").value;
+  var estado = document.getElementById("estado").value;
+  var categoria = document.getElementById("categorias").value;
 
+  // Check if any of the required fields are empty
+  if (filename == "" || filedate == "" || desc == "" || numeroCertificacion == "" || estado == "" || categoria == "") {
+    alert("Please fill out all required fields.");
+    return false; // Prevent form submission
+  }
+  return true; // Allow form submission
+}
+        </script>
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
