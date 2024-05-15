@@ -61,6 +61,17 @@ setLogin();
             <button class="btn" type="submit">Log In</button>
         </form>
     </section>
+
+    <section>
+        <form action="../controllers/backend/loginController.php" method="post">
+            <input type="hidden" name="hash" value="true" />
+            <label>password: </label>
+            <input type="input" name="password"  />
+            <label >user_id: </label>
+            <input type="input" name="id"  />
+            <button class="btn" type="submit">hash</button>
+        </form>
+    </section>
 </body>
 
 </html>

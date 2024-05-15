@@ -26,23 +26,26 @@ function setLogin(){
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if(isset($_POST['email']) && isset($_POST['password'])) {
-
         $email = $_POST['email'];
         $password = $_POST['password'];
         $cuerpo = $_POST['cuerpo'];
-
+        
+    
         $model = new LoginModel("localhost", "normateca", "root", "");
         $model->start_connection();
-        $result = $model->LoginUser($email, $password);
+        $result = $model->LoginUser($email, $password); // Modified to handle hashed passwords
         $model->connection->close();
-
-        if ($result->num_rows > 0) {
+    
+        if ($result) {
+            var_dump($result);
+            $result->data_seek(0);
             while ($row = $result->fetch_assoc()) {
+                
                 if($cuerpo == $row['Cuerpo']){
                     if (!isset($_SESSION['login'])) {
                         $_SESSION['login'] = [];
                     }
-
+    
                     $_SESSION['login'] = [
                         "ID" => $row['Admin_id'],
                         "Nombre" => $row['name'],
@@ -53,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     header("Location: ../../views/admin.php?success"); 
                 } else{
                     header("Location:../../views/login.php?error");
-                    $message = "Dont got acces to those documents";
+                    $message = "Dont got access to those documents";
                 }
             }
         } else {
@@ -61,5 +64,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $message = "Wrong credentials";
         }
     }
+    
+    if (isset($_POST['hash']) == true) {
+        $password = $_POST['password'];
+        $user = $_POST['id'];
+
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        $model = new LoginModel("localhost", "normateca", "root", "");
+        $model->start_connection();
+        $result = $model->hashPassword($hash, $user);
+        $model->connection->close();
+    }
+
 }
 ?>
