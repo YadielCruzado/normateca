@@ -62,7 +62,7 @@ setLogin();
         </form>
     </section>
 
-    <section>
+    <!-- <section>
         <form action="../controllers/backend/loginController.php" method="post">
             <input type="hidden" name="hash" value="true" />
             <label>password: </label>
@@ -71,7 +71,7 @@ setLogin();
             <input type="input" name="id"  />
             <button class="btn" type="submit">hash</button>
         </form>
-    </section>
+    </section> -->
 </body>
 
 </html>
