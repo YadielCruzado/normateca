@@ -32,6 +32,7 @@ setLogin();
 
     <section class="login">
         <form class="loginForm" action="../controllers/backend/loginController.php" method="POST">
+            <input type="hidden" name="log" value="1">
             <h1>Welcome to Normateca</h1>
 
             <h4>Fill out the following fields to log in:</h4>
@@ -64,6 +65,7 @@ setLogin();
 
     <!-- <section>
         <form action="../controllers/backend/loginController.php" method="post">
+            <input type="hidden" name="log" value="2">
             <input type="hidden" name="hash" value="true" />
             <label>password: </label>
             <input type="input" name="password"  />

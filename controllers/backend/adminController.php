@@ -9,6 +9,7 @@ if (isset($_SESSION['login'])) {
     header("Location: login.php");
     exit;
 }
+
 include($_SERVER['DOCUMENT_ROOT'] . '/normateca/models/backend/adminModel.php');
 
 function setData(){
@@ -16,12 +17,15 @@ function setData(){
     $model = new AdminModel("localhost", "normateca", "root", "");
     $model->start_connection();
     $categorias = [];
+    $Allcategorias = [];
     $cuerpos = [];
+    $Allcuerpos = [];
     $enlazarDocumentos = [];
     $documentos = [];
     $documentosn = [];
     $enlazarDocumentosn = [];
     $keywords = [];
+    $admins = [];
 
     $cuerpo = $_SESSION['login']['Cuerpo'];
     
@@ -41,6 +45,22 @@ function setData(){
         $categorias = null;
     }
 
+    $result = $model->getAllCategorias();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $values = array(
+                "cat_abbr" => $row['Category_abbr'],
+                "cat_name" => $row['Category_name'],
+                "cat_corp" => $row['Cuerpo_name'],
+                "cat_corp_abbr" => $row['Cuerpo_abbr']
+            );
+
+            array_push($Allcategorias, $values);
+        }
+    } else {
+        $Allcategorias = null;
+    }
+
     $result = $model->getCuerpos($cuerpo);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -53,6 +73,20 @@ function setData(){
         }
     } else {
         $cuerpos = null;
+    }
+
+    $result = $model->getAllCuerpos();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $values = array(
+                "corp_abbr" => $row['Cuerpo_abbr'],
+                "corp_name" => $row['Cuerpo_name']
+            );
+
+            array_push($Allcuerpos, $values);
+        }
+    } else {
+        $Allcuerpos = null;
     }
 
     //enlazar documentos
@@ -126,13 +160,34 @@ function setData(){
         $documentos = null;
     }
 
+    $result = $model->getadmins();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $values = array(
+                "admin_id" => $row['Admin_id'],
+                "admin_name" => $row['Name'],
+                "admin_email" => $row['Email'],
+                "admin_last_name" => $row['Last_name'],
+                "admin_cuerpo" => $row['Cuerpo'],
+                "admin_password" => $row['Password']
+            );
+            array_push($admins, $values);
+        } 
+    } else {
+        $admins = null;
+    }
+
+
     $_SESSION['corps'] = $cuerpos;
+    $_SESSION['Allcorps'] = $Allcuerpos;
     $_SESSION['cats'] = $categorias;
+    $_SESSION['Allcats'] = $Allcategorias;
     $_SESSION['Enlazar'] = $enlazarDocumentos;
     $_SESSION['documentos'] = $documentos;
     $_SESSION['documentosn'] = $documentosn;
     $_SESSION['Enlazarn'] = $enlazarDocumentosn;
     $_SESSION['keywords'] = $keywords;
+    $_SESSION['admins'] = $admins;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
@@ -416,22 +471,62 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
         } else {
             echo "errorrr";
         }
+    }else if ($_POST['type'] == "11") { //update admins
+
+        $oldpassword = $_POST["oldpassword"];
+        $id = $_POST["Adminid"];
+        $name = $_POST["adminname"];
+        $last = $_POST["adminlast"];
+        $email = $_POST["adminEmail"];
+        $corp = $_POST["admincorp"];
+        $password = $_POST["newpassword"];
+        $password2 = $_POST["newpassword2"]; 
+
+        if ($password == $password2) {
+
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+
+            if ($hash == $oldpassword) {
+                echo "Location: ../../views/admin.php?samepassword";
+            }else{
+                $model = new AdminModel("localhost", "normateca", "root", "");
+                $model->start_connection();
+                $success = $model->updateAdmins($id, $name, $last, $email, $corp, $hash);
+                $model->connection->close();
+
+                header("Location: ../../views/admin.php?succes");
+            }
+
+        }else {
+            echo "Location: ../../views/admin.php?error";
+        }
+
+    }else if ($_POST['type'] == "12") { //insert admins
+
+        $name = $_POST["adminname"];
+        $last = $_POST["adminlast"];
+        $email = $_POST["adminEmail"];
+        $corp = $_POST["admincorp"];
+        $password = $_POST["newpassword"];
+        $password2 = $_POST["newpassword2"]; 
+
+        if ($password == $password2) {
+
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+
+
+            $model = new AdminModel("localhost", "normateca", "root", "");
+            $model->start_connection();
+            $success = $model->InsertAdmins($name, $last, $email, $corp, $hash);
+            $model->connection->close();
+            if ($success) {
+                header("Location: ../../views/admin.php?succes");
+    
+            } else {
+                echo "Location: ../../views/admin.php?error";
+            }
+        }else {
+            echo "Location: ../../views/admin.php?error";
+        }
     }
-    // }else if ($_POST['type'] == "10") { //query search 
-
-    //     $name = $_POST["key"];
-
-    //     $model = new AdminModel("localhost", "normateca", "root", "");
-    //     $model->start_connection();
-    //     $success = $model->insertKeyword($name);
-    //     $model->connection->close();
-
-    //     if ($success) {
-    //         header("Location: ../../views/admin.php?succes");
-
-    //     } else {
-    //         echo "errorrr";
-    //     }
-        
-    // }
 }

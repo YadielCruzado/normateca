@@ -11,10 +11,6 @@ if(!isset($_SESSION['login'])) {
 include_once("../controllers/backend/adminController.php");
 setData();
 
-// print_r($_SESSION['Enlazar']);
-
-$opciones = 20;
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,105 +59,96 @@ $opciones = 20;
   </header>
 
   <main>
-
     <section>
-                      <!-- Popup message document submitted -->
-            <div id="popup" class="popup" style="display: none;">
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-              <div>
-              Documento subido exitosamente
-              </div>
-            </div>
-            </div>
-            <!-- Popup message enmendar -->
-            <div id="popup2" class="popup2" style="display: none;">
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-              <div>
-              Documento enmendado exitosamente
-              </div>
-            </div>
-            </div>
-            <!-- Popup message -->
-<div id="popup1" class="popup1" style="display: none;">
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-              <div>
-              Documento Editado exitosamente
-              </div>
-            </div>
-            </div>
 
-             <!-- Popup message -->
-<div id="popup3" class="popup3" style="display: none;">
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-              <div>
-              Documento derrogado exitosamente
-              </div>
-            </div>
-            </div>
+      <div id="popup" class="popup" style="display: none;">
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+          <div>
+            Documento subido exitosamente
+          </div>
+        </div>
+      </div>
 
-<!-- Popup keyword edit -->
-<div id="popup4" class="popup4" style="display: none;">
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-              <div>
-              Keyword editado exitosamente
-              </div>
-            </div>
-            </div>
+      <div id="popup2" class="popup2" style="display: none;">
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+          <div>
+            Documento enmendado exitosamente
+          </div>
+        </div>
+      </div>
+
+      <div id="popup1" class="popup1" style="display: none;">
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+          <div>
+            Documento Editado exitosamente
+          </div>
+        </div>
+      </div>
+
+      <div id="popup3" class="popup3" style="display: none;">
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+          <div>
+            Documento derrogado exitosamente
+          </div>
+        </div>
+      </div>
+      
+      <div id="popup4" class="popup4" style="display: none;">
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+          <div>
+            Keyword editado exitosamente
+          </div>
+        </div>
+      </div>
 
 
-<!-- Popup keyword add -->
-<div id="popup5" class="popup5" style="display: none;">
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-              <div>
-              Keyword añadido exitosamente
-              </div>
-            </div>
-            </div>
+      <div id="popup5" class="popup5" style="display: none;">
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+          <div>
+            Keyword añadido exitosamente
+          </div>
+        </div>
+      </div>
 
-            
-<!-- Popup keyword add -->
-<div id="popup6" class="popup6" style="display: none;">
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-              <div>
-              Añadido exitosamente
-              </div>
-            </div>
-            </div>
+      <div id="popup6" class="popup6" style="display: none;">
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+          <div>
+            Añadido exitosamente
+          </div>
+        </div>
+      </div>
 
-            <!-- Popup keyword add -->
-            <div id="popup7" class="popup7" style="display: none;">
-              <div class="alert alert-success d-flex align-items-center" role="alert">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-                <div>
-                Editado exitosamente
-                </div>
-              </div>
-            </div>
+      <div id="popup7" class="popup7" style="display: none;">
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+          <div>
+            Editado exitosamente
+          </div>
+        </div>
+      </div>
 
-            <!-- Popup keyword add -->
-            <div id="popup8" class="popup8" style="display: none;">
-              <div class="alert alert-success d-flex align-items-center" role="alert">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-                <div>
-                Añadido exitosamente
-                </div>
-              </div>
-            </div>
-
-
+      <div id="popup8" class="popup8" style="display: none;">
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+          <div>
+            Añadido exitosamente
+          </div>
+        </div>
+      </div>
 
       <div class="buttons">
         <button type="button" name="tab" id="subirBtn" class="active">Subir Documento</button>
         <button type="button" name="tab" id="editarBtn">Editar Documento</button>
         <button type="button" name="tab" id="crearBtn">Crear Categorias</button>
         <button type="button" name="tab" id="KeywordsBtn">Keywords</button>
+        <button type="button" name="tab" id="adminsBtn">Admins</button>
       </div>
 
       <div class="tabs">
@@ -198,12 +185,15 @@ $opciones = 20;
                 <select id="categorias" name="category" required>
                   <option disabled selected>Categorias</option>
                   <?php
-                    if (count($_SESSION['cats']) > 0) {
-                      foreach ($_SESSION['cats'] as $cat) {
-                        echo '<option value="' . $cat['cat_abbr'] . '">' . $cat['cat_name'] . '</option>';
-                      }
+                    if (!empty($_SESSION['cats'])) {
+                        foreach ($_SESSION['cats'] as $cat) {
+                            echo '<option value="' . htmlspecialchars($cat['cat_abbr']) . '">' . htmlspecialchars($cat['cat_name']) . '</option>';
+                        }
+                    } else {
+                        echo '<option disabled selected>No hay categorias</option>';
                     }
                   ?>
+
                 </select>
               </div>
 
@@ -222,10 +212,10 @@ $opciones = 20;
                   <option disabled selected>Select</option>
                   <?php
                     $anioActual = date("Y");
-                    for ($i = 0; $i <= $opciones; $i++) {
-                      $anioInicio = $anioActual - $i;
-                      $anioFin = $anioInicio - 1;
-                      echo '<option value="' . $anioFin . '-' . $anioInicio . '">' . $anioFin . '-' . $anioInicio . '</option>';
+                    $anioInicio = 1998;
+                    for ($i = $anioActual; $i >= $anioInicio; $i--) {
+                      $anioFin = $i - 1;
+                      echo '<option value="' . $anioFin . '-' . $i . '">' . $anioFin . '-' . $i . '</option>';
                     }
                   ?>
                 </select>
@@ -233,12 +223,15 @@ $opciones = 20;
                 <select id="Cuerpo" name="corp" required>
                   <option selected disabled>Select</option>
                   <?php
-                  if (count($_SESSION['corps']) > 0) {
-                    foreach ($_SESSION['corps'] as $corp) {
-                      echo '<option value="' . $corp['corp_abbr'] . '">' . $corp['corp_name'] . '</option>';
+                    if (!empty($_SESSION['corps'])) {
+                        foreach ($_SESSION['corps'] as $corp) {
+                            echo '<option value="' . htmlspecialchars($corp['corp_abbr']) . '">' . htmlspecialchars($corp['corp_name']) . '</option>';
+                        }
+                    } else {
+                        echo '<option selected disabled>No hay cuerpos</option>';
                     }
-                  }
                   ?>
+
                 </select>
 
                 <label for="dropdownMenuButton1">Keywords: </label>
@@ -294,7 +287,7 @@ $opciones = 20;
             <div class="search-bar">
             
             <form class="gabriel" method="POST" action="admin.php" style="display: flex;">
-                <input type="hidden" value="12" name="type">
+                <input type="hidden" value="20" name="type">
                 <input type="text" id="search_query2" name="search_query2" placeholder="Buscar por nombre" />
                 <button class="color" type="submit">Buscar</button>
                 <button class="color" type="button" onclick="limpiar()">Limpiar</button>
@@ -367,44 +360,47 @@ $opciones = 20;
                       print '<tr><td colspan="5" style="text-align:center">No se encontraron documentos</td></tr>';
                     }
                   } else {
-                    if (count($_SESSION['Enlazar']) > 0) {
+                    if (!empty($_SESSION['Enlazar'])) {
                       foreach ($_SESSION['Enlazar'] as $Enlazar) {
-                        echo '<tr><th>' . $Enlazar['number'] .'-'. $Enlazar['fiscal'] .'</th><th>'.$Enlazar['title'] .'</th><th>'.$Enlazar['category'] .'</th>';    
-
-                        echo '<th>';
-                        if (isset($Enlazar['ammended']) && $Enlazar['ammended'] != null) {
-                          echo 'Enmienda a <br>';
-                            foreach ($Enlazar['ammended'] as $ammended_doc) {
-                                echo '<a class="black" href="' . $ammended_doc['Document_path'] . '" target="_blank">' . $ammended_doc['Certification_number'] . '-' . $ammended_doc['Fiscal_year'] . '</a><br>';
-                            }
-                        }
-                        if (isset($Enlazar['derroga']) && $Enlazar['derroga'] != null) {
-                          echo 'Derroga a <br>';
-                            foreach ($Enlazar['derroga'] as $derroga_doc) {
-                                echo '<a href="' . $derroga_doc['Document_path'] . '" target="_blank">' . $derroga_doc['Certification_number'] . '-' . $derroga_doc['Fiscal_year'] . '</a><br>';
-                            }
-                        }
-                        echo '</th>';
-
-                        echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enmendar"
-                          data-Eid="'.$Enlazar['id'].'" 
-                          data-Enumber="'.$Enlazar['number'].'" 
-                          data-Efiscal="'.$Enlazar['fiscal'].'" 
-                          data-Etitle="'.$Enlazar['title'].'"
-                          data-Ecategory="'.$Enlazar['category'].'"
-                          onclick="Enmendar(this)">Enmendar</button>';
-                        echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#derrogar"
-                          data-Did="'.$Enlazar['id'].'" 
-                          data-Dnumber="'.$Enlazar['number'].'" 
-                          data-Dfiscal="'.$Enlazar['fiscal'].'" 
-                          data-Dtitle="'.$Enlazar['title'].'"
-                          data-Dcategory="'.$Enlazar['category'].'"
-                          onclick="derrogar(this)">Derrogar</button></div></td>';
-                        echo '</tr></th>';
+                          echo '<tr>';
+                          echo '<th>' . htmlspecialchars($Enlazar['number']) . '-' . htmlspecialchars($Enlazar['fiscal']) . '</th>';
+                          echo '<th>' . htmlspecialchars($Enlazar['title']) . '</th>';
+                          echo '<th>' . htmlspecialchars($Enlazar['category']) . '</th>';
+                          
+                          echo '<th>';
+                          if (isset($Enlazar['ammended']) && !empty($Enlazar['ammended'])) {
+                              echo 'Enmienda a <br>';
+                              foreach ($Enlazar['ammended'] as $ammended_doc) {
+                                  echo '<a class="black" href="' . htmlspecialchars($ammended_doc['Document_path']) . '" target="_blank">' . htmlspecialchars($ammended_doc['Certification_number']) . '-' . htmlspecialchars($ammended_doc['Fiscal_year']) . '</a><br>';
+                              }
+                          }
+                          if (isset($Enlazar['derroga']) && !empty($Enlazar['derroga'])) {
+                              echo 'Derroga a <br>';
+                              foreach ($Enlazar['derroga'] as $derroga_doc) {
+                                  echo '<a href="' . htmlspecialchars($derroga_doc['Document_path']) . '" target="_blank">' . htmlspecialchars($derroga_doc['Certification_number']) . '-' . htmlspecialchars($derroga_doc['Fiscal_year']) . '</a><br>';
+                              }
+                          }
+                          echo '</th>';
+                  
+                          echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Enmendar"
+                            data-Eid="'. htmlspecialchars($Enlazar['id']) .'" 
+                            data-Enumber="'. htmlspecialchars($Enlazar['number']) .'" 
+                            data-Efiscal="'. htmlspecialchars($Enlazar['fiscal']) .'" 
+                            data-Etitle="'. htmlspecialchars($Enlazar['title']) .'"
+                            data-Ecategory="'. htmlspecialchars($Enlazar['category']) .'"
+                            onclick="Enmendar(this)">Enmendar</button>';
+                          echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#derrogar"
+                            data-Did="'. htmlspecialchars($Enlazar['id']) .'" 
+                            data-Dnumber="'. htmlspecialchars($Enlazar['number']) .'" 
+                            data-Dfiscal="'. htmlspecialchars($Enlazar['fiscal']) .'" 
+                            data-Dtitle="'. htmlspecialchars($Enlazar['title']) .'"
+                            data-Dcategory="'. htmlspecialchars($Enlazar['category']) .'"
+                            onclick="derrogar(this)">Derrogar</button></div></td>';
+                          echo '</tr>';
                       }
-                    } else {
-                      print '<tr><td colspan="2" style="text-align:center">Documentos no disponibles</td></tr>';
-                    }
+                  } else {
+                      echo '<tr><td colspan="4" style="text-align:center">Documentos no disponibles</td></tr>';
+                  }
                   }
                 ?>
               </tbody>
@@ -461,7 +457,7 @@ $opciones = 20;
             <h3>Editar Documento</h3>
             <div class="search-bar">
                 <form class="gabriel" method="POST" action="admin.php" style="display: flex;">
-                    <input type="hidden" value="" name="type">
+                    <input type="hidden" value="21" name="type">
                     <input type="text" name="searchQuery" placeholder="Buscar por nombre">
                     <button type="submit">Buscar</button>
                     <button class ="color" type="button" onclick="limpiar1()">Limpiar</button>
@@ -479,51 +475,42 @@ $opciones = 20;
               </tr>
             </thead>
             <tbody>
-              
-              <?php
-                    if (isset($_POST['searchQuery'])) {
-                      
-                        $searchQuery = $_POST['searchQuery'];
-                        
-                        //filtrar el doc
-                        $filteredDocuments = array_filter($_SESSION['documentos'], function($documento) use ($searchQuery) {
-                            return stripos($documento['Document_title'], $searchQuery) !== false;
-                        });
-                       
+            <?php
+              if (isset($_SESSION['documentos']) && is_array($_SESSION['documentos'])) {
+                  // Check if searchQuery is set and apply filtering if necessary
+                  $filteredDocuments = $_SESSION['documentos'];
+                  if (isset($_POST['searchQuery'])) {
+                      $searchQuery = $_POST['searchQuery'];
+                      // Filter documents based on the search query
+                      $filteredDocuments = array_filter($filteredDocuments, function($documento) use ($searchQuery) {
+                          return stripos($documento['Document_title'], $searchQuery) !== false;
+                      });
+                  }
 
-                        //outputs documentos 
-                        foreach ($filteredDocuments as $documento) {
-                          echo '<tr><th>' . $documento['certi'] .'-'. $documento['fiscal'] .'</th><th>'.$documento['Document_title'] .'</th><th>'.$documento['categoria'] .'</th>';
-                            echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editar"
-                            data-EDid="' . $documento['Document_id'] . '" 
-                            data-EDtitle="' . $documento['Document_title'] . '" 
-                            data-EDcuerpo="' . $documento['cuerpo'] . '" 
-                            data-EDcategory="' . $documento['category'] . '"
-                            data-EDcerti="' . $documento['certi'] . '"
-                            data-EDfiscal="' . $documento['fiscal'] . '" 
-                            data-EDlenguaje="' . $documento['lenguaje'] . '"
-                            data-EDpath="' . $documento['path'] . '" 
-                            data-EDestado="' . $documento['estado'] . '" 
-                            onclick="EditDocumentos(this)">Editar</button></div></td>';
-                        }
-                    } else {
-                        // predeterminado si no hay busqueda 
-                        foreach ($_SESSION['documentos'] as $documento) {
-                            echo '<tr><th>' . $documento['certi'] .'-'. $documento['fiscal'] .'</th><th>'.$documento['Document_title'] .'</th><th>'.$documento['categoria'] .'</th>';
-                            echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editar"
-                            data-EDid="' . $documento['Document_id'] . '" 
-                            data-EDtitle="' . $documento['Document_title'] . '" 
-                            data-EDcuerpo="' . $documento['cuerpo'] . '" 
-                            data-EDcategory="' . $documento['category'] . '"
-                            data-EDcerti="' . $documento['certi'] . '"
-                            data-EDfiscal="' . $documento['fiscal'] . '" 
-                            data-EDlenguaje="' . $documento['lenguaje'] . '"
-                            data-EDpath="' . $documento['path'] . '" 
-                            data-EDestado="' . $documento['estado'] . '" 
-                            onclick="EditDocumentos(this)">Editar</button></div></td>';
-                        }
-                    }
-              ?> 
+                  // Output documents
+                  foreach ($filteredDocuments as $documento) {
+                      echo '<tr><th>' . htmlspecialchars($documento['certi']) . '-' . htmlspecialchars($documento['fiscal']) . '</th>';
+                      echo '<th>' . htmlspecialchars($documento['Document_title']) . '</th>';
+                      echo '<th>' . htmlspecialchars($documento['categoria']) . '</th>';
+                      echo '<td style="text-align: center;"><div class="Endiv"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Editar"
+                      data-EDid="' . htmlspecialchars($documento['Document_id']) . '" 
+                      data-EDtitle="' . htmlspecialchars($documento['Document_title']) . '" 
+                      data-EDcuerpo="' . htmlspecialchars($documento['cuerpo']) . '" 
+                      data-EDcategory="' . htmlspecialchars($documento['category']) . '"
+                      data-EDcerti="' . htmlspecialchars($documento['certi']) . '"
+                      data-EDfiscal="' . htmlspecialchars($documento['fiscal']) . '" 
+                      data-EDlenguaje="' . htmlspecialchars($documento['lenguaje']) . '"
+                      data-EDpath="' . htmlspecialchars($documento['path']) . '" 
+                      data-EDestado="' . htmlspecialchars($documento['estado']) . '" 
+                      onclick="EditDocumentos(this)">Editar</button></div></td>';
+                  }
+              } else {
+                  // Handle the case where $_SESSION['documentos'] is not set or null
+                  echo '<tr><td colspan="4" style="text-align:center">No hay documentos disponibles</td></tr>';
+              }
+            ?>
+
+
             </tbody>
           </table>
         </div>
@@ -541,8 +528,8 @@ $opciones = 20;
             </thead>
             <tbody id="categorias">
               <?php
-                if (count($_SESSION['cats']) > 0) {
-                  foreach ($_SESSION['cats'] as $cat) {
+                if (count($_SESSION['Allcats']) > 0) {
+                  foreach ($_SESSION['Allcats'] as $cat) {
                     echo '<tr>';
                     echo '<td>' . $cat['cat_name'] . '</td>';
                     echo '<td>' . $cat['cat_abbr'] . '</td>';
@@ -575,8 +562,8 @@ $opciones = 20;
             </thead>
             <tbody>
               <?php
-              if (count($_SESSION['corps']) > 0) {
-                foreach ($_SESSION['corps'] as $corp) {
+              if (count($_SESSION['Allcorps']) > 0) {
+                foreach ($_SESSION['Allcorps'] as $corp) {
                   echo '<tr>';
                   echo '<td>' . $corp['corp_name'] . '</td>';
                   echo '<td>' . $corp['corp_abbr'] . '</td>';
@@ -590,6 +577,9 @@ $opciones = 20;
                 print '<tr><td colspan="2" style="text-align:center">Categorias no disponibles</td></tr>';
               }
               ?>
+              <tr>
+                <td colspan="4" style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddCuerpo">Añadir Cuerpo</button></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -637,13 +627,52 @@ $opciones = 20;
               }
               
             ?>
-
               <tr>
                 <td colspan="4" style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddKeyword">Añadir Keyword</button></td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <div id="admins" class="admins" style="display: none">
+          <h3>Admins</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Cuerpo</th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+              if (isset($_SESSION['admins']) && count($_SESSION['admins']) > 0) {
+                foreach ($_SESSION['admins'] as $admin) {
+                    echo '<tr>';
+                    echo '<td>' . htmlspecialchars($admin['admin_name']) . ' ' . htmlspecialchars($admin['admin_last_name']) . '</td>';
+                    echo '<td>' . htmlspecialchars($admin['admin_email']) . '</td>';
+                    echo '<td>' . htmlspecialchars($admin['admin_cuerpo']) . '</td>';
+                    echo '<td style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EditarAdmin" 
+                    data-admin_id="' . htmlspecialchars($admin['admin_id']) . '" 
+                    data-admin_name="' . htmlspecialchars($admin['admin_name']) . '" 
+                    data-admin_lastname="' . htmlspecialchars($admin['admin_last_name']) . '" 
+                    data-admin_email="' . htmlspecialchars($admin['admin_email']) . '" 
+                    data-admin_cuerpo="' . htmlspecialchars($admin['admin_cuerpo']) . '" 
+                    data-admin_password="' . htmlspecialchars($admin['admin_password']) . '" 
+                    onclick="editadmins(this)">Editar</button></td>';
+                    echo '</tr>';
+                }
+              }
+              ?>
+              <tr>
+                <td colspan="4" style="text-align: center;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insertAdmin">Añadir admin</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
       </div>
     </section>
   </main>
@@ -1028,14 +1057,12 @@ if (isset($_SESSION['amended_s']) && $_SESSION['amended_s']) {
           <select id="EDfiscal" name="fiscalYear">
             <option disabled>Select</option>
             <?php
-            $anioActual = date("Y");
-
-            for ($i = 0; $i <= $opciones; $i++) {
-                $anioInicio = $anioActual - $i;
-                $anioFin = $anioInicio - 1;
-                $optionValue = $anioFin . '-' . $anioInicio;
-                echo '<option value="' . $optionValue . '">' . $optionValue . '</option>';
-            }
+              $anioActual = date("Y");
+              $anioInicio = 1998;
+              for ($i = $anioActual; $i >= $anioInicio; $i--) {
+                $anioFin = $i - 1;
+                echo '<option value="' . $anioFin . '-' . $i . '">' . $anioFin . '-' . $i . '</option>';
+              }
             ?>
           </select>
 
@@ -1154,6 +1181,107 @@ if (isset($_SESSION['amended_s']) && $_SESSION['amended_s']) {
     </div>
   </div>
 </div>
+
+<div class="modal" id="EditarAdmin">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Cabecera del modal -->
+      <div class="modal-header" >
+          <h4 class="modal-title">Editar Admin</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Contenido del modal -->
+      <div class="modal-body editar form">
+        <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
+
+          <input type="hidden" value="11" name="type">
+
+          <input type="hidden" id="Adminpassword" name="oldpassword" value="">
+          <input type="hidden" id="Adminid" name="Adminid" value="">
+        
+          <label for="Adminname">Nombre</label>
+          <input type="text" id="Adminname" name="adminname" value="" />
+
+          <label for="key_nombre">Apellido</label>
+          <input type="text" id="Adminlastname" name="adminlast" value="" />
+
+          <label for="key_nombre">Email</label>
+          <input type="text" id="Adminemail" name="adminEmail" value="" />
+
+          <label for="fechaDocumento">Cuerpo</label>
+          <select id="Admincuerpo" name="admincorp">
+            <option selected disabled>Select</option>
+            <?php
+              if (count($_SESSION['Allcorps']) > 0) {
+                foreach ($_SESSION['Allcorps'] as $corp) {
+                  echo '<option value="' . $corp['corp_abbr'] . '">' . $corp['corp_name'] . '</option>';
+                }
+              }
+            ?>
+          </select>
+
+          <label for="key_nombre">password</label>
+          <input type="text" id="key_nombre" name="newpassword" value="" />
+
+          <label for="key_nombre">confirm password</label>
+          <input type="text" id="key_nombre" name="newpassword2" value="" />
+            
+          <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="insertAdmin">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Cabecera del modal -->
+      <div class="modal-header" >
+          <h4 class="modal-title">Añadir Admin</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Contenido del modal -->
+      <div class="modal-body editar form">
+        <form method="POST" action="../controllers/backend/adminController.php" enctype="multipart/form-data">
+
+          <input type="hidden" value="12" name="type">
+        
+          <label for="Adminname">Nombre</label>
+          <input type="text" id="Adminname" name="adminname" value="" />
+
+          <label for="key_nombre">Apellido</label>
+          <input type="text" id="Adminlastname" name="adminlast" value="" />
+
+          <label for="key_nombre">Email</label>
+          <input type="text" id="Adminemail" name="adminEmail" value="" />
+
+          <label for="fechaDocumento">Cuerpo</label>
+          <select id="Admincuerpo" name="admincorp">
+            <option selected disabled>Select</option>
+            <?php
+              if (count($_SESSION['Allcorps']) > 0) {
+                foreach ($_SESSION['Allcorps'] as $corp) {
+                  echo '<option value="' . $corp['corp_abbr'] . '">' . $corp['corp_name'] . '</option>';
+                }
+              }
+            ?>
+          </select>
+
+          <label for="key_nombre">password</label>
+          <input type="text" id="key_nombre" name="newpassword" value="" />
+
+          <label for="key_nombre">repeat password</label>
+          <input type="text" id="key_nombre" name="newpassword2" value="" />
+            
+          <input class ="btn btn-primary" type="submit" name="submit" value="Guardar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script>
  function validateForm() {
   var filename = document.getElementById("filename").value;

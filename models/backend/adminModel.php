@@ -11,9 +11,22 @@ class AdminModel extends DB{
         return $this->run_query($query);
     }
 
+    public function getAllCategorias(){
+        $query = "SELECT categories.Category_abbr, categories.Category_name, cuerpos.Cuerpo_name, cuerpos.Cuerpo_abbr
+        FROM categories
+        JOIN cuerpos ON categories.Cuerpo = cuerpos.Cuerpo_abbr
+        ORDER BY cuerpos.Cuerpo_name";
+        return $this->run_query($query);
+    }
+
     public function getCuerpos($cuerpo){
         $query = "SELECT * FROM cuerpos
         WHERE `Cuerpo_abbr` = '$cuerpo'";
+        return $this->run_query($query);
+    }
+
+    public function getAllCuerpos(){
+        $query = "SELECT * FROM cuerpos";
         return $this->run_query($query);
     }
 
@@ -160,6 +173,24 @@ class AdminModel extends DB{
     //contains 
     public function insertContains($doc, $key) {
         $query = "INSERT INTO `contains` (`Document_id`, `Keyword_id`) VALUES ('$doc', '$key')";
+        return $this->run_query($query);
+    }
+
+    //admins
+    public function getadmins() {
+        $query = "SELECT * FROM `admin`";
+        return $this->run_query($query);
+    }
+
+    public function InsertAdmins($name,$last,$email,$corp,$password) {
+        $query = "INSERT INTO `admin` (`Admin_id`, `Name`, `Email`, `Password`, `Last_name`, `Cuerpo`) 
+        VALUES (NULL, '$name', '$email', '$password', '$last', '$corp')";
+        return $this->run_query($query);
+    }
+
+    public function updateAdmins($id,$name,$last,$email,$corp,$password) {
+        $query = "UPDATE `admin` SET `Name` = '$name', `Email` = '$email', `Password` = '$password', `Last_name` = '$last', `Cuerpo` = '$corp' 
+        WHERE `admin`.`Admin_id` = $id";
         return $this->run_query($query);
     }
 }
