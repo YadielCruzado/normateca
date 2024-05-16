@@ -162,10 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {//subir documentos
                 );
 
                 $selectedKeywords = $_POST['selected_keywords'];
-
                 
-                
-        
                 // Convert the values array to a string for tracking
                 $values_string = json_encode($values);
         

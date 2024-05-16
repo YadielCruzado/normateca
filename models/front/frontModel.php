@@ -9,7 +9,7 @@ class frontModel extends DB
         FROM documentos
         JOIN cuerpos ON documentos.Cuerpo_abbr = cuerpos.Cuerpo_abbr
         JOIN categories ON documentos.Category_abbr = categories.Category_abbr
-        WHERE 1 =1";
+        WHERE  documentos.Document_state = 1";
         
         if ($certificationNumber != '') {
             $query .= " AND documentos.Certification_number LIKE '%$certificationNumber%'";

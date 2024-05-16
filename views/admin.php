@@ -176,41 +176,40 @@ $opciones = 20;
             <div class="box">
               <div class="innerBox">
                 <label for="filename"> Nombre: </label>
-                <input type="text" name="filename" id="filename" placeholder="nombre del documento" />
+                <input type="text" name="filename" id="filename" placeholder="nombre del documento" required />
 
                 <label for="fecha"> Fecha: </label><input type="date" name="filedate" id="fecha" />
 
                 <label for="decripcion"> Descripcion: </label>
-                <textarea type="text" name="desc" id="descripcion" rows="5" maxlength="150" placeholder="decripcion del documento. Breve oracion del tema."></textarea>
+                <textarea type="text" name="desc" id="descripcion" rows="5" maxlength="150" placeholder="decripcion del documento. Breve oracion del tema." required></textarea>
 
                 <label for="Numero_certificacion"> Numero_certificacion: </label>
-                <input type="text" id="Numero_certificacion" name="number" placeholder="Numero_certificacion" />
+                <input type="text" id="Numero_certificacion" name="number" placeholder="Numero_certificacion" required/>
 
                 <label for="estado"> Estado del Documento: </label>
-                <select id="estado" name="state">
-                  <option disabled selected>Select</option>
-                  <option value="1">Activo</option>
-                  <option value="0">Inactivo</option>
+                <select id="estado" name="state" required>
+                    <option disabled selected>Select</option>
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
                 </select>
 
+
                 <label for="categorias">Categoria del Documento:</label>
-                <select id="categorias" name="category">
+                <select id="categorias" name="category" required>
                   <option disabled selected>Categorias</option>
                   <?php
-                  if (count($_SESSION['cats']) > 0) {
-                    foreach ($_SESSION['cats'] as $cat) {
-                      echo '<option value="' . $cat['cat_abbr'] . '">' . $cat['cat_name'] . '</option>';
+                    if (count($_SESSION['cats']) > 0) {
+                      foreach ($_SESSION['cats'] as $cat) {
+                        echo '<option value="' . $cat['cat_abbr'] . '">' . $cat['cat_name'] . '</option>';
+                      }
                     }
-                  }
-                  
                   ?>
-                  
                 </select>
               </div>
 
               <div class="innerBox">
                 <label for="lenguaje"> Lenguaje de Documento: </label>
-                <select id="lenguaje" name="lenguaje">
+                <select id="lenguaje" name="lenguaje" required>
                   <option disabled selected>Select</option>
                   <option value="ESP">Español</option>
                   <option value="ENG">Ingles</option>
@@ -243,7 +242,7 @@ $opciones = 20;
                 </select>
 
                 <label for="dropdownMenuButton1">Keywords: </label>
-                <div class="dropdown" id="dropdown1">
+                <div class="dropdown" id="dropdown1" >
                   <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" aria-haspopup="true" aria-expanded="false">
                       Select Keywords
                   </button>
@@ -260,7 +259,7 @@ $opciones = 20;
                 </div>
 
                 <label for="firma"> Firmado por: </label>
-                <input type="text" id="firma" name="signature" value="<?php echo htmlspecialchars($log['Nombre'] . ' ' . $log['Apellido']); ?>" readonly>
+                <input required type="text" id="firma" name="signature" value="<?php echo htmlspecialchars($log['Nombre'] . ' ' . $log['Apellido']); ?>" readonly>
               </div>
             </div>
             <?php
@@ -648,10 +647,6 @@ $opciones = 20;
       </div>
     </section>
   </main>
-
-  <footer>
-    <h4></h4>
-  </footer>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
