@@ -1,6 +1,7 @@
 <?php
   include_once("../controllers/frontend/frontController.php");
   doc();
+
 ?>
 
 <!DOCTYPE html>
@@ -37,9 +38,6 @@
               <label for="Fiscal_year">Año Fiscal</label>
               <input type="search" id="Fiscal_year" name="Fiscal_year" placeholder="Buscar documento..." />
 
-              <label for="Keywordnames">Palabra Clave</label>
-              <input type="search" id="Keywordnames" name="Keywordnames" placeholder="Buscar documento..." />
-              
               <label for="Document_title">Titulo</label>
               <input type="search" id="Document_title" name="Document_title" placeholder="Buscar documento..." />
 
